@@ -1,0 +1,94 @@
+{
+    "vue-file": {
+        "prefix": [
+            "vue-file"
+        ],
+        "body": [
+            "<template>",
+            "</template>",
+            "",
+            "<script>",
+            "import {  } from 'bootstrap-vue'",
+            "",
+            "export default {",
+            "\tcomponents: {}",
+            "}",
+            "</script>",
+            "",
+            "<style>",
+            "",
+            "</style>"
+        ],
+        "description": "empty vue file"
+    },
+    "service-file": {
+        "prefix": [
+            "service-file"
+        ],
+        "body": [
+            "import Api from './Api';",
+            "",
+            "export const Request = async () => Api().method(``)"
+        ],
+        "description": "service file format"
+    },
+    "request-api": {
+        "prefix": [
+            "request-api"
+        ],
+        "body": [
+            "export const Request = async () => Api().method(``)"
+        ],
+        "description": "async axios request function"
+    },
+    "get-data": {
+        "prefix": [
+            "services-call"
+        ],
+        "body": [
+            "Services.()",
+            ".then((response) => {",
+            "\tconsole.log(response);",
+            "})",
+            ".catch((err) => {",
+            "\tconsole.log('Error in getting ', err);",
+            "});"
+        ],
+        "description": "getting data"
+    },
+    "get-async-data": {
+        "prefix": [
+            "get-async-data"
+        ],
+        "body": [
+            "async get(id) {",
+            "\ttry {",
+            "\t\tconst response = await Services",
+            "\t\tconsole.log(response.data);",
+            "\t\tif(response.data.status) {",
+            "",
+            "\t\t}",
+            "\t} catch (err) {",
+            "\t\tconsole.log('Error in getting  ', err);",
+            "\t}",
+            "},"
+        ],
+        "description": "method for getting data in async in .vue file"
+    },
+    "-toast": {
+        "prefix": [
+            "-toast"
+        ],
+        "body": [
+            "this.$toast({",
+            "\tcomponent: ToastificationContentVue,",
+            "\tprops: {",
+            "\t\ttitle: response.data.message || '',",
+            "\t\ticon: 'EditIcon',",
+            "\t\tvariant: 'failure',",
+            "\t}",
+            "});"
+        ],
+        "description": "getting data"
+    },
+}
