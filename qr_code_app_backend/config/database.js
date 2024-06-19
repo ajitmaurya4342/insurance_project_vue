@@ -1,14 +1,12 @@
- const configObj = require('../knexfile');
+const configObj = require("../knexfile");
 
-var knex3 = require('knex')(configObj.development);
-const { attachPaginate } = require('knex-paginate');
+var knex3 = require("knex")(configObj.development);
+const { attachPaginate } = require("knex-paginate");
 attachPaginate();
 // connect to database
 console.log(`Connecting to Database via Knex ${knex3}`);
 
 module.exports = knex3;
-
-
 
 // const mysql = require('mysql2')
 
@@ -20,14 +18,10 @@ module.exports = knex3;
 // })
 // console.log('.database.database :', _p);
 
-
 // module.exports = _p.promise()
-
 
 // const mysql = require('mysql');
 // const configObj = require('./config/keys');
-
-
 
 // const mc = mysql.createPool(
 // 	configObj.database

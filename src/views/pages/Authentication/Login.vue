@@ -27,18 +27,18 @@
           <validation-observer ref="loginValidation">
             <b-form class="auth-login-form mt-2" @submit.prevent>
               <!-- email -->
-              <b-form-group label="Email" label-for="login-email">
+              <b-form-group label="UserName" label-for="login-email">
                 <validation-provider
                   #default="{ errors }"
-                  name="Email"
-                  rules="required|email"
+                  name="Username"
+                  rules="required"
                 >
                   <b-form-input
                     id="login-email"
                     v-model="form.user_name"
                     :state="errors.length > 0 ? false : null"
                     name="login-email"
-                    placeholder="john@example.com"
+                    placeholder="Enter Username"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
