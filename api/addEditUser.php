@@ -8,11 +8,11 @@ $data_check=["user_name","password","name","mobile_number"];
 
 $resultError = checkValidation($data_check,$data);
 
-if(count($resultError)){
-   echo json_encode($resultError);
-   exit;
-}
-
+if(count($resultError)>0){
+    echo json_encode($resultError);
+    exit;
+  }
+  
 $dataArray = [
     "username" => mysqli_real_escape_string($conn,$data->user_name),
     "password" => mysqli_real_escape_string($conn,$data->password),
@@ -34,6 +34,7 @@ if (isset($data->user_id) && $data->user_id) {
 $data=[
     "status"=>true,
     "message"=>$msg,
+
 ];
 
 echo json_encode($data);

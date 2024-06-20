@@ -1,4 +1,8 @@
 <?php
+header("Content-Type: application/json; charset=utf-8");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+
 function insertQuery($table, $data, $conn)
 {
     $key = implode(",", array_keys($data));
@@ -21,6 +25,36 @@ function updateQuery($table, $data, $where, $conn)
     $sql = "UPDATE $table SET " . implode(", ", $cols) . " WHERE $where";
     $result = mysqli_query($conn, $sql);
     return true;
+}
+
+function getQuery($conn,$table_name,$column=[],$where){
+
+    $finalColumn = "*";
+    if(count($column)>0){
+        $finalColumn = implode(", ", $column);
+    }
+
+    $sql="Select ".$finalColumn." from ".$table_name;
+    if(isset($where) && $where){
+       
+        $sql = $sql ." Where ".$where;
+    }
+
+
+ 
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_num_rows($result);
+
+    $array=[];
+  
+    if($row>0){
+        while($row_detail=mysqli_fetch_assoc($result)){
+            $array[] = $row_detail;
+          
+        }
+    }
+    
+    return $array;
 }
 
 function checkValidation($dataArray,$dataValue){

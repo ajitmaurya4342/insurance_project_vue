@@ -1,6 +1,5 @@
 <?php
 include("header.php");
-header("Content-Type: application/json; charset=utf-8");
 $servername = "localhost";
 $username = "root";
 $password = "";
