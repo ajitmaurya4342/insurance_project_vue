@@ -10,7 +10,8 @@ $where = "";
 $limit=0;
 $current_page=0;
 $search="";
-
+$order_column="user_id";
+$order_by="DESC";
 if(isset($data->search) && $data->search){
     $search=$data->search;
 }
@@ -28,8 +29,7 @@ if(isset($data->user_id) && $data->user_id){
     $where=" user_id='".$user_id."'";
 }
 
-
-@$getQueryData=getQuery($conn,$table_name,$column,$where,$search,$search_column,$limit,$current_page);
+@$getQueryData=getQuery($conn,$table_name,$column,$where,$search,$search_column,$order_column,$order_by,$limit,$current_page);
 
 $total_rows=[];
 if($limit && $current_page===1 && !isset($data->user_id)){

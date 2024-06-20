@@ -11,8 +11,8 @@ $resultError = checkValidation($data_check,$data);
 if(count($resultError)>0){
     echo json_encode($resultError);
     exit;
-  }
-  
+}
+
 $dataArray = [
     "username" => mysqli_real_escape_string($conn,$data->username),
     "password" => mysqli_real_escape_string($conn,$data->password),

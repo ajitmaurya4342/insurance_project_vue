@@ -29,6 +29,7 @@
       class="mt-1"
       outlined
       show-empty
+      :tbody-tr-class="rowClass"
     >
       <template #empty="scope">
         <h4 class="text-center">No Records Found</h4>
@@ -143,6 +144,10 @@ export default {
   },
 
   methods: {
+    rowClass(item, type) {
+      if (!item || type !== "row") return;
+      if (item.user_type === "admin") return "table-success";
+    },
     onChangePagination($event) {
       this.currentPage = $event;
       this.onGetAllUsers();

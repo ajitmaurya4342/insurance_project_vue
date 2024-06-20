@@ -27,7 +27,7 @@ function updateQuery($table, $data, $where, $conn)
     return true;
 }
 
-function getQuery($conn,$table_name,$column=[],$where,$search="",$search_column=[],$limit="",$current_page=""){
+function getQuery($conn,$table_name,$column=[],$where,$search="",$search_column=[],$order_column="",$order_by="ASC",$limit="",$current_page=""){
 
     $finalColumn = "*";
     if(count($column)>0){
@@ -52,6 +52,10 @@ function getQuery($conn,$table_name,$column=[],$where,$search="",$search_column=
         }
         $sql = $sql .$searchval;
     
+    }
+
+    if(isset($order_column) && $order_column){
+        $sql = $sql." order by ".$order_column." ".$order_by;
     }
   
     if(isset($limit) && isset($current_page) && $limit && $current_page){
