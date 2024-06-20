@@ -4,7 +4,10 @@
     <b-row class="mt-1">
       <b-col sm="5">
         <b-input-group>
-          <b-form-input placeholder="Search User"></b-form-input>
+          <b-form-input
+            placeholder="Search User"
+            v-model="search"
+          ></b-form-input>
           <b-input-group-append>
             <b-button @click="onSearchUser">Search</b-button>
           </b-input-group-append>
@@ -127,6 +130,7 @@ export default {
       currentPage: 1,
       perPage: 15,
       totalRows: 0,
+      search: "",
     };
   },
 
@@ -159,7 +163,7 @@ export default {
         this.allUserList = [];
         this.isBusy = true;
         const response = await GetAllUsers({
-          search: this.searchUser,
+          search: this.search,
           limit: this.perPage,
           currentPage: this.currentPage,
         });

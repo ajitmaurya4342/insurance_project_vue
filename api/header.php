@@ -27,18 +27,33 @@ function updateQuery($table, $data, $where, $conn)
     return true;
 }
 
-function getQuery($conn,$table_name,$column=[],$where,$limit="",$current_page=""){
+function getQuery($conn,$table_name,$column=[],$where,$search="",$search_column=[],$limit="",$current_page=""){
 
     $finalColumn = "*";
     if(count($column)>0){
         $finalColumn = implode(", ", $column);
     }
 
-    $sql="Select ".$finalColumn." from ".$table_name;
+    $sql="Select ".$finalColumn." from ".$table_name." where 1=1  ";
+ 
     if(isset($where) && $where){
-        $sql = $sql ." Where ".$where;
+        $sql = $sql ." and ".$where;
     }
 
+    if(count($search_column)>0 && isset($search) && $search){
+        $searchval=" and (";
+        foreach ($search_column as $key => $val) {
+            if($key==(count($search_column)-1)){
+                $searchval.= " $val = '$search' ) ";
+            }else{
+                $searchval.= " $val = '$search' or ";
+            }
+           
+        }
+        $sql = $sql .$searchval;
+    
+    }
+  
     if(isset($limit) && isset($current_page) && $limit && $current_page){
      $start=($current_page-1)* $limit;
      $sql = $sql ." limit ".$start.",".$limit;
