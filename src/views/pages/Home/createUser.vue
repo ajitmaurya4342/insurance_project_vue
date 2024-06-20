@@ -185,8 +185,17 @@ export default {
                   variant: "success",
                 },
               });
+              this.$router.go(-1);
+            } else {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: data.message || "Something Went Wrong",
+                  icon: "EditIcon",
+                  variant: "failure",
+                },
+              });
             }
-            this.$router.go(-1);
           } catch (error) {
             this.$toast({
               component: ToastificationContent,
@@ -210,7 +219,7 @@ export default {
         const { data } = response;
         if (data.status) {
           Object.keys(this.form).map((z) => {
-            this.form[z] = data.Records[0][z] || "";
+            this.form[z] = data.Records[0][z] || null;
           });
         }
         this.isBusy = false;

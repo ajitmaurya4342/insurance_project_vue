@@ -62,7 +62,7 @@ function getQuery($conn,$table_name,$column=[],$where,$search="",$search_column=
      $start=($current_page-1)* $limit;
      $sql = $sql ." limit ".$start.",".$limit;
     }
-   
+ 
     $result = mysqli_query($conn, $sql);
     $row = mysqli_num_rows($result);
 
