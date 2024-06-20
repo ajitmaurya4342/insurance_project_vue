@@ -4,7 +4,7 @@
     class="content-header"
   >
     <!-- Content Left -->
-    <b-col class="content-header-left mb-2" cols="12" md="9">
+    <b-col class="content-header-left" cols="12" md="9">
       <b-row class="breadcrumbs-top">
         <b-col cols="12">
           <h2 class="float-left pr-1 mb-0">
@@ -42,36 +42,6 @@
         </b-col>
       </b-row>
     </b-col>
-
-    <!-- Content Right -->
-    <!-- <b-col
-      class="content-header-right text-md-right d-md-block d-none mb-1"
-      md="3"
-      cols="12"
-    >
-      <b-button
-        v-if="fullscreen"
-        @click="toggleFullScreen"
-        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-        variant="primary"
-        class="btn-icon"
-        v-b-tooltip.hover
-        title="Exit FullScreen"
-      >
-        <feather-icon icon="MinimizeIcon" />
-      </b-button>
-      <b-button
-        v-if="!fullscreen"
-        @click="toggleFullScreen"
-        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-        variant="primary"
-        class="btn-icon"
-        v-b-tooltip.hover
-        title="Enter FullScreen"
-      >
-        <feather-icon icon="MaximizeIcon" />
-      </b-button>
-    </b-col> -->
   </b-row>
 </template>
 

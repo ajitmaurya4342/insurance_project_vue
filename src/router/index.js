@@ -28,6 +28,14 @@ const router = new VueRouter({
       },
     },
     {
+      path: "/users",
+      name: "users",
+      component: () => import("@/views/pages/Home/createUser.vue"),
+      meta: {
+        pageTitle: "User List",
+      },
+    },
+    {
       path: "/createqr",
       name: "createqr",
       component: () => import("@/views/pages/Home/CreateQr.vue"),

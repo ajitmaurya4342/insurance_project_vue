@@ -129,7 +129,7 @@ import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import * as AuthServices from "@/apiServices/AuthServices";
-import { TokenService } from "@/apiServices/storageService";
+import { TokenService ,UserService} from "@/apiServices/storageService";
 
 export default {
   components: {
@@ -183,9 +183,8 @@ export default {
           try {
             const response = await AuthServices.Login(this.form);
             if (response.data.status) {
-              TokenService.saveToken("rdtrjbkjg54878787hfgf");
-
-              this.$store.commit("user/SET_USER_AUTHENTICATED", true);
+              TokenService.saveToken(response.data.access_token);
+              UserService.saveUserProfile(JSON.stringify(response.data.Records[0]));
 
               this.$toast({
                 component: ToastificationContent,
@@ -208,7 +207,6 @@ export default {
               });
             }
           } catch (error) {
-            console.log("Error Login ", error);
             this.$toast({
               component: ToastificationContent,
               props: {

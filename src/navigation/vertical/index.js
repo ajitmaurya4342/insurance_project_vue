@@ -1,12 +1,14 @@
-export default [
+let array = [
   {
-    title: "Users",
+    title: "Home",
     route: "home",
     icon: "HomeIcon",
   },
   {
-    title: "Create QR",
-    route: "createqr",
+    title: "User",
+    route: "users",
     icon: "HomeIcon",
   },
 ];
+
+export default array;
