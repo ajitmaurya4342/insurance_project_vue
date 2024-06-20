@@ -6,5 +6,8 @@ export const GenerateQrCode = async (payload) =>
 export const GetAllUsers = async (payload) =>
   Api().post(`/GetUserList.php`, payload);
 
+export const addEditUsers = async (payload) =>
+  Api().post(`/addEditUser.php`, payload);
+
 export const GetUserQrDetails = async (params) =>
   Api().get(`/admin/getUserList/${params.unique_code_generate}`);

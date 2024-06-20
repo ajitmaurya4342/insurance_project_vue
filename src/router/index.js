@@ -30,9 +30,25 @@ const router = new VueRouter({
     {
       path: "/users",
       name: "users",
-      component: () => import("@/views/pages/Home/createUser.vue"),
+      component: () => import("@/views/pages/Home/userList.vue"),
       meta: {
         pageTitle: "User List",
+      },
+    },
+    {
+      path: "/add-users",
+      name: "addUsers",
+      component: () => import("@/views/pages/Home/createUser.vue"),
+      meta: {
+        pageTitle: "Add User",
+      },
+    },
+    {
+      path: "/update-users/:user_id",
+      name: "createusers",
+      component: () => import("@/views/pages/Home/createUser.vue"),
+      meta: {
+        pageTitle: "Update User",
       },
     },
     {

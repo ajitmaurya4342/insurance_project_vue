@@ -1,65 +1,55 @@
 <template>
   <div>
     <hr />
-    <b-row class="mt-1">
-      <b-col sm="5">
-        <b-input-group>
-          <b-form-input
-            placeholder="Search User"
-            v-model="search"
-          ></b-form-input>
-          <b-input-group-append>
-            <b-button @click="onSearchUser">Search</b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
+    <validation-observer ref="loginValidation">
+      <b-form class="auth-login-form" @submit.prevent>
+        <b-row class="mt-1">
+          <b-col
+            sm="6"
+            v-for="(item, index) in layoutArray"
+            :key="index"
+            class="mt-2"
+          >
+            <b-form-group :label="item.label" :label-for="item.key">
+              <validation-provider
+                #default="{ errors }"
+                :name="item.key.replace('_', ' ')"
+                :rules="{
+                  ...item.rules,
+                }"
+              >
+                <b-form-input
+                  :id="item.key"
+                  v-model="form[item.key]"
+                  :state="errors.length > 0 ? false : null"
+                  :name="item.key"
+                  :placeholder="item.placeholder"
+                  :type="item.type"
+                />
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${
+                        item.rules.min - 1
+                      } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-form>
 
-      <b-col sm="7" class="text-right pr-4">
-        <b-button variant="outline-primary">
-          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add User
-        </b-button>
-      </b-col>
-    </b-row>
-
-    <b-table
-      responsive
-      :items="allUserList"
-      :busy="isBusy"
-      :fields="fields"
-      class="mt-1"
-      outlined
-      show-empty
-    >
-      <template #empty="scope">
-        <h4 class="text-center">No Records Found</h4>
-      </template>
-      <template #table-busy>
-        <div class="text-center text-danger my-2">
-          <b-spinner class="align-middle"></b-spinner>
-          <strong>Loading...</strong>
-        </div>
-      </template>
-      <template #cell(edit)="data">
-        <b-icon
-          icon="pencil-square"
-          aria-hidden="true"
-          @click="onEdit"
-        ></b-icon>
-      </template>
-    </b-table>
-
-    <b-row class="mt-2">
-      <b-col sm="4"> </b-col>
-      <b-col sm="6" class="text-center">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          @change="onChangePagination($event)"
-          size="lg"
-        ></b-pagination>
-      </b-col>
-    </b-row>
+      <b-row class="mt-2">
+        <b-col class="text-center">
+          <b-button variant="primary" @click="saveForm"
+            >{{ user_id ? "Update" : "Add" }} user</b-button
+          >
+          <b-button variant="primary" @click="onReset" class="ml-5"
+            >Reset</b-button
+          >
+        </b-col>
+      </b-row>
+    </validation-observer>
   </div>
 </template>
 
@@ -76,10 +66,14 @@ import {
   BIconArrowUp,
   BIconArrowDown,
   BPagination,
+  BFormGroup,
+  BForm,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-import { GetAllUsers } from "@/apiServices/DashboardServices";
-
+import { GetAllUsers, addEditUsers } from "@/apiServices/DashboardServices";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { required, email } from "@validations";
+import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 export default {
   components: {
     BNav,
@@ -93,44 +87,65 @@ export default {
     BIconArrowUp,
     BIconArrowDown,
     BPagination,
+    BFormGroup,
+    BForm,
+    ValidationProvider,
+    ValidationObserver,
   },
   data() {
     return {
-      allUserList: [],
-      fields: [
+      user_id: "",
+      form: {
+        name: "",
+        mobile_number: "",
+        username: "",
+        password: "",
+      },
+      required,
+      layoutArray: [
         {
+          col: 6,
+          label: "Name",
+          rules: {
+            required: true,
+          },
           key: "name",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
+          placeholder: "Enter name",
+          type: "text",
         },
         {
+          col: 6,
+          label: "Mobile Number",
+          rules: {
+            required: true,
+          },
           key: "mobile_number",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
+          placeholder: "Enter mobile number",
+          type: "number",
         },
         {
+          col: 6,
+          label: "Username",
+          rules: {
+            required: true,
+            min: 6,
+          },
           key: "username",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
+          placeholder: "Enter username",
+          type: "text",
         },
         {
+          col: 6,
+          label: "Password",
+          rules: {
+            required: true,
+            min: 6,
+          },
           key: "password",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
-        },
-        {
-          key: "edit",
+          placeholder: "Enter password",
+          type: "text",
         },
       ],
-      isBusy: false,
-      currentPage: 1,
-      perPage: 15,
-      totalRows: 0,
-      search: "",
     };
   },
 
@@ -139,40 +154,64 @@ export default {
   },
 
   beforeMount() {
-    this.onGetAllUsers();
+    const { user_id } = this.$route.params;
+    this.user_id = user_id || null;
+    if (user_id) {
+      this.onGetAllUsers();
+    }
   },
 
   methods: {
-    onChangePagination($event) {
-      this.currentPage = $event;
-      this.onGetAllUsers();
+    onReset() {
+      Object.keys(this.form).map((z) => {
+        this.form[z] = "";
+      });
     },
-    toggleBusy() {
-      this.isBusy = !this.isBusy;
-    },
-
-    async onEdit() {
-      alert();
-    },
-    onSearchUser() {
-      this.currentPage = 1;
-      this.onGetAllUsers();
+    saveForm() {
+      this.$refs.loginValidation.validate().then(async (success) => {
+        if (success) {
+          try {
+            const response = await addEditUsers({
+              ...this.form,
+              user_id: this.user_id || "",
+            });
+            const { data } = response;
+            if (data.status) {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: data.message || "Record Saved Successfully",
+                  icon: "EditIcon",
+                  variant: "success",
+                },
+              });
+            }
+            this.$router.go(-1);
+          } catch (error) {
+            this.$toast({
+              component: ToastificationContent,
+              props: {
+                title: "Server Error",
+                icon: "EditIcon",
+                variant: "failure",
+              },
+            });
+          }
+        }
+      });
     },
     async onGetAllUsers() {
       try {
         this.allUserList = [];
         this.isBusy = true;
         const response = await GetAllUsers({
-          search: this.search,
-          limit: this.perPage,
-          currentPage: this.currentPage,
+          user_id: this.user_id,
         });
         const { data } = response;
         if (data.status) {
-          this.allUserList = data.Records;
-          if (this.currentPage == 1) {
-            this.totalRows = data.total_rows;
-          }
+          Object.keys(this.form).map((z) => {
+            this.form[z] = data.Records[0][z] || "";
+          });
         }
         this.isBusy = false;
       } catch (err) {}

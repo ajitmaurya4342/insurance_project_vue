@@ -4,7 +4,7 @@ include("connection.php");
 
 $data = json_decode(file_get_contents("php://input"));
 
-$data_check=["user_name","password","name","mobile_number"];
+$data_check=["username","password","name","mobile_number"];
 
 $resultError = checkValidation($data_check,$data);
 
@@ -14,7 +14,7 @@ if(count($resultError)>0){
   }
   
 $dataArray = [
-    "username" => mysqli_real_escape_string($conn,$data->user_name),
+    "username" => mysqli_real_escape_string($conn,$data->username),
     "password" => mysqli_real_escape_string($conn,$data->password),
     "name" => mysqli_real_escape_string($conn,$data->name),
     "mobile_number" =>mysqli_real_escape_string($conn,$data->mobile_number) 
@@ -34,7 +34,6 @@ if (isset($data->user_id) && $data->user_id) {
 $data=[
     "status"=>true,
     "message"=>$msg,
-
 ];
 
 echo json_encode($data);
