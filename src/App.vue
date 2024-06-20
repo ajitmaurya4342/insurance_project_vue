@@ -137,20 +137,6 @@ export default {
       }, 10000);
     },
   },
-  beforeMount() {
-    const token = TokenService.getToken();
-
-    if (window.location.pathname.includes("afterscan")) {
-    } else if (token) {
-      this.$router.push({ name: "home" });
-    } else {
-      if (
-        window.location.pathname !== "/" &&
-        window.location.pathname !== "/afterscan"
-      ) {
-        window.location.replace("/");
-      }
-    }
-  },
+  beforeMount() {},
 };
 </script>

@@ -2,9 +2,7 @@
   <div class="auth-wrapper auth-v2">
     <b-row class="auth-inner m-0">
       <!-- Brand logo-->
-      <b-link class="brand-logo">
-        <!-- <h2 class="brand-text text-primary ml-1">QR APP</h2> -->
-      </b-link>
+      <b-link class="brand-logo"> </b-link>
 
       <b-col lg="7" class="d-none d-lg-flex align-items-center p-5">
         <div
@@ -95,7 +93,7 @@
 
           <b-card-text class="text-center mt-2">
             <span
-              >The login credentials are provided by the admin at QR APP
+              >The login credentials are provided by the admin at Insurance APP
             </span>
           </b-card-text>
         </b-col>
@@ -151,6 +149,12 @@ export default {
     ValidationObserver,
   },
   mixins: [togglePasswordVisibility],
+  beforeMount() {
+    const token = TokenService.getToken();
+    if (token) {
+      this.$router.push({ path: "/home" });
+    }
+  },
   data() {
     return {
       form: {

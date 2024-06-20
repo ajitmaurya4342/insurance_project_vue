@@ -24,7 +24,7 @@ const router = new VueRouter({
       name: "home",
       component: () => import("@/views/pages/Home/Home.vue"),
       meta: {
-        pageTitle: "QR-Code Users",
+        pageTitle: "Dashboard",
       },
     },
     {

@@ -5,9 +5,6 @@ import { TokenService } from "./storageService";
 var loader = null;
 
 export default function Api() {
-  console.log({
-    baseURL: process.env.VUE_APP_BASEURL,
-  });
   const instance = axios.create({
     baseURL: process.env.VUE_APP_BASEURL,
   });

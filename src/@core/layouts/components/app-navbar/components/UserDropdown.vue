@@ -5,12 +5,14 @@
     class="dropdown-user"
   >
     <template #button-content>
-      <!-- <div class="d-sm-flex d-none user-nav">
+      <div class="d-sm-flex d-none user-nav">
         <p class="user-name font-weight-bolder mb-0">
-          {{ user_details.name }}
+          {{ getLoginDetail && getLoginDetail.name }}
         </p>
-        <span class="user-status">{{ user_details.role_name }}</span>
-      </div> -->
+        <span class="user-status">{{
+          getLoginDetail && getLoginDetail.user_type
+        }}</span>
+      </div>
       <b-img
         height="40"
         width="40"
@@ -54,7 +56,7 @@ import {
 } from "bootstrap-vue";
 import { avatarText } from "@core/utils/filter";
 import store from "@/store";
-import { TokenService } from "@/apiServices/storageService";
+import { TokenService, UserService } from "@/apiServices/storageService";
 
 export default {
   components: {
@@ -74,6 +76,10 @@ export default {
     profile_image() {},
     user_details() {
       return store.getters["user/getUserDetails"];
+    },
+    getLoginDetail() {
+      let userDetail = JSON.parse(UserService.getUserProfile());
+      return userDetail;
     },
     FILESURL() {
       return process.env.FILESURL;

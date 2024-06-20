@@ -2,7 +2,7 @@
   <p class="clearfix mb-0">
     <span class="float-md-left d-block d-md-inline-block mt-25">
       COPYRIGHT © {{ new Date().getFullYear() }}
-      <span class="ml-25">QR App</span>
+      <span class="ml-25">Insurance App</span>
       <span class="d-none d-sm-inline-block">, All rights Reserved</span>
     </span>
 
