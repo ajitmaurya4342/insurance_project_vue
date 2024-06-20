@@ -6,7 +6,7 @@
         <b-input-group>
           <b-form-input placeholder="Search User"></b-form-input>
           <b-input-group-append>
-            <b-button>Search</b-button>
+            <b-button @click="onSearchUser">Search</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-col>
@@ -20,7 +20,7 @@
 
     <b-table
       responsive
-      :items="items"
+      :items="allUserList"
       :busy="isBusy"
       :fields="fields"
       class="mt-1"
@@ -36,6 +36,13 @@
           <strong>Loading...</strong>
         </div>
       </template>
+      <template #cell(edit)="data">
+        <b-icon
+          icon="pencil-square"
+          aria-hidden="true"
+          @click="onEdit"
+        ></b-icon>
+      </template>
     </b-table>
 
     <b-row class="mt-2">
@@ -43,8 +50,9 @@
       <b-col sm="6" class="text-center">
         <b-pagination
           v-model="currentPage"
-          :total-rows="rows"
+          :total-rows="totalRows"
           :per-page="perPage"
+          @change="onChangePagination($event)"
           size="lg"
         ></b-pagination>
       </b-col>
@@ -86,23 +94,39 @@ export default {
   data() {
     return {
       allUserList: [],
-      items: [],
       fields: [
         {
-          key: "last_name",
+          key: "name",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
         },
         {
-          key: "first_name",
+          key: "mobile_number",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
         },
         {
-          key: "age",
-          label: "Person age",
+          key: "username",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+        },
+        {
+          key: "password",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+        },
+        {
+          key: "edit",
         },
       ],
       isBusy: false,
       currentPage: 1,
-      perPage: 10,
-      rows: 5000,
+      perPage: 15,
+      totalRows: 0,
     };
   },
 
@@ -115,31 +139,38 @@ export default {
   },
 
   methods: {
+    onChangePagination($event) {
+      this.currentPage = $event;
+      this.onGetAllUsers();
+    },
     toggleBusy() {
       this.isBusy = !this.isBusy;
     },
-    showLoadMoreData() {
-      this.currentPage = this.currentPage + 1;
-      this.onGetAllUsers();
-    },
-    async onEdit(unique_code_generate) {
-      this.$router.push({
-        name: "createqr",
-        query: { qrId: unique_code_generate },
-      });
+
+    async onEdit() {
+      alert();
     },
     onSearchUser() {
       this.currentPage = 1;
-      this.allUserList = [];
       this.onGetAllUsers();
     },
     async onGetAllUsers() {
       try {
+        this.allUserList = [];
+        this.isBusy = true;
         const response = await GetAllUsers({
           search: this.searchUser,
-          limit: this.limit,
+          limit: this.perPage,
           currentPage: this.currentPage,
         });
+        const { data } = response;
+        if (data.status) {
+          this.allUserList = data.Records;
+          if (this.currentPage == 1) {
+            this.totalRows = data.total_rows;
+          }
+        }
+        this.isBusy = false;
       } catch (err) {}
     },
   },

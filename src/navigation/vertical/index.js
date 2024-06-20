@@ -8,6 +8,7 @@ let array = [
     title: "User",
     route: "users",
     icon: "HomeIcon",
+    isOnlyVisibleToAdmin: true,
   },
 ];
 

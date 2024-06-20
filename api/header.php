@@ -27,7 +27,7 @@ function updateQuery($table, $data, $where, $conn)
     return true;
 }
 
-function getQuery($conn,$table_name,$column=[],$where){
+function getQuery($conn,$table_name,$column=[],$where,$limit="",$current_page=""){
 
     $finalColumn = "*";
     if(count($column)>0){
@@ -36,12 +36,14 @@ function getQuery($conn,$table_name,$column=[],$where){
 
     $sql="Select ".$finalColumn." from ".$table_name;
     if(isset($where) && $where){
-       
         $sql = $sql ." Where ".$where;
     }
 
-
- 
+    if(isset($limit) && isset($current_page) && $limit && $current_page){
+     $start=($current_page-1)* $limit;
+     $sql = $sql ." limit ".$start.",".$limit;
+    }
+   
     $result = mysqli_query($conn, $sql);
     $row = mysqli_num_rows($result);
 
