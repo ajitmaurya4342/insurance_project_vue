@@ -216,6 +216,32 @@ const router = new VueRouter({
         pageTitle: "Update Insurance Type",
       },
     },
+
+    /// Fuel Type Route
+    {
+      path: "/fuel-type-list",
+      name: "fuelTypeList",
+      component: () => import("@/views/pages/FuelType/fuelTypeList.vue"),
+      meta: {
+        pageTitle: "Fuel Type List",
+      },
+    },
+    {
+      path: "/add-fuel-type",
+      name: "addFuelType",
+      component: () => import("@/views/pages/FuelType/createFuelType.vue"),
+      meta: {
+        pageTitle: "Add Fuel Type",
+      },
+    },
+    {
+      path: "/update-fuel-type/:fuel_id",
+      name: "updateFuelType",
+      component: () => import("@/views/pages/FuelType/createFuelType.vue"),
+      meta: {
+        pageTitle: "Update Fuel Type",
+      },
+    },
   ],
 });
 

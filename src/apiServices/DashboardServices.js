@@ -41,3 +41,9 @@ export const GetAllInsuranceType = async (payload) =>
 
 export const addEditInsuranceType = async (payload) =>
   Api().post(`/addEditInsuranceType.php`, payload);
+
+export const GetAllFuelType = async (payload) =>
+  Api().post(`/GetFuelTypeList.php`, payload);
+
+export const addEditFuelType = async (payload) =>
+  Api().post(`/addEditFuelType.php`, payload);

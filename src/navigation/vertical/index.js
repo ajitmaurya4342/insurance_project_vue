@@ -41,6 +41,11 @@ let array = [
     route: "insuranceTypeList",
     icon: "HomeIcon",
   },
+  {
+    title: "Fuel Type",
+    route: "fuelTypeList",
+    icon: "HomeIcon",
+  },
 ];
 
 export default array;

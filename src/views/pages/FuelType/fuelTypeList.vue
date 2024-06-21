@@ -5,7 +5,7 @@
       <b-col sm="5">
         <b-input-group>
           <b-form-input
-            placeholder="Search Company"
+            placeholder="Search Fuel Type"
             v-model="search"
           ></b-form-input>
           <b-input-group-append>
@@ -16,9 +16,8 @@
 
       <b-col sm="7" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
-          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add
-          Company</b-button
-        >
+          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Fuel Type
+        </b-button>
       </b-col>
     </b-row>
 
@@ -80,7 +79,7 @@ import {
   BPagination,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-import { GetAllCompanyType } from "@/apiServices/DashboardServices";
+import { GetAllFuelType } from "@/apiServices/DashboardServices";
 
 export default {
   components: {
@@ -101,32 +100,11 @@ export default {
       allUserList: [],
       fields: [
         {
-          key: "company_type_name",
+          key: "fuel_type_name",
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
-          label: "Company Name",
-        },
-        {
-          key: "seller_type",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
-          label: "Company Type",
-        },
-        {
-          key: "company_phone",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
-          label: "Company Phone Number",
-        },
-        {
-          key: "company_address",
-          formatter: (value, key, item) => {
-            return value ? value : "-";
-          },
-          label: "Company Address",
+          label: "Fuel Type",
         },
         {
           key: "edit",
@@ -151,21 +129,21 @@ export default {
   methods: {
     rowClass(item, type) {
       if (!item || type !== "row") return;
-      if (item.seller_type !== "Self") return "table-success";
+      if (item.user_type === "admin") return "table-success";
     },
     onChangePagination($event) {
       this.currentPage = $event;
       this.onGetAllUsers();
     },
 
-    async onEdit({ ct_id }) {
+    async onEdit({ fuel_id }) {
       this.$router.push({
-        path: "/update-company-type/" + ct_id,
+        path: "/update-fuel-type/" + fuel_id,
       });
     },
     addUser() {
       this.$router.push({
-        path: "/add-company-type",
+        path: "/add-fuel-type",
       });
     },
     onSearchUser() {
@@ -176,7 +154,7 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
-        const response = await GetAllCompanyType({
+        const response = await GetAllFuelType({
           search: this.search,
           limit: this.perPage,
           currentPage: this.currentPage,
