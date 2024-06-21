@@ -60,6 +60,12 @@ exports.up = async function (knex) {
     table.datetime("updated_at").defaultTo();
     table.index("ct_id");
   });
+
+  await knex("ms_agent").insert([
+    {
+      agent_name: "Self",
+    },
+  ]);
 };
 
 exports.down = async function (knex) {

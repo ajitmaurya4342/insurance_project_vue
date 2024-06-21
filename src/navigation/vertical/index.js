@@ -21,6 +21,11 @@ let array = [
     icon: "HomeIcon",
   },
   {
+    title: "Bank",
+    route: "bankList",
+    icon: "HomeIcon",
+  },
+  {
     title: "Payment Mode",
     route: "paymentList",
     icon: "HomeIcon",

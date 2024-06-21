@@ -47,3 +47,9 @@ export const GetAllFuelType = async (payload) =>
 
 export const addEditFuelType = async (payload) =>
   Api().post(`/addEditFuelType.php`, payload);
+
+export const GetAllBank = async (payload) =>
+  Api().post(`/GetBankList.php`, payload);
+
+export const addEditBank = async (payload) =>
+  Api().post(`/addEditBank.php`, payload);

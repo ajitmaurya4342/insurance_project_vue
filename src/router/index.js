@@ -242,6 +242,32 @@ const router = new VueRouter({
         pageTitle: "Update Fuel Type",
       },
     },
+
+    /// Bank Dept
+    {
+      path: "/bank-list",
+      name: "bankList",
+      component: () => import("@/views/pages/Bank/bankList.vue"),
+      meta: {
+        pageTitle: "Bank List",
+      },
+    },
+    {
+      path: "/add-bank",
+      name: "addBankType",
+      component: () => import("@/views/pages/Bank/createBank.vue"),
+      meta: {
+        pageTitle: "Add Bank ",
+      },
+    },
+    {
+      path: "/update-bank/:bd_id",
+      name: "updateBank",
+      component: () => import("@/views/pages/Bank/createBank.vue"),
+      meta: {
+        pageTitle: "Update Bank ",
+      },
+    },
   ],
 });
 
