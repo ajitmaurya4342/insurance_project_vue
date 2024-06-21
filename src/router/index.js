@@ -108,7 +108,7 @@ const router = new VueRouter({
 
     /// Vehicle Type Route
     {
-      path: "/Vehicle-type-list",
+      path: "/vehicle-type-list",
       name: "vehicleTypeList",
       component: () => import("@/views/pages/VehicleType/vehicleTypeList.vue"),
       meta: {
@@ -131,6 +131,34 @@ const router = new VueRouter({
         import("@/views/pages/VehicleType/createVehicleType.vue"),
       meta: {
         pageTitle: "Update Vehicle Type",
+      },
+    },
+
+    /// Company Type Route
+    {
+      path: "/company-type-list",
+      name: "companyTypeList",
+      component: () => import("@/views/pages/CompanyType/companyTypeList.vue"),
+      meta: {
+        pageTitle: "Company Type List",
+      },
+    },
+    {
+      path: "/add-company-type",
+      name: "addCompanyType",
+      component: () =>
+        import("@/views/pages/CompanyType/createCompanyType.vue"),
+      meta: {
+        pageTitle: "Add Company Type",
+      },
+    },
+    {
+      path: "/update-company-type/:ct_id",
+      name: "updateCompanyType",
+      component: () =>
+        import("@/views/pages/CompanyType/createCompanyType.vue"),
+      meta: {
+        pageTitle: "Update Company Type",
       },
     },
   ],

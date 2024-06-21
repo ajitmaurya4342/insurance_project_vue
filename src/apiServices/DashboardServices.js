@@ -23,3 +23,9 @@ export const GetAllVehicleType = async (payload) =>
 
 export const addEditVehicleType = async (payload) =>
   Api().post(`/addEditVehicleType.php`, payload);
+
+export const GetAllCompanyType = async (payload) =>
+  Api().post(`/GetCompanyTypeList.php`, payload);
+
+export const addEditCompanyType = async (payload) =>
+  Api().post(`/addEditCompanyType.php`, payload);
