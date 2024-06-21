@@ -14,7 +14,11 @@ let array = [
     title: "Agent",
     route: "agentUser",
     icon: "HomeIcon",
-    isOnlyVisibleToAdmin: true,
+  },
+  {
+    title: "Payment Mode",
+    route: "paymentList",
+    icon: "HomeIcon",
   },
 ];
 

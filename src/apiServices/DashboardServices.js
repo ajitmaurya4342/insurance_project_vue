@@ -11,3 +11,9 @@ export const GetAllAgent = async (payload) =>
 
 export const addEditAgent = async (payload) =>
   Api().post(`/addEditAgent.php`, payload);
+
+export const GetAllPayment = async (payload) =>
+  Api().post(`/GetPaymentList.php`, payload);
+
+export const addEditPayment = async (payload) =>
+  Api().post(`/addEditPayment.php`, payload);

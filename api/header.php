@@ -45,9 +45,9 @@ function getQuery($conn,$table_name,$column=[],$where,$search="",$search_column=
         $searchval=" and (";
         foreach ($search_column as $key => $val) {
             if($key==(count($search_column)-1)){
-                $searchval.= " $val = '$search' ) ";
+                $searchval.= " $val like '%$search%' ) ";
             }else{
-                $searchval.= " $val = '$search' or ";
+                $searchval.= " $val like '%$search%' or ";
             }
            
         }

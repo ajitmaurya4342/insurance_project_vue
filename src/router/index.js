@@ -79,6 +79,32 @@ const router = new VueRouter({
         pageTitle: "Update Agent",
       },
     },
+
+    /// Payment Route
+    {
+      path: "/payment-list",
+      name: "paymentList",
+      component: () => import("@/views/pages/Payment/paymentList.vue"),
+      meta: {
+        pageTitle: "Payment List",
+      },
+    },
+    {
+      path: "/add-payment",
+      name: "addPayment",
+      component: () => import("@/views/pages/Payment/createPayment.vue"),
+      meta: {
+        pageTitle: "Add Payment",
+      },
+    },
+    {
+      path: "/update-payment/:pm_id",
+      name: "updatePayment",
+      component: () => import("@/views/pages/Payment/createPayment.vue"),
+      meta: {
+        pageTitle: "Update Payment",
+      },
+    },
   ],
 });
 
