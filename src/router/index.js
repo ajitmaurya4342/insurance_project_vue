@@ -161,6 +161,32 @@ const router = new VueRouter({
         pageTitle: "Update Company Type",
       },
     },
+
+    /// FP Type Route
+    {
+      path: "/fp-type-list",
+      name: "fpTypeList",
+      component: () => import("@/views/pages/FPType/fpTypeList.vue"),
+      meta: {
+        pageTitle: "Fp/Tp List",
+      },
+    },
+    {
+      path: "/add-fp-type",
+      name: "addFpType",
+      component: () => import("@/views/pages/FPType/createFpType.vue"),
+      meta: {
+        pageTitle: "Add Fp/Tp Type",
+      },
+    },
+    {
+      path: "/update-fp-type/:fp_id",
+      name: "updateFpType",
+      component: () => import("@/views/pages/FPType/createFpType.vue"),
+      meta: {
+        pageTitle: "Update Fp/Tp Type",
+      },
+    },
   ],
 });
 

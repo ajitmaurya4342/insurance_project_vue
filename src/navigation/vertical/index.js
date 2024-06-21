@@ -30,6 +30,11 @@ let array = [
     route: "companyTypeList",
     icon: "HomeIcon",
   },
+  {
+    title: "FP/TP Type",
+    route: "fpTypeList",
+    icon: "HomeIcon",
+  },
 ];
 
 export default array;

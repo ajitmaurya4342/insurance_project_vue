@@ -29,3 +29,9 @@ export const GetAllCompanyType = async (payload) =>
 
 export const addEditCompanyType = async (payload) =>
   Api().post(`/addEditCompanyType.php`, payload);
+
+export const GetAllFPType = async (payload) =>
+  Api().post(`/GetFPTypeList.php`, payload);
+
+export const addEditFPType = async (payload) =>
+  Api().post(`/addEditFPType.php`, payload);
