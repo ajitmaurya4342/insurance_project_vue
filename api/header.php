@@ -3,6 +3,12 @@ header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
+$headers = apache_request_headers();
+$created_user_id="";
+if(count($headers)){
+    $created_user_id=explode("=====",base64_decode($headers["authorization"]))[0];
+}
+
 
 function insertQuery($table, $data, $conn)
 {

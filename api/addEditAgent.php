@@ -47,10 +47,12 @@ $msg="Record Inserted Successfully";
 if (isset($data->agent_id) && $data->agent_id) {
     $where = "agent_id='" . $data->agent_id . "'";
     $dataArray["updated_at"] = $current_date;
+    $dataArray["updated_by"] = $created_user_id;
     $updateQuery=updateQuery($table_name, $dataArray, $where, $conn);
     $msg="Record Updated Successfully";
 } else {
     $dataArray["created_at"] = $current_date;
+    $dataArray["created_by"] = $created_user_id;
     $insert_id = insertQuery($table_name, $dataArray, $conn);
 }
 

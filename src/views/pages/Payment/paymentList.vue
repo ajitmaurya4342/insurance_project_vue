@@ -104,6 +104,7 @@ export default {
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
+          label: "Payment Mode",
         },
         {
           key: "edit",
