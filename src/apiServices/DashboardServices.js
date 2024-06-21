@@ -17,3 +17,9 @@ export const GetAllPayment = async (payload) =>
 
 export const addEditPayment = async (payload) =>
   Api().post(`/addEditPayment.php`, payload);
+
+export const GetAllVehicleType = async (payload) =>
+  Api().post(`/GetVehicleTypeList.php`, payload);
+
+export const addEditVehicleType = async (payload) =>
+  Api().post(`/addEditVehicleType.php`, payload);

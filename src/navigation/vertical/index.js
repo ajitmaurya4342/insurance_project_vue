@@ -20,6 +20,11 @@ let array = [
     route: "paymentList",
     icon: "HomeIcon",
   },
+  {
+    title: "Vehicle Type",
+    route: "vehicleTypeList",
+    icon: "HomeIcon",
+  },
 ];
 
 export default array;

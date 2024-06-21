@@ -105,6 +105,34 @@ const router = new VueRouter({
         pageTitle: "Update Payment",
       },
     },
+
+    /// Vehicle Type Route
+    {
+      path: "/Vehicle-type-list",
+      name: "vehicleTypeList",
+      component: () => import("@/views/pages/VehicleType/vehicleTypeList.vue"),
+      meta: {
+        pageTitle: "Vehicle Type List",
+      },
+    },
+    {
+      path: "/add-vehicle-type",
+      name: "addVehicleType",
+      component: () =>
+        import("@/views/pages/VehicleType/createVehicleType.vue"),
+      meta: {
+        pageTitle: "Add Vehicle Type",
+      },
+    },
+    {
+      path: "/update-vehicle-type/:vehicle_id",
+      name: "updateVehicleType",
+      component: () =>
+        import("@/views/pages/VehicleType/createVehicleType.vue"),
+      meta: {
+        pageTitle: "Update Vehicle Type",
+      },
+    },
   ],
 });
 
