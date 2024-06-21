@@ -5,7 +5,7 @@
       <b-col sm="5">
         <b-input-group>
           <b-form-input
-            placeholder="Search Product"
+            placeholder="Search Insurance Type"
             v-model="search"
           ></b-form-input>
           <b-input-group-append>
@@ -16,8 +16,7 @@
 
       <b-col sm="7" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
-          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Product
-          Type
+          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Insurance
         </b-button>
       </b-col>
     </b-row>
@@ -80,7 +79,7 @@ import {
   BPagination,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-import { GetAllFPType } from "@/apiServices/DashboardServices";
+import { GetAllInsuranceType } from "@/apiServices/DashboardServices";
 
 export default {
   components: {
@@ -101,11 +100,11 @@ export default {
       allUserList: [],
       fields: [
         {
-          key: "fp_type",
+          key: "insurance_type_name",
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
-          label: "Product Type",
+          label: "Insurance Type",
         },
         {
           key: "edit",
@@ -137,14 +136,14 @@ export default {
       this.onGetAllUsers();
     },
 
-    async onEdit({ fp_id }) {
+    async onEdit({ it_id }) {
       this.$router.push({
-        path: "/update-fp-type/" + fp_id,
+        path: "/update-insurance-type/" + it_id,
       });
     },
     addUser() {
       this.$router.push({
-        path: "/add-fp-type",
+        path: "/add-insurance-type",
       });
     },
     onSearchUser() {
@@ -155,7 +154,7 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
-        const response = await GetAllFPType({
+        const response = await GetAllInsuranceType({
           search: this.search,
           limit: this.perPage,
           currentPage: this.currentPage,

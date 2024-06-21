@@ -4,7 +4,7 @@ include("connection.php");
 
 $data = json_decode(file_get_contents("php://input"));
 
-$data_check=["company_type_name"];
+$data_check=["company_type_name","seller_type"];
 
 $resultError = checkValidation($data_check,$data);
 
@@ -15,6 +15,9 @@ if(count($resultError)>0){
 
 $current_date=date('Y-m-d H:i:s');
 $company_type_name=$data->company_type_name;
+$seller_type=$data->seller_type;
+$company_phone=$data->company_phone;
+$company_address=$data->company_address;
 
 $table_name="ms_company_type";
 $whereCheck="";
@@ -36,6 +39,9 @@ if(count($checkExist)>0){
 
 $dataArray = [
     "company_type_name" => mysqli_real_escape_string($conn,$company_type_name),
+    "seller_type" => mysqli_real_escape_string($conn,$seller_type),
+    "company_phone" => mysqli_real_escape_string($conn,$company_phone),
+    "company_address" => mysqli_real_escape_string($conn,$company_address),
 ];
 
 $msg="Record Inserted Successfully";

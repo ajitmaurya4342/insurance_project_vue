@@ -35,3 +35,9 @@ export const GetAllFPType = async (payload) =>
 
 export const addEditFPType = async (payload) =>
   Api().post(`/addEditFPType.php`, payload);
+
+export const GetAllInsuranceType = async (payload) =>
+  Api().post(`/GetInsuranceTypeList.php`, payload);
+
+export const addEditInsuranceType = async (payload) =>
+  Api().post(`/addEditInsuranceType.php`, payload);

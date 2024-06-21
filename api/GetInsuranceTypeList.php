@@ -3,14 +3,14 @@
 include("connection.php");
 $data = json_decode(file_get_contents("php://input"));
 
-$table_name="ms_company_type";
-$column=["company_type_name","seller_type","ct_id","company_address","company_phone"];
-$search_column=["company_type_name","seller_type","company_address","company_phone"];
+$table_name="ms_insurance_type";
+$column=["insurance_type_name","it_id"];
+$search_column=["insurance_type_name"];
 $where = "";
 $limit=0;
 $current_page=0;
 $search="";
-$order_column="ct_id";
+$order_column="it_id";
 $order_by="DESC";
 if(isset($data->search) && $data->search){
     $search=$data->search;
@@ -24,21 +24,21 @@ if(isset($data->currentPage) && $data->currentPage){
     $current_page=$data->currentPage;
 }
 
-if(isset($data->ct_id) && $data->ct_id){
-    $ct_id=$data->ct_id;
-    $where=" ct_id='".$ct_id."'";
+if(isset($data->it_id) && $data->it_id){
+    $it_id=$data->it_id;
+    $where=" it_id='".$it_id."'";
 }
 
 @$getQueryData=getQuery($conn,$table_name,$column,$where,$search,$search_column,$order_column,$order_by,$limit,$current_page);
 
 $total_rows=[];
-if($limit && $current_page===1 && !isset($data->ct_id)){
+if($limit && $current_page===1 && !isset($data->it_id)){
   $total_rows=getQuery($conn,$table_name,["count(*) as total_rows"],"",$search,$search_column);
 }
 
 $data=[
     "status"=>true,
-    "message"=>"Vehicle Type List",
+    "message"=>"Insurance Type List",
     "Records"=>$getQueryData,
     "total_rows"=>round($total_rows[0]["total_rows"])
 ];

@@ -5,7 +5,7 @@
       <b-col sm="5">
         <b-input-group>
           <b-form-input
-            placeholder="Search Company Type"
+            placeholder="Search Company"
             v-model="search"
           ></b-form-input>
           <b-input-group-append>
@@ -16,9 +16,9 @@
 
       <b-col sm="7" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
-          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Company
-          Type Type
-        </b-button>
+          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add
+          Company</b-button
+        >
       </b-col>
     </b-row>
 
@@ -105,7 +105,28 @@ export default {
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
+          label: "Company Name",
+        },
+        {
+          key: "seller_type",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
           label: "Company Type",
+        },
+        {
+          key: "company_phone",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+          label: "Company Phone Number",
+        },
+        {
+          key: "company_address",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+          label: "Company Address",
         },
         {
           key: "edit",

@@ -16,6 +16,11 @@ let array = [
     icon: "HomeIcon",
   },
   {
+    title: "Company ",
+    route: "companyTypeList",
+    icon: "HomeIcon",
+  },
+  {
     title: "Payment Mode",
     route: "paymentList",
     icon: "HomeIcon",
@@ -25,14 +30,15 @@ let array = [
     route: "vehicleTypeList",
     icon: "HomeIcon",
   },
+
   {
-    title: "Company Type",
-    route: "companyTypeList",
+    title: "Product Type",
+    route: "fpTypeList",
     icon: "HomeIcon",
   },
   {
-    title: "FP/TP Type",
-    route: "fpTypeList",
+    title: "Insurance Type",
+    route: "insuranceTypeList",
     icon: "HomeIcon",
   },
 ];

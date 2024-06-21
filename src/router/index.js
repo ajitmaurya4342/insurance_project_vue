@@ -140,7 +140,7 @@ const router = new VueRouter({
       name: "companyTypeList",
       component: () => import("@/views/pages/CompanyType/companyTypeList.vue"),
       meta: {
-        pageTitle: "Company Type List",
+        pageTitle: "Company  List",
       },
     },
     {
@@ -168,7 +168,7 @@ const router = new VueRouter({
       name: "fpTypeList",
       component: () => import("@/views/pages/FPType/fpTypeList.vue"),
       meta: {
-        pageTitle: "Fp/Tp List",
+        pageTitle: "Product List",
       },
     },
     {
@@ -176,7 +176,7 @@ const router = new VueRouter({
       name: "addFpType",
       component: () => import("@/views/pages/FPType/createFpType.vue"),
       meta: {
-        pageTitle: "Add Fp/Tp Type",
+        pageTitle: "Add Product Type",
       },
     },
     {
@@ -184,7 +184,36 @@ const router = new VueRouter({
       name: "updateFpType",
       component: () => import("@/views/pages/FPType/createFpType.vue"),
       meta: {
-        pageTitle: "Update Fp/Tp Type",
+        pageTitle: "Update Product Type",
+      },
+    },
+
+    /// Insurance Type Route
+    {
+      path: "/insurance-type-list",
+      name: "insuranceTypeList",
+      component: () =>
+        import("@/views/pages/InsuranceType/insuranceTypeList.vue"),
+      meta: {
+        pageTitle: "Insurance List",
+      },
+    },
+    {
+      path: "/add-insurance-type",
+      name: "addInsuranceType",
+      component: () =>
+        import("@/views/pages/InsuranceType/createInsuranceType.vue"),
+      meta: {
+        pageTitle: "Add Insurance Type",
+      },
+    },
+    {
+      path: "/update-insurance-type/:it_id",
+      name: "updateInsuranceType",
+      component: () =>
+        import("@/views/pages/InsuranceType/createInsuranceType.vue"),
+      meta: {
+        pageTitle: "Update Insurance Type",
       },
     },
   ],

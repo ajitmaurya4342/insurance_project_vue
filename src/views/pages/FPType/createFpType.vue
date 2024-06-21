@@ -42,7 +42,7 @@
       <b-row class="mt-2">
         <b-col class="text-center">
           <b-button variant="primary" @click="saveForm"
-            >{{ fp_id ? "Update" : "Add" }} FP/TP Type
+            >{{ fp_id ? "Update" : "Add" }} Product Type
           </b-button>
           <b-button variant="primary" @click="onReset" class="ml-5"
             >Reset</b-button

@@ -19,7 +19,6 @@
                 }"
               >
                 <b-form-input
-                  v-if="item.type !== 'select'"
                   :id="item.key"
                   v-model="form[item.key]"
                   :state="errors.length > 0 ? false : null"
@@ -27,15 +26,6 @@
                   :placeholder="item.placeholder"
                   :type="item.type"
                 />
-                <b-form-select
-                  v-else
-                  :id="item.key"
-                  v-model="form[item.key]"
-                  :state="errors.length > 0 ? false : null"
-                  :options="typeArray"
-                  :name="item.key"
-                  :placeholder="item.placeholder"
-                ></b-form-select>
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
                     ? `${item.label} must be more than ${
@@ -52,7 +42,7 @@
       <b-row class="mt-2">
         <b-col class="text-center">
           <b-button variant="primary" @click="saveForm"
-            >{{ ct_id ? "Update" : "Add" }} Company
+            >{{ it_id ? "Update" : "Add" }} Insurance Type
           </b-button>
           <b-button variant="primary" @click="onReset" class="ml-5"
             >Reset</b-button
@@ -81,8 +71,8 @@ import {
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import {
-  GetAllCompanyType,
-  addEditCompanyType,
+  GetAllInsuranceType,
+  addEditInsuranceType,
 } from "@/apiServices/DashboardServices";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
@@ -107,53 +97,23 @@ export default {
   },
   data() {
     return {
-      ct_id: "",
+      it_id: "",
       form: {
-        company_type_name: "",
-        company_phone: "",
-        company_address: "",
-        seller_type: "Self",
+        insurance_type_name: "",
       },
       required,
       layoutArray: [
         {
-          col: 6,
-          label: "Company  Name",
+          col: 12,
+          label: "Insurance Type",
           rules: {
             required: true,
           },
-          key: "company_type_name",
-          placeholder: "Enter Company  Name",
-          type: "text",
-        },
-        {
-          col: 6,
-          label: "Company Type",
-          rules: {
-            required: true,
-          },
-          key: "seller_type",
-          placeholder: "Enter Company Type",
-          type: "select",
-        },
-        {
-          col: 6,
-          label: "Company Phone",
-          rules: {},
-          key: "company_phone",
-          placeholder: "Enter Company Phone",
-          type: "number",
-        },
-        {
-          col: 6,
-          label: "Company Adrdress",
-          rules: {},
-          key: "company_address",
-          placeholder: "Enter Company  Address",
+          key: "insurance_type_name",
+          placeholder: "Enter Insurance Type",
           type: "text",
         },
       ],
-      typeArray: ["Third party", "Self"],
     };
   },
 
@@ -162,9 +122,9 @@ export default {
   },
 
   beforeMount() {
-    const { ct_id } = this.$route.params;
-    this.ct_id = ct_id || null;
-    if (ct_id) {
+    const { it_id } = this.$route.params;
+    this.it_id = it_id || null;
+    if (it_id) {
       this.onGetAllUsers();
     }
   },
@@ -179,9 +139,9 @@ export default {
       this.$refs.loginValidation.validate().then(async (success) => {
         if (success) {
           try {
-            const response = await addEditCompanyType({
+            const response = await addEditInsuranceType({
               ...this.form,
-              ct_id: this.ct_id || "",
+              it_id: this.it_id || "",
             });
             const { data } = response;
             if (data.status) {
@@ -221,8 +181,8 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
-        const response = await GetAllCompanyType({
-          ct_id: this.ct_id,
+        const response = await GetAllInsuranceType({
+          it_id: this.it_id,
         });
         const { data } = response;
         if (data.status) {
