@@ -10,6 +10,12 @@ let array = [
     icon: "HomeIcon",
     isOnlyVisibleToAdmin: true,
   },
+  {
+    title: "Agent",
+    route: "agentUser",
+    icon: "HomeIcon",
+    isOnlyVisibleToAdmin: true,
+  },
 ];
 
 export default array;

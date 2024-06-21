@@ -1,13 +1,13 @@
 import Api from "./Api";
 
-export const GenerateQrCode = async (payload) =>
-  Api().post(`/admin/addEditUsers`, payload);
-
 export const GetAllUsers = async (payload) =>
   Api().post(`/GetUserList.php`, payload);
 
 export const addEditUsers = async (payload) =>
   Api().post(`/addEditUser.php`, payload);
 
-export const GetUserQrDetails = async (params) =>
-  Api().get(`/admin/getUserList/${params.unique_code_generate}`);
+export const GetAllAgent = async (payload) =>
+  Api().post(`/GetAgentList.php`, payload);
+
+export const addEditAgent = async (payload) =>
+  Api().post(`/addEditAgent.php`, payload);

@@ -27,10 +27,12 @@ const router = new VueRouter({
         pageTitle: "Dashboard",
       },
     },
+
+    /// Userr Route
     {
       path: "/users",
       name: "users",
-      component: () => import("@/views/pages/Home/userList.vue"),
+      component: () => import("@/views/pages/User/userList.vue"),
       meta: {
         pageTitle: "User List",
       },
@@ -38,42 +40,43 @@ const router = new VueRouter({
     {
       path: "/add-users",
       name: "addUsers",
-      component: () => import("@/views/pages/Home/createUser.vue"),
+      component: () => import("@/views/pages/User/createUser.vue"),
       meta: {
         pageTitle: "Add User",
       },
     },
     {
       path: "/update-users/:user_id",
-      name: "createusers",
-      component: () => import("@/views/pages/Home/createUser.vue"),
+      name: "updateUser",
+      component: () => import("@/views/pages/User/createUser.vue"),
       meta: {
         pageTitle: "Update User",
       },
     },
+
+    /// Agent Route
     {
-      path: "/createqr",
-      name: "createqr",
-      component: () => import("@/views/pages/Home/CreateQr.vue"),
+      path: "/agent-user",
+      name: "agentUser",
+      component: () => import("@/views/pages/Agent/agentList.vue"),
       meta: {
-        pageTitle: "Create QR",
+        pageTitle: "Agent List",
       },
     },
     {
-      path: "/grdetails",
-      name: "qrdetails",
-      component: () => import("@/views/pages/Home/userQrDetails.vue"),
+      path: "/add-agent-users",
+      name: "addAgent",
+      component: () => import("@/views/pages/Agent/createAgent.vue"),
       meta: {
-        pageTitle: "Qr Details",
+        pageTitle: "Add Agent",
       },
     },
     {
-      path: "/afterscan",
-      name: "scanDetails",
-      component: () => import("@/views/pages/Home/afterScanDetailsNew.vue"),
+      path: "/update-agent-users/:agent_id",
+      name: "updateAgent",
+      component: () => import("@/views/pages/Agent/createAgent.vue"),
       meta: {
-        pageTitle: "Scan Details",
-        layout: "full",
+        pageTitle: "Update Agent",
       },
     },
   ],

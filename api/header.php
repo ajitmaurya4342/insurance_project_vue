@@ -2,6 +2,7 @@
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
+date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
 
 function insertQuery($table, $data, $conn)
 {

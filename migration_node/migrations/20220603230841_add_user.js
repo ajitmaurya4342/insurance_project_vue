@@ -10,18 +10,19 @@ exports.up = async function (knex) {
     table.datetime("created_at").defaultTo();
     table.integer("updated_by").defaultTo();
     table.datetime("updated_at").defaultTo();
+    table.index("user_id");
   });
 
   await knex("users").insert([
     {
-      name: "admin",
-      username: "admin",
+      name: "Admin User",
+      username: "admin123",
       password: "admin@123",
       user_type: "admin",
     },
     {
       name: "Deepak Gupta",
-      username: "deepak",
+      username: "deepak123",
       password: "deepak@123",
       user_type: "user",
     },
