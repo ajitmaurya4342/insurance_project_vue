@@ -370,6 +370,7 @@
                   :name="keyname.premium"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.premium"
+                  @input="calculateGST"
                   type="number"
                   placeholder="Enter Premium"
                 ></b-form-input>
@@ -393,6 +394,7 @@
                   :name="keyname.gst"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.gst"
+                  :disabled="true"
                   type="number"
                   placeholder="Enter GST"
                 ></b-form-input>
@@ -417,6 +419,7 @@
                   :state="errors.length > 0 ? false : null"
                   v-model="form.net_premium"
                   type="number"
+                  :disabled="true"
                   placeholder="Enter Net Premium"
                 ></b-form-input>
 
@@ -700,6 +703,7 @@ export default {
       insurance_type_array: [],
       fuel_type_array: [],
       company_array: [],
+      gst: 1.18,
     };
   },
 
@@ -726,6 +730,11 @@ export default {
   },
 
   methods: {
+    calculateGST() {
+      let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
+      this.form.net_premium = net_premium;
+      this.form.gst = +parseFloat(this.form.premium - net_premium).toFixed(2);
+    },
     showModal(type) {
       let typeName = type == this.keyname.agent_name ? "Agent" : "Vehicle";
       this.$bvModal
@@ -913,46 +922,51 @@ export default {
         if (success) {
           let payload = {
             ...this.form,
+            premium: this.form.premium || 0,
+            gst: this.form.gst || 0,
+            net_premium: this.form.net_premium || 0,
+            idv: this.form.idv || 0,
+
             ct_id:
               this.form.company && this.form.company.ct_id
                 ? this.form.company.ct_id
-                : null,
+                : 0,
             cust_id:
               this.form.reg_no && this.form.reg_no.cust_id
                 ? this.form.reg_no.cust_id
-                : null,
+                : 0,
             bd_id:
               this.form.bank_name && this.form.bank_name.bd_id
                 ? this.form.bank_name.bd_id
-                : null,
+                : 0,
             agent_id:
               this.form.agent_name && this.form.agent_name.agent_id
                 ? this.form.agent_name.agent_id
-                : null,
+                : 0,
             code_id:
               this.form.code_id && this.form.code_id.agent_id
                 ? this.form.code_id.agent_id
-                : null,
+                : 0,
             fuel_id:
               this.form.fuel_type && this.form.fuel_type.fuel_id
                 ? this.form.fuel_type.fuel_id
-                : null,
+                : 0,
             pm_id:
               this.form.payment_mode && this.form.payment_mode.pm_id
                 ? this.form.payment_mode.pm_id
-                : null,
+                : 0,
             vehicle_id:
               this.form.vehicle_type && this.form.vehicle_type.vehicle_id
                 ? this.form.vehicle_type.vehicle_id
-                : null,
+                : 0,
             fp_id:
               this.form.product_type && this.form.product_type.fp_id
                 ? this.form.product_type.fp_id
-                : null,
+                : 0,
             it_id:
               this.form.insurance_type && this.form.insurance_type.it_id
                 ? this.form.insurance_type.it_id
-                : null,
+                : 0,
           };
           try {
             const response = await addEditInsurancePolicy({
