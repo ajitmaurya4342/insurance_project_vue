@@ -283,7 +283,7 @@ const router = new VueRouter({
       name: "addCustomer",
       component: () => import("@/views/pages/Customer/createCustomer.vue"),
       meta: {
-        pageTitle: "Add Bank",
+        pageTitle: "Add Customer",
       },
     },
     {
@@ -291,7 +291,7 @@ const router = new VueRouter({
       name: "updateCustomer",
       component: () => import("@/views/pages/Customer/createCustomer.vue"),
       meta: {
-        pageTitle: "Update Bank ",
+        pageTitle: "Update Customer ",
       },
     },
 

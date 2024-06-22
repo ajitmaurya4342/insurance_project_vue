@@ -60,7 +60,11 @@
             </b-form-group>
           </b-col>
           <b-col sm="6" class="mt-1">
-            <b-form-group label="Registration No" :label-for="keyname.reg_no">
+            <b-form-group
+              label="Registration No"
+              :label-for="keyname.reg_no"
+              class="m-0"
+            >
               <validation-provider
                 #default="{ errors }"
                 name="Registration No"
@@ -94,7 +98,11 @@
           </b-col>
 
           <b-col sm="6" class="mt-1">
-            <b-form-group label="Customer Name" :label-for="keyname.reg_name">
+            <b-form-group
+              label="Customer Name"
+              :label-for="keyname.reg_name"
+              class="m-0"
+            >
               <validation-provider
                 #default="{ errors }"
                 name="Customer Name"
@@ -119,6 +127,16 @@
                 }}</small>
               </validation-provider>
             </b-form-group>
+          </b-col>
+
+          <b-col sm="12" class="m-0 mb-1">
+            <h6
+              @click="showModal(keyname.reg_no)"
+              lass="m-0"
+              style="color: #1f307a; cursor: pointer"
+            >
+              <u>Create New Vehicle</u>
+            </h6>
           </b-col>
 
           <b-col sm="6" class="mt-1">
@@ -181,7 +199,11 @@
           </b-col>
 
           <b-col sm="6" class="mt-1">
-            <b-form-group label="Agent Name" :label-for="keyname.agent_name">
+            <b-form-group
+              label="Agent Name"
+              :label-for="keyname.agent_name"
+              class="m-0"
+            >
               <validation-provider
                 #default="{ errors }"
                 name="Agent Name"
@@ -213,7 +235,11 @@
           </b-col>
 
           <b-col sm="3" class="mt-1">
-            <b-form-group label="Agent Contact" :label-for="keyname.agent_no">
+            <b-form-group
+              label="Agent Contact"
+              :label-for="keyname.agent_no"
+              class="m-0"
+            >
               <validation-provider #default="{ errors }" name="Agent Contact">
                 <b-form-input
                   :id="keyname.agent_no"
@@ -241,7 +267,11 @@
           </b-col>
 
           <b-col sm="3" class="mt-1">
-            <b-form-group label="Policy Date" :label-for="keyname.policy_date">
+            <b-form-group
+              label="Policy Date"
+              :label-for="keyname.policy_date"
+              class="m-0"
+            >
               <validation-provider #default="{ errors }" name=" Policy Date">
                 <b-form-input
                   :id="keyname.policy_date"
@@ -262,6 +292,17 @@
               </validation-provider>
             </b-form-group>
           </b-col>
+
+          <b-col sm="12" class="m-0 mb-1">
+            <h6
+              @click="showModal(keyname.agent_name)"
+              lass="m-0"
+              style="color: #1f307a; cursor: pointer"
+            >
+              <u>Create New Agent</u>
+            </h6>
+          </b-col>
+
           <b-col sm="6" class="">
             <b-form-group label="Fuel Type" :label-for="keyname.fuel_type">
               <validation-provider #default="{ errors }" name="Fuel Type">
@@ -684,6 +725,47 @@ export default {
   },
 
   methods: {
+    showModal(type) {
+      let typeName = type == this.keyname.agent_name ? "Agent" : "Vehicle";
+      this.$bvModal
+        .msgBoxConfirm(
+          `Please confirm that you want to create new ${typeName}?`,
+          {
+            title: "Please Confirm",
+            size: "sm",
+            buttonSize: "sm",
+            okVariant: "danger",
+            okTitle: "YES",
+            cancelTitle: "NO",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true,
+          }
+        )
+        .then((value) => {
+          if (value) {
+            console.log({ type });
+            if (type == this.keyname.agent_name) {
+              this.createNewAgent();
+            } else if (type == this.keyname.reg_no) {
+              this.createNewVehicle();
+            }
+          }
+        })
+        .catch((err) => {
+          // An error occurred
+        });
+    },
+    createNewAgent() {
+      this.$router.push({
+        path: "/add-agent-users",
+      });
+    },
+    createNewVehicle() {
+      this.$router.push({
+        path: "/add-customer",
+      });
+    },
     changeAgent(item) {
       if (item && item.agent_name == "Self") {
         this.form.agent_no = "";

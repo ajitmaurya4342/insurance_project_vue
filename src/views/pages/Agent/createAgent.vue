@@ -124,7 +124,7 @@ export default {
         },
         {
           col: 12,
-          label: "Agent Adress",
+          label: "Agent Address",
           rules: {},
           key: "agent_address",
           placeholder: "Enter Agent Address",
