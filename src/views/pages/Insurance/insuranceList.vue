@@ -147,7 +147,7 @@ export default {
         agent_no: "Agent Number",
         policy_date: "Policy Date",
         fuel_type_name: "Fuel Type",
-        code_id: "CODE ID",
+        code_agent: "CODE ID",
         premium: "Premium",
         gst: "GST",
         net_premium: "Net Premium",
@@ -156,12 +156,14 @@ export default {
         vehicle_type: "Vehicle Type",
         fp_type: "Product Type",
         insurance_type_name: "Insurance Type",
+        created_user: "Created User",
+        created_date_time: "Created Time",
       },
       fields: [
         {
           key: "rid",
           formatter: (value, key, item) => {
-            return value ? moment(value).format("DD, MMM YYYY") : "-";
+            return value ? moment(value).format("DD MMM, YYYY") : "-";
           },
           label: "RID",
         },
@@ -189,7 +191,7 @@ export default {
         {
           key: "policy_date",
           formatter: (value, key, item) => {
-            return value ? moment(value).format("DD, MMM YYYY") : "-";
+            return value ? moment(value).format("DD MMM, YYYY") : "-";
           },
           label: "Policy Date",
         },

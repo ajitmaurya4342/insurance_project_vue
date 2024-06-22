@@ -662,7 +662,7 @@ export default {
         agent_no: "agent_no",
         policy_date: "policy_date",
         fuel_type: "fuel_type",
-        code_id: "code_id",
+        code_id: "",
         premium: "premium",
         gst: "gst",
         net_premium: "net_premium",
