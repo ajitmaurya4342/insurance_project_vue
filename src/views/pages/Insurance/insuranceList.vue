@@ -46,6 +46,15 @@
           icon="pencil-square"
           aria-hidden="true"
           @click="onEdit(data.item)"
+          font-scale="1.5"
+        ></b-icon>
+
+        <b-icon
+          icon="info-square"
+          aria-hidden="true"
+          class="ml-1"
+          @click="onView(data.item)"
+          font-scale="1.5"
         ></b-icon>
       </template>
     </b-table>
@@ -62,6 +71,33 @@
         ></b-pagination>
       </b-col>
     </b-row>
+
+    <div>
+      <b-modal id="bv-modal-example" hide-footer>
+        <template #modal-title>
+          <b>Policy No</b> : {{ selectedRow && selectedRow.policy_no }}
+        </template>
+        <div class="d-block text-center" v-if="selectedRow && selectedRow">
+          <b-row
+            style="border-bottom: 1px solid #b8c0d4"
+            class="mb-1"
+            v-for="(item, index) in Object.keys(keyName)"
+            :key="index"
+          >
+            <b-col sm="4">
+              <h5>{{ keyName[item] }}</h5>
+            </b-col>
+            <b-col sm="1">
+              <h5>:</h5>
+            </b-col>
+            <b-col sm="7">
+              <h5>{{ selectedRow[item] || "-" }}</h5>
+            </b-col>
+            <hr />
+          </b-row>
+        </div>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -100,6 +136,27 @@ export default {
   data() {
     return {
       allUserList: [],
+      keyName: {
+        rid: "RID",
+        company_type_name: "Company Name",
+        vehicle_no: "Registration No",
+        reg_name: "Customer Name",
+        // policy_no: "Policy No",
+        bank_dept_name: "Bank Name",
+        agent_name: "Agent Name",
+        agent_no: "Agent Number",
+        policy_date: "Policy Date",
+        fuel_type_name: "Fuel Type",
+        code_id: "CODE ID",
+        premium: "Premium",
+        gst: "GST",
+        net_premium: "Net Premium",
+        idv: "IDV",
+        pm_name: "Payment Mode",
+        vehicle_type: "Vehicle Type",
+        fp_type: "Product Type",
+        insurance_type_name: "Insurance Type",
+      },
       fields: [
         {
           key: "rid",
@@ -113,7 +170,7 @@ export default {
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
-          label: "Registration No",
+          label: "Reg. No",
         },
         {
           key: "reg_name",
@@ -130,14 +187,46 @@ export default {
           label: "Policy No",
         },
         {
-          key: "cust_address",
+          key: "policy_date",
           formatter: (value, key, item) => {
-            return value ? value : "-";
+            return value ? moment(value).format("DD, MMM YYYY") : "-";
           },
-          label: "Customer Address",
+          label: "Policy Date",
+        },
+        {
+          key: "agent_name",
+          formatter: (value, key, item) => {
+            return value
+              ? value + `${item.agent_no ? ` (${item.agent_no})` : ""}`
+              : "-";
+          },
+          label: "Agent Name & contact",
+        },
+        {
+          key: "premium",
+          formatter: (value, key, item) => {
+            return parseFloat(value).toFixed(2);
+          },
+          label: "Premium",
+        },
+        {
+          key: "gst",
+          formatter: (value, key, item) => {
+            return parseFloat(value).toFixed(2);
+          },
+          label: "GST",
+        },
+        {
+          key: "net_premium",
+          formatter: (value, key, item) => {
+            return parseFloat(value).toFixed(2);
+            // return value ? String(value).toFixed(2) : 0;
+          },
+          label: "Net Premium",
         },
         {
           key: "edit",
+          label: "Action",
         },
       ],
       isBusy: false,
@@ -145,6 +234,7 @@ export default {
       perPage: 15,
       totalRows: 0,
       search: "",
+      selectedRow: null,
     };
   },
 
@@ -157,6 +247,11 @@ export default {
   },
 
   methods: {
+    onView(item) {
+      this.selectedRow = item;
+
+      this.$bvModal.show("bv-modal-example");
+    },
     rowClass(item, type) {
       if (!item || type !== "row") return;
       // if (item.seller_type !== "Self") return "table-success";
