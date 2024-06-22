@@ -5,6 +5,12 @@ let array = [
     icon: "HomeIcon",
   },
   {
+    title: "Insurance",
+    route: "insuranceList",
+    icon: "HomeIcon",
+    isOnlyVisibleToAdmin: true,
+  },
+  {
     title: "User",
     route: "users",
     icon: "HomeIcon",

@@ -294,6 +294,32 @@ const router = new VueRouter({
         pageTitle: "Update Bank ",
       },
     },
+
+    /// Customer Route
+    {
+      path: "/insurance-list",
+      name: "insuranceList",
+      component: () => import("@/views/pages/Insurance/insuranceList.vue"),
+      meta: {
+        pageTitle: "Insurance List",
+      },
+    },
+    {
+      path: "/add-insurance",
+      name: "addInsurance",
+      component: () => import("@/views/pages/Insurance/createInsurance.vue"),
+      meta: {
+        pageTitle: "Add Insurance",
+      },
+    },
+    {
+      path: "/update-insurance/:insurance_id",
+      name: "updateInsurance",
+      component: () => import("@/views/pages/Insurance/createInsurance.vue"),
+      meta: {
+        pageTitle: "Update Bank ",
+      },
+    },
   ],
 });
 

@@ -10,12 +10,15 @@ import VueCompositionAPI from "@vue/composition-api";
 import router from "./router";
 import store from "./store";
 import App from "./App.vue";
-import Bootstrap from "bootstrap-vue";
-Vue.use(Bootstrap);
+import BootstrapVue from "bootstrap-vue";
+Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(PaginationPlugin);
 // Global Components
 import "./global-components";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+import Multiselect from "vue-multiselect";
+Vue.component("multiselect", Multiselect);
 
 // 3rd party plugins
 import "@axios";
