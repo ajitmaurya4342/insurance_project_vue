@@ -65,3 +65,9 @@ export const addEditInsurancePolicy = async (payload) =>
 
 export const GetInsurancePolicyList = async (payload) =>
   Api().post(`/GetInsurancePolicyList.php`, payload);
+
+export const addEditSetting = async (payload) =>
+  Api().post(`/addEditSetting.php`, payload);
+
+export const GetSetting = async (payload) =>
+  Api().post(`/GetSetting.php`, payload);

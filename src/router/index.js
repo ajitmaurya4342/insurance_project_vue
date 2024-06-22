@@ -320,6 +320,14 @@ const router = new VueRouter({
         pageTitle: "Update Bank ",
       },
     },
+    {
+      path: "/add-setting",
+      name: "addSetting",
+      component: () => import("@/views/pages/Setting/createSetting.vue"),
+      meta: {
+        pageTitle: "Setting",
+      },
+    },
   ],
 });
 

@@ -390,7 +390,10 @@
           </b-col>
 
           <b-col sm="3" class="mt-1">
-            <b-form-group label="GST" :label-for="keyname.gst">
+            <b-form-group
+              :label="'GST (' + (gst * 100 - 100) + '%)'"
+              :label-for="keyname.gst"
+            >
               <validation-provider #default="{ errors }" name="GST">
                 <b-form-input
                   :id="keyname.gst"
@@ -625,6 +628,7 @@ import {
   GetAllPayment,
   addEditInsurancePolicy,
   GetInsurancePolicyList,
+  GetSetting,
 } from "@/apiServices/DashboardServices";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
@@ -733,9 +737,21 @@ export default {
     this.getAllInsuranceType();
     this.getAllBank();
     this.getAllCustomer();
+    this.getSetting();
   },
 
   methods: {
+    async getSetting() {
+      try {
+        const response = await GetSetting({
+          setting_id: 1,
+        });
+        const { data } = response;
+        if (data.status && data.Records[0].gst) {
+          this.gst = +parseFloat(data.Records[0].gst).toFixed(2);
+        }
+      } catch (err) {}
+    },
     async getInsuranceById() {
       try {
         const response = await GetInsurancePolicyList({

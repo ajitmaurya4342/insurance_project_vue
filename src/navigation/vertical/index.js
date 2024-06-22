@@ -7,60 +7,65 @@ let array = [
   {
     title: "Insurance",
     route: "insuranceList",
-    icon: "HomeIcon",
-    isOnlyVisibleToAdmin: true,
-  },
-  {
-    title: "User",
-    route: "users",
-    icon: "HomeIcon",
-    isOnlyVisibleToAdmin: true,
+    icon: "FileTextIcon",
   },
   {
     title: "Agent",
     route: "agentUser",
-    icon: "HomeIcon",
+    icon: "SmileIcon",
   },
   {
-    title: "Customer",
+    title: "Vehicle/Customer",
     route: "customerList",
-    icon: "HomeIcon",
+    icon: "TruckIcon",
   },
   {
     title: "Company ",
     route: "companyTypeList",
-    icon: "HomeIcon",
+    icon: "LayoutIcon",
   },
   {
     title: "Bank",
     route: "bankList",
-    icon: "HomeIcon",
+    icon: "DollarSignIcon",
   },
   {
     title: "Payment Mode",
     route: "paymentList",
-    icon: "HomeIcon",
+    icon: "KeyIcon",
   },
   {
     title: "Vehicle Type",
     route: "vehicleTypeList",
-    icon: "HomeIcon",
+    icon: "HardDriveIcon",
   },
 
   {
     title: "Product Type",
     route: "fpTypeList",
-    icon: "HomeIcon",
+    icon: "SquareIcon",
   },
   {
     title: "Insurance Type",
     route: "insuranceTypeList",
-    icon: "HomeIcon",
+    icon: "CreditCardIcon",
   },
   {
     title: "Fuel Type",
     route: "fuelTypeList",
-    icon: "HomeIcon",
+    icon: "FilterIcon",
+  },
+  {
+    title: "User",
+    route: "users",
+    icon: "UserIcon",
+    isOnlyVisibleToAdmin: true,
+  },
+  {
+    title: "Setting",
+    route: "addSetting",
+    icon: "SettingsIcon",
+    isOnlyVisibleToAdmin: true,
   },
 ];
 
