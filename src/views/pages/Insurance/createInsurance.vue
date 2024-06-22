@@ -617,6 +617,7 @@ import {
   GetAllCustomer,
   GetAllAgent,
   GetAllPayment,
+  addEditInsurancePolicy,
 } from "@/apiServices/DashboardServices";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
@@ -910,9 +911,52 @@ export default {
     saveForm() {
       this.$refs.loginValidation.validate().then(async (success) => {
         if (success) {
+          let payload = {
+            ...this.form,
+            ct_id:
+              this.form.company && this.form.company.ct_id
+                ? this.form.company.ct_id
+                : null,
+            cust_id:
+              this.form.reg_no && this.form.reg_no.cust_id
+                ? this.form.reg_no.cust_id
+                : null,
+            bd_id:
+              this.form.bank_name && this.form.bank_name.bd_id
+                ? this.form.bank_name.bd_id
+                : null,
+            agent_id:
+              this.form.agent_name && this.form.agent_name.agent_id
+                ? this.form.agent_name.agent_id
+                : null,
+            code_id:
+              this.form.code_id && this.form.code_id.agent_id
+                ? this.form.code_id.agent_id
+                : null,
+            fuel_id:
+              this.form.fuel_type && this.form.fuel_type.fuel_id
+                ? this.form.fuel_type.fuel_id
+                : null,
+            pm_id:
+              this.form.payment_mode && this.form.payment_mode.pm_id
+                ? this.form.payment_mode.pm_id
+                : null,
+            vehicle_id:
+              this.form.vehicle_type && this.form.vehicle_type.vehicle_id
+                ? this.form.vehicle_type.vehicle_id
+                : null,
+            fp_id:
+              this.form.product_type && this.form.product_type.fp_id
+                ? this.form.product_type.fp_id
+                : null,
+            it_id:
+              this.form.insurance_type && this.form.insurance_type.it_id
+                ? this.form.insurance_type.it_id
+                : null,
+          };
           try {
-            const response = await addEditCustomer({
-              ...this.form,
+            const response = await addEditInsurancePolicy({
+              ...payload,
               insurance_id: this.insurance_id || "",
             });
             const { data } = response;

@@ -80,7 +80,8 @@ import {
   BPagination,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-import { GetAllCustomer } from "@/apiServices/DashboardServices";
+import { GetInsurancePolicyList } from "@/apiServices/DashboardServices";
+import moment from "moment";
 
 export default {
   components: {
@@ -101,25 +102,32 @@ export default {
       allUserList: [],
       fields: [
         {
+          key: "rid",
+          formatter: (value, key, item) => {
+            return value ? moment(value).format("DD, MMM YYYY") : "-";
+          },
+          label: "RID",
+        },
+        {
           key: "vehicle_no",
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
-          label: "Vehicle No",
+          label: "Registration No",
         },
         {
-          key: "cust_name",
+          key: "reg_name",
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
           label: "Customer Name",
         },
         {
-          key: "cust_phone",
+          key: "policy_no",
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
-          label: "Customer Phone Number",
+          label: "Policy No",
         },
         {
           key: "cust_address",
@@ -176,7 +184,7 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
-        const response = await GetAllCustomer({
+        const response = await GetInsurancePolicyList({
           search: this.search,
           limit: this.perPage,
           currentPage: this.currentPage,
