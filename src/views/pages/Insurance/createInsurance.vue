@@ -40,11 +40,12 @@
                   :name="keyname.company"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.company"
-                  track-by="name"
-                  label="name"
+                  track-by="ct_id"
+                  label="company_type_name"
                   placeholder="Select Company"
                   :options="company_array"
-                  :searchable="false"
+                  @input="changeCompany"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -72,11 +73,12 @@
                   :name="keyname.reg_no"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.reg_no"
-                  track-by="name"
-                  label="name"
+                  track-by="cust_id"
+                  label="vehicle_no"
                   placeholder="Select Vehicle"
                   :options="registration_array"
-                  :searchable="false"
+                  @input="changeVehicle"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -159,8 +161,8 @@
                   :name="keyname.bank_name"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.bank_name"
-                  track-by="name"
-                  label="name"
+                  track-by="bd_id"
+                  label="bank_dept_name"
                   placeholder="Select Bank"
                   :options="bank_array"
                   :searchable="false"
@@ -190,12 +192,13 @@
                   :name="keyname.agent_name"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.agent_name"
-                  track-by="name"
-                  label="name"
+                  track-by="agent_id"
+                  label="agent_name"
                   placeholder="Select Agent"
                   :options="agent_array"
-                  :searchable="false"
+                  :searchable="true"
                   :allow-empty="true"
+                  @input="changeAgent"
                 />
 
                 <small class="text-danger">{{
@@ -219,6 +222,11 @@
                   v-model="form.agent_no"
                   type="number"
                   placeholder="Enter Agent Contact"
+                  :disabled="
+                    form.agent_name && form.agent_name.agent_name == 'Self'
+                      ? false
+                      : true
+                  "
                 ></b-form-input>
 
                 <small class="text-danger">{{
@@ -262,11 +270,11 @@
                   :name="keyname.fuel_type"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.fuel_type"
-                  track-by="name"
-                  label="name"
+                  track-by="fuel_id"
+                  label="fuel_type_name"
                   placeholder="Select Fuel Type"
                   :options="fuel_type_array"
-                  :searchable="false"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -288,12 +296,18 @@
                   :name="keyname.code_id"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.code_id"
-                  track-by="name"
-                  label="name"
-                  placeholder="Select Code Id"
-                  :options="code_array"
-                  :searchable="false"
+                  track-by="agent_id"
+                  label="agent_name"
+                  placeholder="Select Code
+                Id"
+                  :options="agent_array"
+                  :searchable="true"
                   :allow-empty="true"
+                  :disabled="
+                    form.company && form.company.seller_type !== 'Self'
+                      ? false
+                      : true
+                  "
                 />
 
                 <small class="text-danger">{{
@@ -410,11 +424,11 @@
                   :name="keyname.payment_mode"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.payment_mode"
-                  track-by="name"
-                  label="name"
+                  track-by="pm_id"
+                  label="pm_name"
                   placeholder="Select Payment Mode"
                   :options="payment_mode_array"
-                  :searchable="false"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -440,11 +454,11 @@
                   :name="keyname.vehicle_type"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.vehicle_type"
-                  track-by="name"
-                  label="name"
+                  track-by="vehicle_id"
+                  label="vehicle_type"
                   placeholder="Select Vehicle Type"
                   :options="vehicle_type_array"
-                  :searchable="false"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -470,11 +484,11 @@
                   :name="keyname.product_type"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.product_type"
-                  track-by="name"
-                  label="name"
+                  track-by="fp_id"
+                  label="fp_type"
                   placeholder="Select Product Type"
                   :options="product_type_array"
-                  :searchable="false"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -500,11 +514,11 @@
                   :name="keyname.insurance_type"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.insurance_type"
-                  track-by="name"
-                  label="name"
+                  track-by="it_id"
+                  label="insurance_type_name"
                   placeholder="Select Insurance Tyoe"
                   :options="insurance_type_array"
-                  :searchable="false"
+                  :searchable="true"
                   :allow-empty="true"
                 />
 
@@ -553,8 +567,15 @@ import {
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import {
+  GetAllCompanyType,
+  GetAllVehicleType,
+  GetAllFPType,
+  GetAllInsuranceType,
+  GetAllFuelType,
+  GetAllBank,
   GetAllCustomer,
-  addEditCustomer,
+  GetAllAgent,
+  GetAllPayment,
 } from "@/apiServices/DashboardServices";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
@@ -586,7 +607,8 @@ export default {
       required,
 
       keyname: {
-        rid: "",
+        rid: "rid",
+        company: "company",
         reg_no: "reg_no",
         reg_name: "reg_name",
         policy_no: "policy_no",
@@ -595,6 +617,7 @@ export default {
         agent_no: "agent_no",
         policy_date: "policy_date",
         fuel_type: "fuel_type",
+        code_id: "code_id",
         premium: "premium",
         gst: "gst",
         net_premium: "net_premium",
@@ -606,6 +629,7 @@ export default {
       },
       form: {
         rid: "",
+        company: "",
         reg_no: "",
         reg_name: "",
         policy_no: "",
@@ -613,7 +637,9 @@ export default {
         agent_name: "",
         agent_no: "",
         policy_date: "",
+
         fuel_type: "",
+        code_id: "",
         premium: "",
         gst: "",
         net_premium: "",
@@ -626,7 +652,6 @@ export default {
       registration_array: [],
       bank_array: [],
       agent_array: [],
-      code_array: [],
       payment_mode_array: [],
       vehicle_type_array: [],
       product_type_array: [],
@@ -646,11 +671,155 @@ export default {
     this.form.rid = moment().format("YYYY-MM-DD");
     this.insurance_id = insurance_id || null;
     if (insurance_id) {
-      this.onGetAllUsers();
     }
+    this.getAllCompany();
+    this.getAllAgent();
+    this.getAllVehicle();
+    this.getAllFuel();
+    this.getAllProduct();
+    this.getAllPayment();
+    this.getAllInsuranceType();
+    this.getAllBank();
+    this.getAllCustomer();
   },
 
   methods: {
+    changeAgent(item) {
+      if (item && item.agent_name == "Self") {
+        this.form.agent_no = "";
+      } else if (item && item.agent_mobile_number) {
+        this.form.agent_no = item.agent_mobile_number;
+      } else {
+        this.form.agent_no = "";
+      }
+    },
+    changeVehicle(item) {
+      if (item && item.cust_name) {
+        this.form.reg_name = item.cust_name || "";
+      } else {
+        this.form.reg_name = "";
+      }
+    },
+    changeCompany(item) {
+      this.form.code_id = "";
+    },
+    async getAllCustomer() {
+      try {
+        this.registration_array = [];
+        const response = await GetAllCustomer({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.registration_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllBank() {
+      try {
+        this.bank_array = [];
+        const response = await GetAllBank({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.bank_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllInsuranceType() {
+      try {
+        this.insurance_type_array = [];
+        const response = await GetAllInsuranceType({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.insurance_type_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllPayment() {
+      try {
+        this.payment_mode_array = [];
+        const response = await GetAllPayment({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.payment_mode_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllProduct() {
+      try {
+        this.product_type_array = [];
+        const response = await GetAllFPType({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.product_type_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllFuel() {
+      try {
+        this.fuel_type_array = [];
+        const response = await GetAllFuelType({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.fuel_type_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllVehicle() {
+      try {
+        this.vehicle_type_array = [];
+        const response = await GetAllVehicleType({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.vehicle_type_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllAgent() {
+      try {
+        this.agent_array = [];
+        const response = await GetAllAgent({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.agent_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getAllCompany() {
+      try {
+        this.company_array = [];
+        const response = await GetAllCompanyType({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.company_array = data.Records || [];
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
     onReset() {
       Object.keys(this.form).map((z) => {
         this.form[z] = "";
@@ -697,22 +866,6 @@ export default {
           }
         }
       });
-    },
-    async onGetAllUsers() {
-      try {
-        this.allUserList = [];
-        this.isBusy = true;
-        const response = await GetAllCustomer({
-          insurance_id: this.insurance_id,
-        });
-        const { data } = response;
-        if (data.status) {
-          Object.keys(this.form).map((z) => {
-            this.form[z] = data.Records[0][z] || null;
-          });
-        }
-        this.isBusy = false;
-      } catch (err) {}
     },
   },
 };
