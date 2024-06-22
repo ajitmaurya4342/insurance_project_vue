@@ -16,6 +16,11 @@ let array = [
     icon: "HomeIcon",
   },
   {
+    title: "Customer",
+    route: "customerList",
+    icon: "HomeIcon",
+  },
+  {
     title: "Company ",
     route: "companyTypeList",
     icon: "HomeIcon",

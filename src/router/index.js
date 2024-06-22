@@ -268,6 +268,32 @@ const router = new VueRouter({
         pageTitle: "Update Bank ",
       },
     },
+
+    /// Customer Route
+    {
+      path: "/customer-list",
+      name: "customerList",
+      component: () => import("@/views/pages/Customer/customerList.vue"),
+      meta: {
+        pageTitle: "Customer List",
+      },
+    },
+    {
+      path: "/add-customer",
+      name: "addCustomer",
+      component: () => import("@/views/pages/Customer/createCustomer.vue"),
+      meta: {
+        pageTitle: "Add Bank",
+      },
+    },
+    {
+      path: "/update-customer/:cust_id",
+      name: "updateCustomer",
+      component: () => import("@/views/pages/Customer/createCustomer.vue"),
+      meta: {
+        pageTitle: "Update Bank ",
+      },
+    },
   ],
 });
 

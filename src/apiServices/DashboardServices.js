@@ -53,3 +53,9 @@ export const GetAllBank = async (payload) =>
 
 export const addEditBank = async (payload) =>
   Api().post(`/addEditBank.php`, payload);
+
+export const GetAllCustomer = async (payload) =>
+  Api().post(`/GetCustomerList.php`, payload);
+
+export const addEditCustomer = async (payload) =>
+  Api().post(`/addEditCustomer.php`, payload);
