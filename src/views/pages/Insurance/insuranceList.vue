@@ -85,7 +85,9 @@
             :key="index"
           >
             <b-col sm="4">
-              <h5>{{ keyName[item] }}</h5>
+              <b
+                ><h5>{{ keyName[item] }}</h5></b
+              >
             </b-col>
             <b-col sm="1">
               <h5>:</h5>
@@ -207,21 +209,21 @@ export default {
         {
           key: "premium",
           formatter: (value, key, item) => {
-            return parseFloat(value).toFixed(2);
+            return value ? parseFloat(value).toFixed(2) : "-";
           },
           label: "Premium",
         },
         {
           key: "gst",
           formatter: (value, key, item) => {
-            return parseFloat(value).toFixed(2);
+            return value ? parseFloat(value).toFixed(2) : "-";
           },
           label: "GST",
         },
         {
           key: "net_premium",
           formatter: (value, key, item) => {
-            return parseFloat(value).toFixed(2);
+            return value ? parseFloat(value).toFixed(2) : "";
             // return value ? String(value).toFixed(2) : 0;
           },
           label: "Net Premium",

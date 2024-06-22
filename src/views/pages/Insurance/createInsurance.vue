@@ -339,9 +339,12 @@
                   v-model="form.code_id"
                   track-by="agent_id"
                   label="agent_name"
-                  placeholder="Select Code
-                Id"
-                  :options="agent_array"
+                  placeholder="Select Code Id"
+                  :options="
+                    agent_array.filter((z) => {
+                      return z.agent_name !== 'Self';
+                    })
+                  "
                   :searchable="true"
                   :allow-empty="true"
                   :disabled="
@@ -621,6 +624,7 @@ import {
   GetAllAgent,
   GetAllPayment,
   addEditInsurancePolicy,
+  GetInsurancePolicyList,
 } from "@/apiServices/DashboardServices";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
@@ -717,7 +721,9 @@ export default {
     this.form.rid = moment().format("YYYY-MM-DD");
     this.insurance_id = insurance_id || null;
     if (insurance_id) {
+      this.getInsuranceById();
     }
+
     this.getAllCompany();
     this.getAllAgent();
     this.getAllVehicle();
@@ -730,11 +736,116 @@ export default {
   },
 
   methods: {
+    async getInsuranceById() {
+      try {
+        const response = await GetInsurancePolicyList({
+          insurance_id: this.insurance_id,
+        });
+        const { data } = response;
+        if (data.status && data.Records[0]) {
+          Object.keys(data.Records[0]).map((z) => {
+            this.form[z] = data.Records[0][z] || "";
+          });
+
+          if (this.form.ct_id && this.form.company_type_name) {
+            this.form.company = {
+              ct_id: this.form.ct_id,
+              company_type_name: this.form.company_type_name,
+            };
+          } else {
+            this.form.company = null;
+          }
+
+          if (this.form.cust_id && this.form.vehicle_no) {
+            this.form.reg_no = {
+              cust_id: this.form.cust_id,
+              vehicle_no: this.form.vehicle_no,
+            };
+          } else {
+            this.form.reg_no = null;
+          }
+
+          if (this.form.bd_id && this.form.bank_dept_name) {
+            this.form.bank_name = {
+              bd_id: this.form.bd_id,
+              bank_dept_name: this.form.bank_dept_name,
+            };
+          } else {
+            this.form.bank_name = null;
+          }
+
+          if (this.form.agent_name && this.form.agent_name) {
+            this.form.agent_name = {
+              agent_id: this.form.agent_id,
+              agent_name: this.form.agent_name,
+            };
+          } else {
+            this.form.agent_name = null;
+          }
+
+          if (this.form.fuel_id && this.form.fuel_type_name) {
+            this.form.fuel_type = {
+              fuel_id: this.form.fuel_id,
+              fuel_type_name: this.form.fuel_type_name,
+            };
+          } else {
+            this.form.fuel_type = null;
+          }
+
+          // product_type: "",
+          // insurance_type: "",
+          if (this.form.code_id && this.form.code_agent) {
+            this.form.code_id = {
+              agent_id: this.form.code_id,
+              agent_name: this.form.code_agent,
+            };
+          } else {
+            this.form.code_id = null;
+          }
+
+          if (this.form.pm_id && this.form.pm_name) {
+            this.form.payment_mode = {
+              pm_id: this.form.pm_id,
+              pm_name: this.form.pm_name,
+            };
+          } else {
+            this.form.payment_mode = null;
+          }
+
+          if (this.form.vehicle_id && this.form.vehicle_type) {
+            this.form.vehicle_type = {
+              vehicle_id: this.form.vehicle_id,
+              vehicle_type: this.form.vehicle_type,
+            };
+          } else {
+            this.form.vehicle_type = null;
+          }
+
+          if (this.form.fp_id && this.form.fp_type) {
+            this.form.product_type = {
+              fp_id: this.form.fp_id,
+              fp_type: this.form.fp_type,
+            };
+          } else {
+            this.form.product_type = null;
+          }
+          if (this.form.it_id && this.form.insurance_type_name) {
+            this.form.insurance_type = {
+              it_id: this.form.it_id,
+              insurance_type_name: this.form.insurance_type_name,
+            };
+          } else {
+            this.form.insurance_type;
+          }
+        }
+      } catch (err) {}
+    },
     calculateGST() {
       let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
       this.form.net_premium = net_premium;
       this.form.gst = +parseFloat(this.form.premium - net_premium).toFixed(2);
     },
+
     showModal(type) {
       let typeName = type == this.keyname.agent_name ? "Agent" : "Vehicle";
       this.$bvModal
