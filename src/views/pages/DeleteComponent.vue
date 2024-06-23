@@ -49,6 +49,21 @@ export default {
           table_name: "ms_vehicle",
           key: "vehicle_id",
         },
+        {
+          page: "payment",
+          table_name: "ms_payment_mode",
+          key: "pm_id",
+        },
+        {
+          page: "bank",
+          table_name: "ms_bank_department",
+          key: "bd_id",
+        },
+        {
+          page: "company",
+          table_name: "ms_company_type",
+          key: "ct_id",
+        },
       ],
     };
   },
