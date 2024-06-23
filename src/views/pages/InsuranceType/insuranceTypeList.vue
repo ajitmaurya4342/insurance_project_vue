@@ -41,11 +41,21 @@
         </div>
       </template>
       <template #cell(edit)="data">
-        <b-icon
-          icon="pencil-square"
-          aria-hidden="true"
-          @click="onEdit(data.item)"
-        ></b-icon>
+        <b-row>
+          <b-icon
+            icon="pencil-square"
+            aria-hidden="true"
+            font-scale="1.2"
+            class="cursor-pointer"
+            @click="onEdit(data.item)"
+          ></b-icon>
+          <DeleteComponent
+            type="insurance_type"
+            :id="data.item.it_id"
+            class="ml-1"
+            :getData="onGetAllUsers"
+          ></DeleteComponent>
+        </b-row>
       </template>
     </b-table>
 
@@ -80,6 +90,7 @@ import {
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import { GetAllInsuranceType } from "@/apiServices/DashboardServices";
+import DeleteComponent from "../DeleteComponent.vue";
 
 export default {
   components: {
@@ -94,6 +105,7 @@ export default {
     BIconArrowUp,
     BIconArrowDown,
     BPagination,
+    DeleteComponent,
   },
   data() {
     return {

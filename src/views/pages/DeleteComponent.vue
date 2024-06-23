@@ -29,6 +29,26 @@ export default {
           table_name: "users",
           key: "user_id",
         },
+        {
+          page: "fuel",
+          table_name: "ms_fuel_type",
+          key: "fuel_id",
+        },
+        {
+          page: "insurance_type",
+          table_name: "ms_insurance_type",
+          key: "it_id",
+        },
+        {
+          page: "product_type",
+          table_name: "ms_fp_tp_type",
+          key: "fp_id",
+        },
+        {
+          page: "vehicle_type",
+          table_name: "ms_vehicle",
+          key: "vehicle_id",
+        },
       ],
     };
   },
