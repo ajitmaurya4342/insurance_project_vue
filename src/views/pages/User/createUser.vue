@@ -19,6 +19,7 @@
                 }"
               >
                 <b-form-input
+                  v-if="item.type !== 'select'"
                   :id="item.key"
                   v-model="form[item.key]"
                   :state="errors.length > 0 ? false : null"
@@ -26,6 +27,15 @@
                   :placeholder="item.placeholder"
                   :type="item.type"
                 />
+                <b-form-select
+                  v-else
+                  :id="item.key"
+                  v-model="form[item.key]"
+                  :state="errors.length > 0 ? false : null"
+                  :options="typeArray"
+                  :name="item.key"
+                  :placeholder="item.placeholder"
+                ></b-form-select>
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
                     ? `${item.label} must be more than ${
@@ -100,6 +110,7 @@ export default {
         mobile_number: "",
         username: "",
         password: "",
+        user_type: "user",
       },
       required,
       layoutArray: [
@@ -145,7 +156,18 @@ export default {
           placeholder: "Enter password",
           type: "text",
         },
+        {
+          col: 6,
+          label: "User Type",
+          rules: {
+            required: true,
+          },
+          key: "user_type",
+          placeholder: "Select User Type",
+          type: "select",
+        },
       ],
+      typeArray: ["admin", "user"],
     };
   },
 

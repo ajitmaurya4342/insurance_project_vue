@@ -71,3 +71,6 @@ export const addEditSetting = async (payload) =>
 
 export const GetSetting = async (payload) =>
   Api().post(`/GetSetting.php`, payload);
+
+export const GetDashboard = async (payload) =>
+  Api().post(`/GetDashboard.php`, payload);

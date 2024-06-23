@@ -1,11 +1,28 @@
 <template>
   <div>
-    <!-- <div class="mb-1">
-      <button class="AddNewButton" @click="$router.push({ name: 'createqr' })">
-        Create New User QR
-      </button>
-    </div> -->
-    <div></div>
+    <div>
+      <hr />
+      <b-row class="mt-2" v-if="layoutArray.length">
+        <b-col sm="3" v-for="(item, index) in layoutArray" :key="index">
+          <b-card
+            @click="redirectList(item)"
+            class="cursor-pointer"
+            :header="item.heading"
+            header-text-variant="white"
+            header-tag="header"
+            header-bg-variant="primary"
+            style="max-width: 20rem"
+          >
+            <b-card-text class="p-2">
+              <b-row class="justify-content-center display-flex mt-1">
+                <feather-icon :icon="item.icon" size="30" />
+                <h2 class="pl-1">{{ item.total_count }}</h2>
+              </b-row>
+            </b-card-text>
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
 
     <hr class="m-2" />
   </div>
@@ -32,6 +49,7 @@ import {
   BNavForm,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
+import { GetDashboard } from "@/apiServices/DashboardServices";
 
 import QrcodeVue from "qrcode.vue";
 
@@ -57,16 +75,36 @@ export default {
     BNavForm,
   },
   data() {
-    return {};
+    return {
+      layoutArray: [],
+    };
   },
 
   directives: {
     Ripple,
   },
 
-  beforeMount() {},
+  beforeMount() {
+    this.getDashboardData();
+  },
 
-  methods: {},
+  methods: {
+    async getDashboardData() {
+      this.layoutArray = [];
+      const response = await GetDashboard({
+        setting_id: 1,
+      });
+      const { data } = response;
+      if (data.status && data.Records) {
+        this.layoutArray = data.Records;
+      }
+    },
+    redirectList(item) {
+      this.$router.push({
+        path: "/" + item.path,
+      });
+    },
+  },
 };
 </script>
 

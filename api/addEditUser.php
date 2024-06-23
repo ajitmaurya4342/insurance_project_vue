@@ -17,6 +17,7 @@ $username=$data->username;
 $password=$data->password;
 $name=$data->name;
 $mobile_number=$data->mobile_number;
+$user_type=$data->user_type;
 
 $table_name="users";
 $whereCheck="";
@@ -40,7 +41,8 @@ $dataArray = [
     "username" => mysqli_real_escape_string($conn,$username),
     "password" => mysqli_real_escape_string($conn,$password),
     "name" => mysqli_real_escape_string($conn,$name),
-    "mobile_number" =>mysqli_real_escape_string($conn,$mobile_number) 
+    "mobile_number" =>mysqli_real_escape_string($conn,$mobile_number),
+    "user_type" =>mysqli_real_escape_string($conn,$user_type),
 ];
 
 $msg="Record Inserted Successfully";
