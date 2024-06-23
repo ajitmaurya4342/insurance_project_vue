@@ -99,6 +99,7 @@
         <b-icon
           icon="pencil-square"
           aria-hidden="true"
+          class="cursor-pointer"
           @click="onEdit(data.item)"
           font-scale="1.5"
         ></b-icon>
@@ -106,10 +107,17 @@
         <b-icon
           icon="info-square"
           aria-hidden="true"
-          class="ml-1"
+          class="ml-1 cursor-pointer"
           @click="onView(data.item)"
           font-scale="1.5"
         ></b-icon>
+
+        <DeleteComponent
+          type="insurance_policy"
+          :id="data.item.insurance_id"
+          class="ml-1"
+          :getData="onGetAllUsers"
+        ></DeleteComponent>
       </template>
     </b-table>
 
@@ -177,6 +185,7 @@ import {
   GetInsurancePolicyList,
 } from "@/apiServices/DashboardServices";
 import moment from "moment";
+import DeleteComponent from "../DeleteComponent.vue";
 
 export default {
   components: {
@@ -191,6 +200,7 @@ export default {
     BIconArrowUp,
     BIconArrowDown,
     BPagination,
+    DeleteComponent,
   },
   data() {
     return {

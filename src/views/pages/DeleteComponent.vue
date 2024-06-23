@@ -3,7 +3,7 @@
     icon="trash"
     aria-hidden="true"
     class="cursor-pointer"
-    font-scale="1.2"
+    :font-scale="type == 'insurance_policy' ? 1.5 : 1.2"
     v-if="type && id"
     @click="deleteData"
   ></b-icon>
@@ -73,6 +73,11 @@ export default {
           page: "agent",
           table_name: "ms_agent",
           key: "agent_id",
+        },
+        {
+          page: "insurance_policy",
+          table_name: "ms_insurance_policy",
+          key: "insurance_id",
         },
       ],
     };

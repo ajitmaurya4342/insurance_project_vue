@@ -26,8 +26,8 @@ if($check_key=="agent_id"){
     $chek_more = " or code_id='".$id."'"; 
 }
 
-
 $checkTable_name="ms_insurance_policy";
+if($checkTable_name !=$table_name){
 $sql_check="Select ".$check_key." From ".$checkTable_name." where ".$check_key."='".$id."'" . $chek_more;
 
 $result_check = mysqli_query($conn, $sql_check);
@@ -39,6 +39,8 @@ if($row_count_check>0){
         "message"=>"Data Exist in Insurance. Cannot Delete",
     ]);
     exit;
+}
+
 }
 
 $sql_count="Delete From ".$table_name." where ".$key."='".$id."'";
