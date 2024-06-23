@@ -342,6 +342,7 @@ export default {
           ? this.from_date
           : moment().add("-100", "days").format("YYYY-MM-DD"),
         to_date: this.to_date ? this.to_date : moment().format("YYYY-MM-DD"),
+        search: this.search,
       };
       let appendUrl = "";
       Object.keys(obj).map((z) => {

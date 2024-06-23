@@ -62,6 +62,6 @@ if($ct_id){
 $file_name = "Insurance_".$extra_file_name.$current_date_time.".xlsx";
 
 $xlsx = Shuchkin\SimpleXLSXGen::fromArray( $books ,$name="MySheet")->setDefaultFontSize(12);
-$xlsx->autoFilter('A1:S1');
+$xlsx->autoFilter('A1:V1');
 $xlsx->downloadAs($file_name);
 
