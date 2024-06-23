@@ -50,6 +50,7 @@
             @click="onEdit(data.item)"
           ></b-icon>
           <DeleteComponent
+            v-if="data.item.user_id > 1"
             type="user"
             :id="data.item.user_id"
             class="ml-1"

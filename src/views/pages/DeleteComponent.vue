@@ -64,6 +64,16 @@ export default {
           table_name: "ms_company_type",
           key: "ct_id",
         },
+        {
+          page: "customer",
+          table_name: "ms_customer",
+          key: "cust_id",
+        },
+        {
+          page: "agent",
+          table_name: "ms_agent",
+          key: "agent_id",
+        },
       ],
     };
   },
