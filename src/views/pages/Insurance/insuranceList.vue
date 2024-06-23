@@ -52,11 +52,27 @@
         </b-input-group>
       </b-col>
 
-      <b-col sm="8" class="text-right pr-4">
+      <b-col sm="6" class="text-right">
         <b-button variant="outline-primary" @click="addUser">
-          <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add
-          Insurance</b-button
+          <b-icon icon="plus-circle" aria-hidden="true"></b-icon>
+          Add Insurance</b-button
         >
+      </b-col>
+      <b-col sm="2" class="text-right mt-2" v-if="allUserList.length">
+        <u>
+          <div
+            class="d-flex align-items-center cursor-pointer"
+            @click="excelDownload"
+          >
+            <b-icon
+              icon="file-earmark-excel-fill"
+              aria-hidden="true"
+              font-scale="1.5"
+              style="color: green"
+            ></b-icon>
+            <div style="margin-left: 2px; color: green">Download Excel</div>
+          </div>
+        </u>
       </b-col>
     </b-row>
 
@@ -318,6 +334,23 @@ export default {
   },
 
   methods: {
+    excelDownload() {
+      let url = process.env.VUE_APP_BASEURL + "/createInsurancePolicy.php?";
+      let obj = {
+        ct_id: this.company && this.company.ct_id ? this.company.ct_id : "",
+        from_date: this.from_date
+          ? this.from_date
+          : moment().add("-100", "days").format("YYYY-MM-DD"),
+        to_date: this.to_date ? this.to_date : moment().format("YYYY-MM-DD"),
+      };
+      let appendUrl = "";
+      Object.keys(obj).map((z) => {
+        if (obj[z]) {
+          appendUrl += z + "=" + obj[z] + "&";
+        }
+      });
+      window.open(url + appendUrl, "_blank");
+    },
     reset() {
       this.company = "";
       this.from_date = "";
