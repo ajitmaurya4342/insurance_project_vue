@@ -2,7 +2,45 @@
   <div>
     <hr />
     <b-row class="mt-1">
-      <b-col sm="5">
+      <b-col sm="4" class="mt-1">
+        <b-form-group label="Company">
+          <multiselect
+            v-model="company"
+            track-by="ct_id"
+            label="company_type_name"
+            placeholder="Select Company"
+            :options="company_array"
+            @input="onGetAllUsers"
+          />
+        </b-form-group>
+      </b-col>
+      <b-col sm="3" class="mt-1">
+        <b-form-group label="From Date">
+          <b-form-input
+            v-model="from_date"
+            type="date"
+            placeholder="Select RID"
+            @input="changeToDate"
+          ></b-form-input>
+        </b-form-group>
+      </b-col>
+      <b-col sm="3" class="mt-1">
+        <b-form-group label="To Date">
+          <b-form-input
+            v-model="to_date"
+            type="date"
+            placeholder="Select RID"
+            :disabled="!from_date"
+            :min="from_date"
+            @input="onGetAllUsers"
+          ></b-form-input>
+        </b-form-group>
+      </b-col>
+      <b-col sm="2" class="mt-1 pt-3 cursor-pointer" @click="reset">
+        <u><h5>Reset All Option</h5></u>
+      </b-col>
+
+      <b-col sm="4">
         <b-input-group>
           <b-form-input
             placeholder="Search Insurance"
@@ -14,7 +52,7 @@
         </b-input-group>
       </b-col>
 
-      <b-col sm="7" class="text-right pr-4">
+      <b-col sm="8" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add
           Insurance</b-button
@@ -40,6 +78,22 @@
           <b-spinner class="align-middle"></b-spinner>
           <strong>Loading...</strong>
         </div>
+      </template>
+      <template #cell(amount)="data">
+        <b-row
+          v-for="(item2, index) in Object.keys(keyNameAmount)"
+          :key="index"
+        >
+          <h6>
+            {{ keyNameAmount[item2] }}
+            <h5>{{ data.item[item2] || "-" }}</h5>
+          </h6>
+
+          <!-- <b-col sm="1">
+            <h5>:</h5>
+          </b-col>
+          -->
+        </b-row>
       </template>
       <template #cell(edit)="data">
         <b-icon
@@ -118,7 +172,10 @@ import {
   BPagination,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-import { GetInsurancePolicyList } from "@/apiServices/DashboardServices";
+import {
+  GetAllCompanyType,
+  GetInsurancePolicyList,
+} from "@/apiServices/DashboardServices";
 import moment from "moment";
 
 export default {
@@ -138,6 +195,15 @@ export default {
   data() {
     return {
       allUserList: [],
+      company_array: [],
+      from_date: "",
+      to_date: "",
+      company: "",
+      keyNameAmount: {
+        premium: "Premium:",
+        gst: "GST:",
+        net_premium: "Net:",
+      },
       keyName: {
         rid: "RID",
         company_type_name: "Company Name",
@@ -168,6 +234,13 @@ export default {
             return value ? moment(value).format("DD MMM, YYYY") : "-";
           },
           label: "RID",
+        },
+        {
+          key: "company_type_name",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+          label: "Company Name",
         },
         {
           key: "vehicle_no",
@@ -207,26 +280,9 @@ export default {
           label: "Agent Name & contact",
         },
         {
-          key: "premium",
-          formatter: (value, key, item) => {
-            return value ? parseFloat(value).toFixed(2) : "-";
-          },
-          label: "Premium",
-        },
-        {
-          key: "gst",
-          formatter: (value, key, item) => {
-            return value ? parseFloat(value).toFixed(2) : "-";
-          },
-          label: "GST",
-        },
-        {
-          key: "net_premium",
-          formatter: (value, key, item) => {
-            return value ? parseFloat(value).toFixed(2) : "";
-            // return value ? String(value).toFixed(2) : 0;
-          },
-          label: "Net Premium",
+          key: "amount",
+
+          label: "Amount",
         },
         {
           key: "edit",
@@ -248,9 +304,23 @@ export default {
 
   beforeMount() {
     this.onGetAllUsers();
+    this.getCompanyList();
   },
 
   methods: {
+    reset() {
+      this.company = "";
+      this.from_date = "";
+      this.to_date = "";
+      this.search = "";
+      this.onGetAllUsers();
+    },
+    changeToDate() {
+      if (!this.to_date || moment(this.from_date).isAfter(this.to_date)) {
+        this.to_date = this.from_date;
+      }
+      this.onGetAllUsers();
+    },
     onView(item) {
       this.selectedRow = item;
 
@@ -287,6 +357,9 @@ export default {
           search: this.search,
           limit: this.perPage,
           currentPage: this.currentPage,
+          ct_id: this.company && this.company.ct_id ? this.company.ct_id : "",
+          from_date: this.from_date ? this.from_date : "",
+          to_date: this.to_date ? this.to_date : "",
         });
         const { data } = response;
         if (data.status) {
@@ -294,6 +367,22 @@ export default {
           if (this.currentPage == 1) {
             this.totalRows = data.total_rows;
           }
+        }
+        this.isBusy = false;
+      } catch (err) {}
+    },
+    async getCompanyList() {
+      try {
+        this.allUserList = [];
+        this.isBusy = true;
+        const response = await GetAllCompanyType({
+          search: this.search,
+          limit: this.perPage,
+          currentPage: this.currentPage,
+        });
+        const { data } = response;
+        if (data.status) {
+          this.company_array = data.Records;
         }
         this.isBusy = false;
       } catch (err) {}
