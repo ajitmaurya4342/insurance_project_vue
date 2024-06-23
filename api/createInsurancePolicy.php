@@ -36,10 +36,12 @@ $number_array=["premium","gst","net_premium","idv"];
 
 include("GetInsurancePolicyDataAll.php");
 
-foreach($getQueryData as $value){
+foreach($getQueryData as $idx=>$value){
     $simple_array=[];
-  foreach($key_name_array as $keyName){
-    if(in_array($keyName,$number_array)){
+  foreach($key_name_array as $index2=>$keyName){
+    if($index2==0){
+        $finalValue=$idx+1;
+    }else if(in_array($keyName,$number_array)){
         $finalValue=$value[$keyName]? (float) number_format((float) $value[$keyName],2, '.', ''):"-";
     }else{
         $finalValue=$value[$keyName]?$value[$keyName]:"-";
