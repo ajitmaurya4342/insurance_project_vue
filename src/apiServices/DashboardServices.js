@@ -74,3 +74,6 @@ export const GetSetting = async (payload) =>
 
 export const GetDashboard = async (payload) =>
   Api().post(`/GetDashboard.php`, payload);
+
+export const DeleteData = async (payload) =>
+  Api().post(`/GetDeleteData.php`, payload);
