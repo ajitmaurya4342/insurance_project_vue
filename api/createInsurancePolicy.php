@@ -34,6 +34,7 @@ $key_name_array=[
 ];
 
 $number_array=["premium","gst","net_premium","idv"];
+$date_array=["policy_date","rid"];
 
 include("GetInsurancePolicyDataAll.php");
 
@@ -44,6 +45,9 @@ foreach($getQueryData as $idx=>$value){
         $finalValue=$idx+1;
     }else if(in_array($keyName,$number_array)){
         $finalValue=$value[$keyName]? (float) number_format((float) $value[$keyName],2, '.', ''):"-";
+    }else if(in_array($keyName,$date_array)){
+      echo $keyName;
+      $finalValue=$value[$keyName]? date("Y-m-d",strtotime($value[$keyName])):"-";
     }else{
         $finalValue=$value[$keyName]?$value[$keyName]:"-";
     }
