@@ -390,6 +390,30 @@
           </b-col>
 
           <b-col sm="3" class="mt-1">
+            <b-form-group label="Net Premium" :label-for="keyname.net_premium">
+              <validation-provider #default="{ errors }" name="Net Premium">
+                <b-form-input
+                  :id="keyname.net_premium"
+                  :name="keyname.net_premium"
+                  :state="errors.length > 0 ? false : null"
+                  v-model="form.net_premium"
+                  type="number"
+                  :disabled="true"
+                  placeholder="Enter Net Premium"
+                ></b-form-input>
+
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${
+                        item.rules.min - 1
+                      } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+
+          <b-col sm="2" class="mt-1">
             <b-form-group
               :label="'GST (' + (gst * 100 - 100) + '%)'"
               :label-for="keyname.gst"
@@ -416,17 +440,16 @@
             </b-form-group>
           </b-col>
 
-          <b-col sm="3" class="mt-1">
-            <b-form-group label="Net Premium" :label-for="keyname.net_premium">
-              <validation-provider #default="{ errors }" name="Net Premium">
+          <b-col sm="2" class="mt-1">
+            <b-form-group label="IDV" :label-for="keyname.idv">
+              <validation-provider #default="{ errors }" name="IDV">
                 <b-form-input
-                  :id="keyname.net_premium"
-                  :name="keyname.net_premium"
+                  :id="keyname.idv"
+                  :name="keyname.idv"
                   :state="errors.length > 0 ? false : null"
-                  v-model="form.net_premium"
+                  v-model="form.idv"
                   type="number"
-                  :disabled="true"
-                  placeholder="Enter Net Premium"
+                  placeholder="Enter IDV"
                 ></b-form-input>
 
                 <small class="text-danger">{{
@@ -440,16 +463,16 @@
             </b-form-group>
           </b-col>
 
-          <b-col sm="3" class="mt-1">
-            <b-form-group label="IDV" :label-for="keyname.idv">
-              <validation-provider #default="{ errors }" name="IDV">
+          <b-col sm="2" class="mt-1">
+            <b-form-group label="GVW" :label-for="keyname.gvw">
+              <validation-provider #default="{ errors }" name="GVW">
                 <b-form-input
-                  :id="keyname.idv"
-                  :name="keyname.idv"
+                  :id="keyname.gvw"
+                  :name="keyname.gvw"
                   :state="errors.length > 0 ? false : null"
-                  v-model="form.idv"
+                  v-model="form.gvw"
                   type="number"
-                  placeholder="Enter IDV"
+                  placeholder="Enter GVW"
                 ></b-form-input>
 
                 <small class="text-danger">{{
@@ -675,6 +698,7 @@ export default {
         gst: "gst",
         net_premium: "net_premium",
         idv: "idv",
+        gvw: "gvw",
         payment_mode: "payment_mode",
         vehicle_type: "vehicle_type",
         product_type: "product_type",
@@ -697,6 +721,7 @@ export default {
         gst: "",
         net_premium: "",
         idv: "",
+        gvw: "",
         payment_mode: "",
         vehicle_type: "",
         product_type: "",

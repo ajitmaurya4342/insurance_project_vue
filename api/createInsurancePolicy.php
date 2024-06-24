@@ -3,7 +3,7 @@ include("SimpleXLSXGen.php");
 include("connection.php");
 
 $books = [
-    ['<center><b><style bgcolor="#6fa8dc" color="#000000">SR. No</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Company Name</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">RID</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">REGISTRATION NO.</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">NAME</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">POLICY NO</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">HP</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">AGENT</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">SELF CONTACT</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">DATE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PREMIUM</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">GST</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">NET PREMIUM</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">IDV</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">FUEL TYPE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">CODE ID</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PAYMENT MODE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">TYPES OF VEHICLS</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">FP/TP</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PRIVATE/COMMERCIAL</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Created By</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Created Time</style></b></center>'],
+    ['<center><b><style bgcolor="#6fa8dc" color="#000000">SR. No</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Company Name</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">RID</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">REGISTRATION NO.</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">NAME</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">POLICY NO</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">HP</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">AGENT</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">SELF CONTACT</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">DATE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PREMIUM</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">GST</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">NET PREMIUM</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">IDV</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">FUEL TYPE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">CODE ID</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PAYMENT MODE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">GVW</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">TYPES OF VEHICLS</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">FP/TP</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PRIVATE/COMMERCIAL</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Created By</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Created Time</style></b></center>'],
 ];
 
 $data = (object) ($_REQUEST);
@@ -26,6 +26,7 @@ $key_name_array=[
     "fuel_type_name",
     "code_agent",
     "pm_name",
+    "gvw",
     "vehicle_type",
     "fp_type",
     "insurance_type_name",
@@ -33,7 +34,7 @@ $key_name_array=[
     "created_at",
 ];
 
-$number_array=["premium","gst","net_premium","idv"];
+$number_array=["premium","gst","net_premium","idv","gvw"];
 $date_array=["policy_date","rid"];
 
 include("GetInsurancePolicyDataAll.php");
@@ -66,6 +67,6 @@ if($ct_id){
 $file_name = "Insurance_".$extra_file_name.$current_date_time.".xlsx";
 
 $xlsx = Shuchkin\SimpleXLSXGen::fromArray( $books ,$name="MySheet")->setDefaultFontSize(12);
-$xlsx->autoFilter('A1:V1');
+$xlsx->autoFilter('A1:W1');
 $xlsx->downloadAs($file_name);
 

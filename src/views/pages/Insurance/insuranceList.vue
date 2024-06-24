@@ -246,6 +246,7 @@ export default {
         gst: "GST",
         net_premium: "Net Premium",
         idv: "IDV",
+        gvw: "GVW",
         pm_name: "Payment Mode",
         vehicle_type: "Vehicle Type",
         fp_type: "Product Type",
