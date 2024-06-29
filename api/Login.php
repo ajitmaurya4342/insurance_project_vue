@@ -26,7 +26,7 @@ $token="";
 if(count($getQueryData)>0){
     $msg="Login Successfully";
     $status=true;
-    $token=base64_encode($getQueryData[0]["user_id"]."=====".$getQueryData[0]["username"]."=====$access_token_created");
+    $token=base64_encode($getQueryData[0]["user_id"]."=====".$getQueryData[0]["username"]."=====access_token_created");
 }else{
     $msg="Invalid Credential";
 }

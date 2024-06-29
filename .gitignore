@@ -32,4 +32,4 @@ yarn-error.log*
 # src/config/index.js
 
 # Other files
-# package-lock.json
+package-lock.json
