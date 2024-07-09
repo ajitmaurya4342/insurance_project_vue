@@ -40,7 +40,7 @@ $data=[
     "status"=>true,
     "message"=>"Payment List",
     "Records"=>$getQueryData,
-    "total_rows"=>round($total_rows[0]["total_rows"])
+    "total_rows"=>round(@$total_rows[0]["total_rows"])
 ];
 
 echo json_encode($data);

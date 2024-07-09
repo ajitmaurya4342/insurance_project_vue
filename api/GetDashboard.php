@@ -33,7 +33,7 @@ $data[]=$insurance_array;
 $total_rows=[];
 foreach ($data as $key => $val){
     $total_rows=getQuery($conn,$val["key"],["count(*) as total_rows"],"");
-    $data[$key]["total_count"] = round($total_rows[0]["total_rows"]);
+    $data[$key]["total_count"] = round(@$total_rows[0]["total_rows"]);
 }
 
 $data=[

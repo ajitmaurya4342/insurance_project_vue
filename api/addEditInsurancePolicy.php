@@ -34,6 +34,12 @@ $pm_id=$data->pm_id;
 $vehicle_id=$data->vehicle_id;
 $fp_id=$data->fp_id;
 $it_id=$data->it_id;
+$purchase_rate=$data->purchase_rate;
+$company_rate=$data->company_rate;
+$agent_rate=$data->agent_rate;
+$code_rate=$data->code_rate;
+$profit_rate=$data->profit_rate;
+$is_gst=$data->is_gst;
 
 $table_name="ms_insurance_policy";
 $whereCheck="";
@@ -73,7 +79,13 @@ $dataArray = [
     "pm_id" => mysqli_real_escape_string($conn,$pm_id),
     "vehicle_id" => mysqli_real_escape_string($conn,$vehicle_id),
     "fp_id" => mysqli_real_escape_string($conn,$fp_id),
-    "it_id" => mysqli_real_escape_string($conn,$it_id)
+    "it_id" => mysqli_real_escape_string($conn,$it_id),
+    "is_gst" => mysqli_real_escape_string($conn,$is_gst),
+    "purchase_rate" => mysqli_real_escape_string($conn,$purchase_rate),
+    "company_rate" => mysqli_real_escape_string($conn,$company_rate),
+    "agent_rate" => mysqli_real_escape_string($conn,$agent_rate),
+    "code_rate" => mysqli_real_escape_string($conn,$code_rate),
+    "profit_rate" => mysqli_real_escape_string($conn,$profit_rate),
 ];
 
 $msg="Record Inserted Successfully";

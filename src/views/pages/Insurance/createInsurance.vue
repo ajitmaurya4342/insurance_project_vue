@@ -7,20 +7,13 @@
           <b-col sm="6" class="mt-1">
             <b-form-group label="RID" :label-for="keyname.rid">
               <validation-provider #default="{ errors }" name=" RID">
-                <b-form-input
-                  :id="keyname.rid"
-                  :name="keyname.rid"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.rid"
-                  type="date"
-                  placeholder="Select RID"
-                ></b-form-input>
+                <b-form-input :id="keyname.rid" :name="keyname.rid" :state="errors.length > 0 ? false : null"
+                  v-model="form.rid" type="date" placeholder="Select RID"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -28,69 +21,35 @@
           </b-col>
           <b-col sm="6" class="mt-1">
             <b-form-group label="Company" :label-for="keyname.company">
-              <validation-provider
-                #default="{ errors }"
-                name="Company"
-                :rules="{
-                  required: true,
-                }"
-              >
-                <multiselect
-                  :id="keyname.company"
-                  :name="keyname.company"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.company"
-                  track-by="ct_id"
-                  label="company_type_name"
-                  placeholder="Select Company"
-                  :options="company_array"
-                  @input="changeCompany"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+              <validation-provider #default="{ errors }" name="Company" :rules="{
+                required: true,
+              }">
+                <multiselect :id="keyname.company" :name="keyname.company" :state="errors.length > 0 ? false : null"
+                  v-model="form.company" track-by="ct_id" label="company_type_name" placeholder="Select Company"
+                  :options="company_array" @input="changeCompany" :searchable="true" :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
             </b-form-group>
           </b-col>
           <b-col sm="6" class="mt-1">
-            <b-form-group
-              label="Registration No"
-              :label-for="keyname.reg_no"
-              class="m-0"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Registration No"
-                :rules="{
-                  required: true,
-                }"
-              >
-                <multiselect
-                  :id="keyname.reg_no"
-                  :name="keyname.reg_no"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.reg_no"
-                  track-by="cust_id"
-                  label="vehicle_no"
-                  placeholder="Select Vehicle"
-                  :options="registration_array"
-                  @input="changeVehicle"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+            <b-form-group label="Registration No" :label-for="keyname.reg_no" class="m-0">
+              <validation-provider #default="{ errors }" name="Registration No" :rules="{
+                required: true,
+              }">
+                <multiselect :id="keyname.reg_no" :name="keyname.reg_no" :state="errors.length > 0 ? false : null"
+                  v-model="form.reg_no" track-by="cust_id" label="vehicle_no" placeholder="Select Vehicle"
+                  :options="registration_array" @input="changeVehicle" :searchable="true" :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -98,31 +57,17 @@
           </b-col>
 
           <b-col sm="6" class="mt-1">
-            <b-form-group
-              label="Customer Name"
-              :label-for="keyname.reg_name"
-              class="m-0"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Customer Name"
-                :rules="{
-                  required: true,
-                }"
-              >
-                <b-form-input
-                  :id="keyname.reg_name"
-                  :name="keyname.reg_name"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.reg_name"
-                  placeholder="Enter Customer Name"
-                ></b-form-input>
+            <b-form-group label="Customer Name" :label-for="keyname.reg_name" class="m-0">
+              <validation-provider #default="{ errors }" name="Customer Name" :rules="{
+                required: true,
+              }">
+                <b-form-input :id="keyname.reg_name" :name="keyname.reg_name" :state="errors.length > 0 ? false : null"
+                  v-model="form.reg_name" placeholder="Enter Customer Name"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -130,37 +75,24 @@
           </b-col>
 
           <b-col sm="12" class="m-0 mb-1">
-            <h6
-              @click="showModal(keyname.reg_no)"
-              lass="m-0"
-              style="color: #1f307a; cursor: pointer"
-            >
+            <h6 @click="showModal(keyname.reg_no)" lass="m-0" style="color: #1f307a; cursor: pointer">
               <u>Create New Vehicle</u>
             </h6>
           </b-col>
 
           <b-col sm="6" class="mt-1">
             <b-form-group label="Policy No" :label-for="keyname.policy_no">
-              <validation-provider
-                #default="{ errors }"
-                name="Policy No"
-                :rules="{
-                  required: true,
-                }"
-              >
-                <b-form-input
-                  :id="keyname.policy_no"
-                  :name="keyname.policy_no"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.policy_no"
-                  placeholder="Enter Policy No"
-                ></b-form-input>
+              <validation-provider #default="{ errors }" name="Policy No" :rules="{
+                required: true,
+              }">
+                <b-form-input :id="keyname.policy_no" :name="keyname.policy_no"
+                  :state="errors.length > 0 ? false : null" v-model="form.policy_no"
+                  placeholder="Enter Policy No"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -169,29 +101,15 @@
 
           <b-col sm="6" class="mt-1">
             <b-form-group label="Bank Name (HP)" :label-for="keyname.bank_name">
-              <validation-provider
-                #default="{ errors }"
-                name="Bank Name"
-                :rules="{}"
-              >
-                <multiselect
-                  :id="keyname.bank_name"
-                  :name="keyname.bank_name"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.bank_name"
-                  track-by="bd_id"
-                  label="bank_dept_name"
-                  placeholder="Select Bank"
-                  :options="bank_array"
-                  :searchable="false"
-                  :allow-empty="true"
-                />
+              <validation-provider #default="{ errors }" name="Bank Name" :rules="{}">
+                <multiselect :id="keyname.bank_name" :name="keyname.bank_name" :state="errors.length > 0 ? false : null"
+                  v-model="form.bank_name" track-by="bd_id" label="bank_dept_name" placeholder="Select Bank"
+                  :options="bank_array" :searchable="false" :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -199,35 +117,17 @@
           </b-col>
 
           <b-col sm="6" class="mt-1">
-            <b-form-group
-              label="Agent Name"
-              :label-for="keyname.agent_name"
-              class="m-0"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Agent Name"
-                :rules="{ required: true }"
-              >
-                <multiselect
-                  :id="keyname.agent_name"
-                  :name="keyname.agent_name"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.agent_name"
-                  track-by="agent_id"
-                  label="agent_name"
-                  placeholder="Select Agent"
-                  :options="agent_array"
-                  :searchable="true"
-                  :allow-empty="true"
-                  @input="changeAgent"
-                />
+            <b-form-group label="Agent Name" :label-for="keyname.agent_name" class="m-0">
+              <validation-provider #default="{ errors }" name="Agent Name" :rules="{ required: true }">
+                <multiselect :id="keyname.agent_name" :name="keyname.agent_name"
+                  :state="errors.length > 0 ? false : null" v-model="form.agent_name" track-by="agent_id"
+                  label="agent_name" placeholder="Select Agent" :options="agent_array" :searchable="true"
+                  :allow-empty="true" @input="changeAgent" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -235,31 +135,18 @@
           </b-col>
 
           <b-col sm="3" class="mt-1">
-            <b-form-group
-              label="Agent Contact"
-              :label-for="keyname.agent_no"
-              class="m-0"
-            >
+            <b-form-group label="Agent Contact" :label-for="keyname.agent_no" class="m-0">
               <validation-provider #default="{ errors }" name="Agent Contact">
-                <b-form-input
-                  :id="keyname.agent_no"
-                  :name="keyname.agent_no"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.agent_no"
-                  type="number"
-                  placeholder="Enter Agent Contact"
-                  :disabled="
-                    form.agent_name && form.agent_name.agent_name == 'Self'
-                      ? false
-                      : true
-                  "
-                ></b-form-input>
+                <b-form-input :id="keyname.agent_no" :name="keyname.agent_no" :state="errors.length > 0 ? false : null"
+                  v-model="form.agent_no" type="number" placeholder="Enter Agent Contact" :disabled="form.agent_name && form.agent_name.agent_name == 'Self'
+                    ? false
+                    : true
+                    "></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -267,26 +154,16 @@
           </b-col>
 
           <b-col sm="3" class="mt-1">
-            <b-form-group
-              label="Policy Date"
-              :label-for="keyname.policy_date"
-              class="m-0"
-            >
+            <b-form-group label="Policy Date" :label-for="keyname.policy_date" class="m-0">
               <validation-provider #default="{ errors }" name=" Policy Date">
-                <b-form-input
-                  :id="keyname.policy_date"
-                  :name="keyname.policy_date"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.policy_date"
-                  type="date"
-                  placeholder="Select Policy Date"
-                ></b-form-input>
+                <b-form-input :id="keyname.policy_date" :name="keyname.policy_date"
+                  :state="errors.length > 0 ? false : null" v-model="form.policy_date" type="date"
+                  placeholder="Select Policy Date"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -294,11 +171,7 @@
           </b-col>
 
           <b-col sm="12" class="m-0 mb-1">
-            <h6
-              @click="showModal(keyname.agent_name)"
-              lass="m-0"
-              style="color: #1f307a; cursor: pointer"
-            >
+            <h6 @click="showModal(keyname.agent_name)" lass="m-0" style="color: #1f307a; cursor: pointer">
               <u>Create New Agent</u>
             </h6>
           </b-col>
@@ -306,24 +179,14 @@
           <b-col sm="6" class="">
             <b-form-group label="Fuel Type" :label-for="keyname.fuel_type">
               <validation-provider #default="{ errors }" name="Fuel Type">
-                <multiselect
-                  :id="keyname.fuel_type"
-                  :name="keyname.fuel_type"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.fuel_type"
-                  track-by="fuel_id"
-                  label="fuel_type_name"
-                  placeholder="Select Fuel Type"
-                  :options="fuel_type_array"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+                <multiselect :id="keyname.fuel_type" :name="keyname.fuel_type" :state="errors.length > 0 ? false : null"
+                  v-model="form.fuel_type" track-by="fuel_id" label="fuel_type_name" placeholder="Select Fuel Type"
+                  :options="fuel_type_array" :searchable="true" :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -332,81 +195,17 @@
           <b-col sm="6" class="">
             <b-form-group label="Code Id" :label-for="keyname.code_id">
               <validation-provider #default="{ errors }" name="Code ID">
-                <multiselect
-                  :id="keyname.code_id"
-                  :name="keyname.code_id"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.code_id"
-                  track-by="agent_id"
-                  label="agent_name"
-                  placeholder="Select Code Id"
-                  :options="
-                    agent_array.filter((z) => {
-                      return z.agent_name !== 'Self';
-                    })
-                  "
-                  :searchable="true"
-                  :allow-empty="true"
-                  :disabled="
-                    form.company && form.company.seller_type !== 'Self'
-                      ? false
-                      : true
-                  "
-                />
+                <multiselect :id="keyname.code_id" :name="keyname.code_id" :state="errors.length > 0 ? false : null"
+                  v-model="form.code_id" track-by="agent_id" label="agent_name" placeholder="Select Code Id"
+                  :options="codeIdList" :searchable="true" :allow-empty="true" :disabled="form.company && form.company.seller_type !== 'Self'
+                    ? false
+                    : true
+                    " />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
-                    : errors[0]
-                }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <b-col sm="3" class="mt-1">
-            <b-form-group label="Premium" :label-for="keyname.premium">
-              <validation-provider #default="{ errors }" name="Premium">
-                <b-form-input
-                  :id="keyname.premium"
-                  :name="keyname.premium"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.premium"
-                  @input="calculateGST"
-                  type="number"
-                  placeholder="Enter Premium"
-                ></b-form-input>
-
-                <small class="text-danger">{{
-                  errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
-                    : errors[0]
-                }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
-
-          <b-col sm="3" class="mt-1">
-            <b-form-group label="Net Premium" :label-for="keyname.net_premium">
-              <validation-provider #default="{ errors }" name="Net Premium">
-                <b-form-input
-                  :id="keyname.net_premium"
-                  :name="keyname.net_premium"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.net_premium"
-                  type="number"
-                  :disabled="true"
-                  placeholder="Enter Net Premium"
-                ></b-form-input>
-
-                <small class="text-danger">{{
-                  errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -414,26 +213,66 @@
           </b-col>
 
           <b-col sm="2" class="mt-1">
-            <b-form-group
-              :label="'GST (' + (gst * 100 - 100) + '%)'"
-              :label-for="keyname.gst"
-            >
-              <validation-provider #default="{ errors }" name="GST">
-                <b-form-input
-                  :id="keyname.gst"
-                  :name="keyname.gst"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.gst"
-                  :disabled="true"
-                  type="number"
-                  placeholder="Enter GST"
-                ></b-form-input>
+            <b-form-group label="Premium" :label-for="keyname.premium">
+              <validation-provider #default="{ errors }" name="Premium">
+                <b-form-input :id="keyname.premium" :name="keyname.premium" :state="errors.length > 0 ? false : null"
+                  v-model="form.premium" @input="calculateGST" type="number" placeholder="Enter Premium"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+
+          <b-col sm="2" class="mt-1">
+            <b-form-group label="GST Type" :label-for="keyname.net_premium">
+              <validation-provider #default="{ errors }" name="Select GST">
+                <multiselect :id="keyname.is_gst" :name="keyname.is_gst"
+                  :state="errors.length > 0 ? false : null" v-model="form.is_gst" 
+                  placeholder="Select GST" :options="['GST','NO GST']" 
+                  :allow-empty="false" />
+
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+
+          <b-col sm="2" class="mt-1">
+            <b-form-group label="Net Premium" :label-for="keyname.net_premium">
+              <validation-provider #default="{ errors }" name="Net Premium">
+                <b-form-input :id="keyname.net_premium" :name="keyname.net_premium"
+                  :state="errors.length > 0 ? false : null" v-model="form.net_premium" type="number" :disabled="form.is_gst==='GST'"
+                  placeholder="Enter Net Premium"></b-form-input>
+
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+
+          <b-col sm="2" class="mt-1">
+            <b-form-group :label="'GST (' + (gst * 100 - 100) + '%)'" :label-for="keyname.gst">
+              <validation-provider #default="{ errors }" name="GST">
+                <b-form-input :id="keyname.gst" :name="keyname.gst" :state="errors.length > 0 ? false : null"
+                  v-model="form.gst" :disabled="form.is_gst==='GST'" type="number" placeholder="Enter GST"></b-form-input>
+
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -443,20 +282,13 @@
           <b-col sm="2" class="mt-1">
             <b-form-group label="IDV" :label-for="keyname.idv">
               <validation-provider #default="{ errors }" name="IDV">
-                <b-form-input
-                  :id="keyname.idv"
-                  :name="keyname.idv"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.idv"
-                  type="number"
-                  placeholder="Enter IDV"
-                ></b-form-input>
+                <b-form-input :id="keyname.idv" :name="keyname.idv" :state="errors.length > 0 ? false : null"
+                  v-model="form.idv" type="number" placeholder="Enter IDV"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -466,20 +298,13 @@
           <b-col sm="2" class="mt-1">
             <b-form-group label="GVW" :label-for="keyname.gvw">
               <validation-provider #default="{ errors }" name="GVW">
-                <b-form-input
-                  :id="keyname.gvw"
-                  :name="keyname.gvw"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.gvw"
-                  type="number"
-                  placeholder="Enter GVW"
-                ></b-form-input>
+                <b-form-input :id="keyname.gvw" :name="keyname.gvw" :state="errors.length > 0 ? false : null"
+                  v-model="form.gvw" type="number" placeholder="Enter GVW"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -487,29 +312,17 @@
           </b-col>
 
           <b-col sm="3" class="">
-            <b-form-group
-              label="Payment Mode"
-              :label-for="keyname.payment_mode"
-            >
+            <b-form-group label="Payment Mode" :label-for="keyname.payment_mode">
               <validation-provider #default="{ errors }" name="Payment Mode">
-                <multiselect
-                  :id="keyname.payment_mode"
-                  :name="keyname.payment_mode"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.payment_mode"
-                  track-by="pm_id"
-                  label="pm_name"
-                  placeholder="Select Payment Mode"
-                  :options="payment_mode_array"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+                <multiselect :id="keyname.payment_mode" :name="keyname.payment_mode"
+                  :state="errors.length > 0 ? false : null" v-model="form.payment_mode" track-by="pm_id" label="pm_name"
+                  placeholder="Select Payment Mode" :options="payment_mode_array" :searchable="true"
+                  :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -517,29 +330,17 @@
           </b-col>
 
           <b-col sm="3" class="">
-            <b-form-group
-              label="Vehicle Type"
-              :label-for="keyname.vehicle_type"
-            >
+            <b-form-group label="Vehicle Type" :label-for="keyname.vehicle_type">
               <validation-provider #default="{ errors }" name="Vehicle Type">
-                <multiselect
-                  :id="keyname.vehicle_type"
-                  :name="keyname.vehicle_type"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.vehicle_type"
-                  track-by="vehicle_id"
-                  label="vehicle_type"
-                  placeholder="Select Vehicle Type"
-                  :options="vehicle_type_array"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+                <multiselect :id="keyname.vehicle_type" :name="keyname.vehicle_type"
+                  :state="errors.length > 0 ? false : null" v-model="form.vehicle_type" track-by="vehicle_id"
+                  label="vehicle_type" placeholder="Select Vehicle Type" :options="vehicle_type_array"
+                  :searchable="true" :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -547,29 +348,17 @@
           </b-col>
 
           <b-col sm="3" class="">
-            <b-form-group
-              label="Product Type"
-              :label-for="keyname.product_type"
-            >
+            <b-form-group label="Product Type" :label-for="keyname.product_type">
               <validation-provider #default="{ errors }" name="Product Type">
-                <multiselect
-                  :id="keyname.product_type"
-                  :name="keyname.product_type"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.product_type"
-                  track-by="fp_id"
-                  label="fp_type"
-                  placeholder="Select Product Type"
-                  :options="product_type_array"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+                <multiselect :id="keyname.product_type" :name="keyname.product_type"
+                  :state="errors.length > 0 ? false : null" v-model="form.product_type" track-by="fp_id" label="fp_type"
+                  placeholder="Select Product Type" :options="product_type_array" :searchable="true"
+                  :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -577,29 +366,17 @@
           </b-col>
 
           <b-col sm="3" class="">
-            <b-form-group
-              label="Insurance Type"
-              :label-for="keyname.insurance_type"
-            >
+            <b-form-group label="Insurance Type" :label-for="keyname.insurance_type">
               <validation-provider #default="{ errors }" name="Insurance Type">
-                <multiselect
-                  :id="keyname.insurance_type"
-                  :name="keyname.insurance_type"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.insurance_type"
-                  track-by="it_id"
-                  label="insurance_type_name"
-                  placeholder="Select Insurance Tyoe"
-                  :options="insurance_type_array"
-                  :searchable="true"
-                  :allow-empty="true"
-                />
+                <multiselect :id="keyname.insurance_type" :name="keyname.insurance_type"
+                  :state="errors.length > 0 ? false : null" v-model="form.insurance_type" track-by="it_id"
+                  label="insurance_type_name" placeholder="Select Insurance Tyoe" :options="insurance_type_array"
+                  :searchable="true" :allow-empty="true" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${
-                        item.rules.min - 1
-                      } character`
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
                     : errors[0]
                 }}</small>
               </validation-provider>
@@ -608,16 +385,68 @@
         </b-row>
       </b-form>
 
+      <div class="row">
+        <h4>Extra Detail :</h4>
+      </div>
+
+      <b-row class="mt-2">
+        <b-col sm="3" class="">
+          <b-form-group label="P Points" :label-for="keyname.purchase_rate">
+
+            <b-form-input :id="keyname.purchase_rate" :name="keyname.purchase_rate" v-model="form.purchase_rate"
+              type="number" placeholder="Enter P Points"
+              @input="calculateProfit"></b-form-input>
+
+          </b-form-group>
+        </b-col>
+
+        <b-col sm="3" class="">
+          <b-form-group label="Company Points" :label-for="keyname.company_rate">
+
+            <b-form-input :id="keyname.company_rate" :name="keyname.company_rate" v-model="form.company_rate"
+              type="number" placeholder="Enter Company Points"
+              v-if="form.company && form.company.seller_type !== 'Self'"></b-form-input>
+            <b-form-input :id="keyname.code_rate" :name="keyname.code_rate" v-model="form.code_rate" type="number"
+              placeholder="Enter Third party Company Points" v-else></b-form-input>
+
+            <div v-if="form.company && form.company.seller_type == 'Self'">({{ this.form.company.company_type_name }})
+            </div>
+            <div v-else-if="this.form.code_id">({{
+              this.form.code_id.agent_name }})</div>
+          </b-form-group>
+        </b-col>
+
+        <b-col sm="3" class="">
+          <b-form-group label="Agent Points" :label-for="keyname.agent_rate">
+
+            <b-form-input :id="keyname.agent_rate" :name="keyname.agent_rate" v-model="form.agent_rate" type="number"
+            @input="calculateProfit"
+              placeholder="Enter Agent Points"></b-form-input>
+              <div v-if="form.agent_name">({{ this.form.agent_name.agent_name }})
+              </div>
+
+          </b-form-group>
+        </b-col>
+
+        <b-col sm="3" class="">
+          <b-form-group label="Pr Points" :label-for="keyname.profit_rate">
+            <b-form-input :id="keyname.profit_rate" :name="keyname.profit_rate" v-model="form.profit_rate" disabled
+              type="number" placeholder="Enter Pr Points"></b-form-input>
+
+          </b-form-group>
+        </b-col>
+      </b-row>
+
       <b-row class="mt-1 pb-4">
         <b-col class="text-center">
-          <b-button variant="primary" @click="saveForm"
-            >{{ insurance_id ? "Update" : "Add" }} Insurance
+          <b-button variant="primary" @click="saveForm">{{ insurance_id ? "Update" : "Add" }} Insurance
           </b-button>
           <!-- <b-button variant="primary" @click="onReset" class="ml-5"
             >Reset</b-button
           > -->
         </b-col>
       </b-row>
+
     </validation-observer>
   </div>
 </template>
@@ -703,6 +532,13 @@ export default {
         vehicle_type: "vehicle_type",
         product_type: "product_type",
         insurance_type: "insurance_type",
+
+        purchase_rate: "purchase_rate",
+        company_rate: "company_rate",
+        agent_rate: "agent_rate",
+        code_rate: "code_rate",
+        profit_rate: "profit_rate",
+          is_gst:"is_gst"
       },
       form: {
         rid: "",
@@ -726,6 +562,14 @@ export default {
         vehicle_type: "",
         product_type: "",
         insurance_type: "",
+
+
+        purchase_rate: 0,
+        company_rate: 0,
+        agent_rate: 0,
+        code_rate: 0,
+        profit_rate: 0,
+        is_gst:"GST"
       },
       registration_array: [],
       bank_array: [],
@@ -738,6 +582,19 @@ export default {
       company_array: [],
       gst: 1.18,
     };
+  },
+
+  computed: {
+    codeIdList() {
+      let code_agent_id = this.form.agent_name && this.form.agent_name.agent_id
+        ? this.form.agent_name.agent_id
+        : true;
+      let array = this.agent_array.filter((z) => {
+        let onlyCheck = code_agent_id ? z.agent_id != code_agent_id : true
+        return z.agent_name !== 'Self' && onlyCheck;
+      })
+      return array;
+    },
   },
 
   directives: {
@@ -766,6 +623,17 @@ export default {
   },
 
   methods: {
+    calculateProfit() {
+      let profit=0;
+      if(this.form.premium && this.form.purchase_rate && this.form.agent_rate){
+        if(this.form.agent_rate>0){
+          profit=+parseFloat(this.form.agent_rate-this.form.purchase_rate).toFixed(2);
+        }else{
+          profit=+parseFloat(this.form.premium -this.form.purchase_rate -  Math.abs(this.form.agent_rate)  ).toFixed(2)
+        }
+      }
+     this.form.profit_rate=profit;
+    },
     async getSetting() {
       try {
         const response = await GetSetting({
@@ -775,7 +643,7 @@ export default {
         if (data.status && data.Records[0].gst) {
           this.gst = +parseFloat(data.Records[0].gst).toFixed(2);
         }
-      } catch (err) {}
+      } catch (err) { }
     },
     async getInsuranceById() {
       try {
@@ -784,9 +652,16 @@ export default {
         });
         const { data } = response;
         if (data.status && data.Records[0]) {
+          let number_array=["purchase_rate","agent_rate","code_rate","profit_rate","purchase_rate"]
           Object.keys(data.Records[0]).map((z) => {
-            this.form[z] = data.Records[0][z] || "";
+            if(number_array.indexOf(z)>=0){
+              this.form[z] = data.Records[0][z] || 0;
+              }else{
+                this.form[z] = data.Records[0][z] || "";
+              }
           });
+
+          this.form.is_gst=this.form.is_gst=="Y"?"GST":"NO GST"
 
           if (this.form.ct_id && this.form.company_type_name) {
             this.form.company = {
@@ -879,7 +754,7 @@ export default {
             this.form.insurance_type;
           }
         }
-      } catch (err) {}
+      } catch (err) { }
     },
     calculateGST() {
       let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
@@ -958,7 +833,7 @@ export default {
           this.registration_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllBank() {
       try {
@@ -971,7 +846,7 @@ export default {
           this.bank_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllInsuranceType() {
       try {
@@ -984,7 +859,7 @@ export default {
           this.insurance_type_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllPayment() {
       try {
@@ -997,7 +872,7 @@ export default {
           this.payment_mode_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllProduct() {
       try {
@@ -1010,7 +885,7 @@ export default {
           this.product_type_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllFuel() {
       try {
@@ -1023,7 +898,7 @@ export default {
           this.fuel_type_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllVehicle() {
       try {
@@ -1036,7 +911,7 @@ export default {
           this.vehicle_type_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllAgent() {
       try {
@@ -1049,7 +924,7 @@ export default {
           this.agent_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     async getAllCompany() {
       try {
@@ -1062,7 +937,7 @@ export default {
           this.company_array = data.Records || [];
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
     onReset() {
       Object.keys(this.form).map((z) => {
@@ -1119,6 +994,12 @@ export default {
               this.form.insurance_type && this.form.insurance_type.it_id
                 ? this.form.insurance_type.it_id
                 : 0,
+                purchase_rate: this.form.purchase_rate || 0,
+                company_rate: this.form.company_rate || 0,
+                agent_rate: this.form.agent_rate || 0,
+                profit_rate: this.form.profit_rate || 0,
+                code_rate: this.form.code_rate || 0,
+                is_gst: this.form.is_gst==="GST"?"Y":"N",
           };
           try {
             const response = await addEditInsurancePolicy({
