@@ -4,7 +4,7 @@
     aria-hidden="true"
     class="cursor-pointer"
     :font-scale="type == 'insurance_policy' ? 1.5 : 1.2"
-    v-if="type && id"
+    v-if="type && id && isAdmin"
     @click="deleteData"
   ></b-icon>
 </template>
@@ -12,6 +12,7 @@
 <script>
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import { DeleteData } from "@/apiServices/DashboardServices";
+import { UserService } from "@/apiServices/storageService";
 
 export default {
   props: {
@@ -91,6 +92,13 @@ export default {
         },
       ],
     };
+  },
+
+  computed:{
+    isAdmin() {
+      let userDetail = JSON.parse(UserService.getUserProfile());
+      return userDetail.user_type=='admin';
+    },
   },
 
   beforeMount() {},
