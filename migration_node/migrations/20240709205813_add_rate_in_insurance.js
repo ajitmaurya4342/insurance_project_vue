@@ -6,7 +6,7 @@ exports.up = async function (knex) {
          table.decimal("company_rate", 20, 3);
          table.decimal("agent_rate", 20, 3);
          table.decimal("code_rate", 20, 3);
-         table.decimal("profit_rate", 20, 3);
+         table.decimal("profit_rate", 20, 3);   
     });
 
     await knex("ms_payment_mode").insert([

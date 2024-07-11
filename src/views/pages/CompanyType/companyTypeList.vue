@@ -20,6 +20,15 @@
           Company</b-button
         >
       </b-col>
+      <b-col sm="12" class="text-right mt-1 pr-4">
+        <u>
+          <div class="d-flex align-items-center cursor-pointer" style="justify-content:flex-end"
+            @click="excelDownloadCompany">
+            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
+            <div style="margin-left: 2px; color: green">Download Company List</div>
+          </div>
+        </u>
+      </b-col>
     </b-row>
 
     <b-table
@@ -141,6 +150,13 @@ export default {
           label: "Company Address",
         },
         {
+          key: "balance_amount",
+          formatter: (value, key, item) => {
+            return value ? Number(value): "-";
+          },
+          label: "Balance Amount",
+        },
+        {
           key: "edit",
         },
       ],
@@ -161,6 +177,27 @@ export default {
   },
 
   methods: {
+    excelDownloadCompany() {
+      this.$bvModal
+        .msgBoxConfirm(`Are you sure you want to download company excel?`, {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(async (value) => {
+          if (value) {
+            let url = process.env.VUE_APP_BASEURL + "/createCompanyExcel.php";
+            window.open(url, "_blank");
+          }
+        });
+
+    },
     rowClass(item, type) {
       if (!item || type !== "row") return;
       if (item.seller_type !== "Self") return "table-success";
