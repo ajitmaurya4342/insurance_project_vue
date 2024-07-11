@@ -15,6 +15,11 @@ let array = [
     icon: "SmileIcon",
   },
   {
+    title: "Credit Note",
+    route: "creditNoteList",
+    icon: "FilterIcon",
+  },
+  {
     title: "Vehicle/Customer",
     route: "customerList",
     icon: "TruckIcon",

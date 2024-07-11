@@ -42,13 +42,13 @@ exports.up = async function (knex) {
         table.increments("c_ref_id").primary();
         table.integer("insurance_id");
         table.integer("pm_id");
-        table.integer("agent_id");
+        table.integer("company_id");
         table.decimal("amount",11,4);
         table.datetime("payment_date").defaultTo();
         table.integer("created_by").defaultTo();
         table.datetime("created_at").defaultTo();
         table.index("insurance_id");
-        table.index("agent_id");
+        table.index("company_id");
         table.index("pm_id");
      });
 

@@ -295,6 +295,33 @@ const router = new VueRouter({
       },
     },
 
+     /// Credit Note Route
+     {
+      path: "/credit-note-list",
+      name: "creditNoteList",
+      component: () => import("@/views/pages/CreditNote/creditNoteList.vue"),
+      meta: {
+        pageTitle: "Credit Note List",
+      },
+    },
+    {
+      path: "/add-credit-note",
+      name: "addCreditNote",
+      component: () => import("@/views/pages/CreditNote/createCreditNote.vue"),
+      meta: {
+        pageTitle: "Add Credit Note",
+      },
+    },
+    {
+      path: "/update-credit-note/:ref_id",
+      name: "updateCreditNote",
+      component: () => import("@/views/pages/CreditNote/createCreditNote.vue"),
+      meta: {
+        pageTitle: "Update Credit Note ",
+      },
+    },
+
+
     /// Customer Route
     {
       path: "/insurance-list",

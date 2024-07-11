@@ -77,3 +77,6 @@ export const GetDashboard = async (payload) =>
 
 export const DeleteData = async (payload) =>
   Api().post(`/GetDeleteData.php`, payload);
+
+export const addEditCreditNote = async (payload) =>
+  Api().post(`/addEditCreditNote.php`, payload);

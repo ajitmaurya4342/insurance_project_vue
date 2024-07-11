@@ -124,35 +124,26 @@ if($limit && $current_page===1 && !isset($data->insurance_id)){
 
 
 $getQueryData=[];
+$number_array=["premium","gst","net_premium","idv","purchase_rate","company_rate","agent_rate","code_rate","profit_rate"];
 
 if($row>0){
     while($row_detail=mysqli_fetch_assoc($result)){
-        if(!isset($data->insurance_id) && !$data->insurance_id){
+        if(!isset($data->insurance_id) && !@$data->insurance_id){
         $row_detail["created_date_time"]= date("d M,Y h:ia", strtotime($row_detail["created_at"]));
         $row_detail["rid"]= date("d M,Y", strtotime($row_detail["rid"]));
         $row_detail["policy_date"]= date("d M,Y", strtotime($row_detail["policy_date"]));
         }
-        if( round($row_detail["premium"])==0){
-            $row_detail["premium"]=0;
-        }else{
-            $row_detail["premium"]=number_format( (float) $row_detail["premium"],2, '.', '');
+
+          foreach($number_array as $val){
+
+            if(round($row_detail[$val])==0){
+                $row_detail[$val]=0;
+            }else{
+                $row_detail[$val]=number_format( (float) $row_detail[$val],2, '.', '');
+            }
         }
-        if( round($row_detail["gst"])==0){
-            $row_detail["gst"]=0;
-        }else{
-            $row_detail["gst"]=number_format( (float) $row_detail["gst"],2, '.', '');
-        }
-        if( round($row_detail["net_premium"])==0){
-            $row_detail["net_premium"]=0;
-        }else{
-            $row_detail["net_premium"]=number_format( (float) $row_detail["net_premium"],2, '.', '');
-        }
-        if( round($row_detail["idv"])==0){
-            $row_detail["idv"]=0;
-        }else{
-            $row_detail["idv"]=number_format( (float) $row_detail["idv"],2, '.', '');
-        }
-       
+
+
         $getQueryData[] = $row_detail;
     }
 }
