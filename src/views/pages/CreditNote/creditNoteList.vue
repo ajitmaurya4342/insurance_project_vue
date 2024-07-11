@@ -9,11 +9,11 @@
           Type
         </b-button>
       </b-col>
-      <b-col sm="5"></b-col>
-      <b-col sm="3" class="text-right mt-2" >
+      <b-col sm="12" class="text-right pr-4 mt-1">
         <u>
           <div
-            class="d-flex align-items-center cursor-pointer"
+            class="d-flex align-items-center cursor-pointer " 
+            style="justify-content:flex-end"
             @click="excelDownload"
           >
             <b-icon
@@ -26,10 +26,12 @@
           </div>
         </u>
       </b-col>
-       <b-col sm="4" class="text-right mt-2" >
+    
+       <b-col sm="12" class="text-right mt-1 pr-4" >
         <u>
           <div
             class="d-flex align-items-center cursor-pointer"
+              style="justify-content:flex-end"
             @click="excelDownloadCompany"
           >
             <b-icon
