@@ -68,7 +68,7 @@ left join users on users.user_id=ms_insurance_policy.created_by
 left join ms_vehicle on ms_vehicle.vehicle_id=ms_insurance_policy.vehicle_id where 1=1 ";
 
 $sql="SELECT ms_insurance_policy.*,ms_agent.agent_name,code_agent.agent_name as code_agent,
-ms_bank_department.bank_dept_name,ms_company_type.company_type_name,ms_customer.vehicle_no,ms_fp_tp_type.fp_type,ms_fuel_type.fuel_type_name,ms_insurance_type.insurance_type_name,ms_payment_mode.pm_name,ms_vehicle.vehicle_type,users.name as created_user FROM `ms_insurance_policy`
+ms_bank_department.bank_dept_name,ms_company_type.company_type_name,ms_customer.vehicle_no,ms_fp_tp_type.fp_type,ms_fuel_type.fuel_type_name,ms_insurance_type.insurance_type_name,ms_payment_mode.pm_name,ms_vehicle.vehicle_type,users.name as created_user,ms_company_type.seller_type FROM `ms_insurance_policy`
  ".$leftSql;
 
 $sql_count="select count(*)  as total_rows from ms_insurance_policy ".$leftSql;

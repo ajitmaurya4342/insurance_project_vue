@@ -402,12 +402,11 @@
 
         <b-col sm="3" class="">
           <b-form-group label="Company Points" :label-for="keyname.company_rate">
-
             <b-form-input :id="keyname.company_rate" :name="keyname.company_rate" v-model="form.company_rate"
               type="number" placeholder="Enter Company Points"
-              v-if="form.company && form.company.seller_type !== 'Self'"></b-form-input>
+              v-if="form.company && form.company.seller_type === 'Self'" />
             <b-form-input :id="keyname.code_rate" :name="keyname.code_rate" v-model="form.code_rate" type="number"
-              placeholder="Enter Third party Company Points" v-else></b-form-input>
+              placeholder="Enter Third party Company Points" v-else-if="this.form.code_id"></b-form-input>
 
             <div v-if="form.company && form.company.seller_type == 'Self'">({{ this.form.company.company_type_name }})
             </div>
@@ -662,15 +661,16 @@ export default {
           });
 
           this.form.is_gst=this.form.is_gst=="Y"?"GST":"NO GST"
-
           if (this.form.ct_id && this.form.company_type_name) {
             this.form.company = {
               ct_id: this.form.ct_id,
               company_type_name: this.form.company_type_name,
+              seller_type:this.form.seller_type
             };
           } else {
             this.form.company = null;
           }
+
 
           if (this.form.cust_id && this.form.vehicle_no) {
             this.form.reg_no = {
@@ -821,6 +821,8 @@ export default {
     },
     changeCompany(item) {
       this.form.code_id = "";
+      this.form.company_rate=0;
+      this.form.code_rate=0;
     },
     async getAllCustomer() {
       try {
