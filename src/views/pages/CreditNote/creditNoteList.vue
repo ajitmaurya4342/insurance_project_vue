@@ -40,8 +40,8 @@
             @click="onEdit(data.item)"
           ></b-icon>
           <DeleteComponent
-            type="vehicle_type"
-            :id="data.item.vehicle_id"
+            :type="data.item.type"
+            :id="data.item.type_id"
             class="ml-1"
             :getData="onGetAllUsers"
           ></DeleteComponent>

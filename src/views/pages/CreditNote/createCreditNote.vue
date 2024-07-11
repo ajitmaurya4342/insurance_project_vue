@@ -27,11 +27,12 @@
                   :name="item.key"
                   :placeholder="item.placeholder"
                   :type="item.type"
+                  :disabled="item.disabled"
                 />
               <multiselect :id="item.key" :name="item.key" 
                v-else
                   v-model="form[item.key]" :track-by="item.trackBy" :label="item.labelSelect" :placeholder="item.placeholder"
-                  :options="item.option" :searchable="false" @input="selectChange($event,item)" />
+                  :options="item.option" :searchable="false" @input="selectChange($event,item)" :disabled="item.disabled" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
@@ -145,7 +146,8 @@ export default {
             value:"add_credit_note_agent"
            }
           ],
-          show:true
+          show:true,
+          disabled:false
         },
         {
           col: 6,
@@ -156,7 +158,8 @@ export default {
           key: "payment_date",
           placeholder: "Select Payment Date",
           type: "date",
-          show:true
+          show:true,
+          disabled:false
         },
         {
           col: 6,
@@ -165,7 +168,8 @@ export default {
           key: "amount",
           placeholder: "Enter Amount",
           type: "number",
-          show:true
+          show:true,
+          disabled:false
         },
         {
           col: 6,
@@ -179,7 +183,8 @@ export default {
           trackBy:"pm_id",
           option:[
           ],
-          show:true
+          show:true,
+          disabled:false
         },
         {
           col: 6,
@@ -194,7 +199,8 @@ export default {
           trackBy:"agent_id",
           option:[
           ],
-          show:false
+          show:false,
+          disabled:false
         },
         {
           col: 6,
@@ -209,7 +215,8 @@ export default {
           trackBy:"ct_id",
           option:[
           ],
-          show:false
+          show:false,
+          disabled:false
         },
         {
           col: 6,
@@ -219,7 +226,8 @@ export default {
           key: "description",
           placeholder: "Enter Remarks",
           type: "text",
-          show:true
+          show:true,
+          disabled:false
         },
       ],
 
@@ -232,6 +240,10 @@ export default {
 
   beforeMount() {
     const { type_id,type } = this.$route.params;
+    
+    if(type_id){
+      this.layoutArray[0]["disabled"]=true
+    }
     this.type_id = type_id || null;
     this.type = type || null;
     this.getCompanyList();

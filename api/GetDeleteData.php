@@ -26,8 +26,9 @@ if($check_key=="agent_id"){
     $chek_more = " or code_id='".$id."'"; 
 }
 
-$checkTable_name="ms_insurance_policy";
-if($checkTable_name !=$table_name){
+$checkTable_name=["ms_insurance_policy","add_credit_note_company","add_credit_note_agent"];
+
+if(!in_array($table_name, $checkTable_name)){
 $sql_check="Select ".$check_key." From ".$checkTable_name." where ".$check_key."='".$id."'" . $chek_more;
 
 $result_check = mysqli_query($conn, $sql_check);
@@ -49,7 +50,7 @@ $result_count = mysqli_query($conn, $sql_count);
 $data=[
     "status"=>true,
     "message"=>"Deleted Successfully",
-    "checkExist"=>$row_count_check
+    "checkExist"=>@$row_count_check
 ];
 
 echo json_encode($data);

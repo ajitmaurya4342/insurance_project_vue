@@ -79,6 +79,16 @@ export default {
           table_name: "ms_insurance_policy",
           key: "insurance_id",
         },
+        {
+          page: "add_credit_note_agent",
+          table_name: "add_credit_note_agent",
+          key: "a_ref_id",
+        },
+        {
+          page: "add_credit_note_company",
+          table_name: "add_credit_note_company",
+          key: "c_ref_id",
+        },
       ],
     };
   },
