@@ -151,7 +151,7 @@ export default {
   methods: {
     excelDownload() {
       this.$bvModal
-        .msgBoxConfirm(`Are you sure you want to download agent excel?`, {
+        .msgBoxConfirm(`Are you sure you want to download agent credit note excel?`, {
           title: "Please Confirm",
           size: "sm",
           buttonSize: "sm",
@@ -171,7 +171,7 @@ export default {
     },
     excelDownloadCompany() {
       this.$bvModal
-        .msgBoxConfirm(`Are you sure you want to download agent excel?`, {
+        .msgBoxConfirm(`Are you sure you want to download company credit note excel?`, {
           title: "Please Confirm",
           size: "sm",
           buttonSize: "sm",

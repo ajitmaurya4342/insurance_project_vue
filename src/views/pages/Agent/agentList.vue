@@ -19,6 +19,16 @@
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Agent
         </b-button>
       </b-col>
+
+      <b-col sm="12" class="text-right mt-1 pr-4">
+        <u>
+          <div class="d-flex align-items-center cursor-pointer" style="justify-content:flex-end"
+            @click="excelDownloadCompany">
+            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
+            <div style="margin-left: 2px; color: green">Download Agent List</div>
+          </div>
+        </u>
+      </b-col>
     </b-row>
 
     <b-table
@@ -109,6 +119,7 @@ export default {
     DeleteComponent,
   },
   data() {
+    
     return {
       allUserList: [],
       fields: [
@@ -128,6 +139,12 @@ export default {
           key: "agent_address",
           formatter: (value, key, item) => {
             return value ? value : "-";
+          },
+        },
+        {
+          key: "balance_amount",
+          formatter: (value, key, item) => {
+            return value ? Number(value) : "-";
           },
         },
         {
@@ -151,6 +168,48 @@ export default {
   },
 
   methods: {
+    excelDownloadCompany() {
+      this.$bvModal
+        .msgBoxConfirm(`Are you sure you want to download agent excel?`, {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(async (value) => {
+          if (value) {
+            let url = process.env.VUE_APP_BASEURL + "/createAgentExcel.php";
+            window.open(url, "_blank");
+          }
+        });
+
+    },
+      excelDownload() {
+      this.$bvModal
+        .msgBoxConfirm(`Are you sure you want to download agent excel?`, {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(async (value) => {
+          if (value) {
+            let url = process.env.VUE_APP_BASEURL + "/agentListExcelDownload.php";
+            window.open(url, "_blank");
+          }
+        });
+
+    },
     rowClass(item, type) {
       if (!item || type !== "row") return;
       if (item.user_type === "admin") return "table-success";
