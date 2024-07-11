@@ -20,6 +20,7 @@ $payment_date=$data->payment_date;
 $pm_id=$data->pm_id;
 @$company_id=$data->company_id;
 @$agent_id=$data->agent_id;
+@$description=$data->description;
 @$type_id=$data->type_id;
 
 $table_name=$data->type;
@@ -30,6 +31,7 @@ $dataArray = [
     "amount" => mysqli_real_escape_string($conn,$amount),
     "payment_date" => mysqli_real_escape_string($conn,$payment_date),
     "pm_id" => mysqli_real_escape_string($conn,$pm_id),
+    "description" => mysqli_real_escape_string($conn,$description),
 ];
 
 if($table_name==="add_credit_note_agent"){
@@ -43,8 +45,6 @@ $msg="Record Inserted Successfully";
 
 if (isset($data->type_id) && $data->type_id) {
     $where =" ".$column_name."='" . $data->type_id . "'";
-    $dataArray["updated_at"] = $current_date;
-    $dataArray["updated_by"] = $created_user_id;
     $updateQuery=updateQuery($table_name, $dataArray, $where, $conn);
     $msg="Record Updated Successfully";
 } else {

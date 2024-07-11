@@ -2,19 +2,8 @@
   <div>
     <hr />
     <b-row class="mt-1">
-      <b-col sm="5">
-        <b-input-group>
-          <b-form-input
-            placeholder="Search Credit"
-            v-model="search"
-          ></b-form-input>
-          <b-input-group-append>
-            <b-button @click="onSearchUser">Search</b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
-
-      <b-col sm="7" class="text-right pr-4">
+    
+      <b-col sm="12" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Credit/Debit
           Type
@@ -89,8 +78,9 @@ import {
   BIconArrowDown,
   BPagination,
 } from "bootstrap-vue";
+import moment from "moment"
 import Ripple from "vue-ripple-directive";
-import { GetAllVehicleType } from "@/apiServices/DashboardServices";
+import { GetCreditNoteList } from "@/apiServices/DashboardServices";
 import DeleteComponent from "../DeleteComponent.vue";
 
 export default {
@@ -113,28 +103,29 @@ export default {
       allUserList: [],
       fields: [
         {
-          key: "key_name",
+          key: "name",
           formatter: (value, key, item) => {
-            return value ? value : "-";
+            return value ?`${value} (${item.type_name})` : "-";
           },
           label: "Payment By",
         },
         {
           key: "amount",
           formatter: (value, key, item) => {
-            return value ? value : "-";
+            return value ? Number(value) : "-";
           },
           label: "Amount",
         },
         {
           key: "payment_date",
           formatter: (value, key, item) => {
-            return value ? value : "-";
+            return value ? moment(value).format("DD MMM, YYYY") : "-";
+
           },
           label: "Payment Date",
         },
         {
-          key: "payment_to",
+          key: "pm_name",
           formatter: (value, key, item) => {
             return value ? value : "-";
           },
@@ -163,16 +154,16 @@ export default {
   methods: {
     rowClass(item, type) {
       if (!item || type !== "row") return;
-      if (item.user_type === "admin") return "table-success";
+      if (item.type === "add_credit_note_company") return "table-success";
     },
     onChangePagination($event) {
       this.currentPage = $event;
       this.onGetAllUsers();
     },
 
-    async onEdit({ vehicle_id }) {
+    async onEdit({ type,type_id }) {
       this.$router.push({
-        path: "/update-vehicle-type/" + vehicle_id,
+        path: `/update-credit-note/${type}/${type_id}` ,
       });
     },
     addUser() {
@@ -188,7 +179,7 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
-        const response = await GetAllVehicleType({
+        const response = await GetCreditNoteList({
           search: this.search,
           limit: this.perPage,
           currentPage: this.currentPage,

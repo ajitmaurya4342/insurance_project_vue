@@ -313,7 +313,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/update-credit-note/:ref_id",
+      path: "/update-credit-note/:type/:type_id",
       name: "updateCreditNote",
       component: () => import("@/views/pages/CreditNote/createCreditNote.vue"),
       meta: {

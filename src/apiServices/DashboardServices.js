@@ -80,3 +80,6 @@ export const DeleteData = async (payload) =>
 
 export const addEditCreditNote = async (payload) =>
   Api().post(`/addEditCreditNote.php`, payload);
+
+export const GetCreditNoteList = async (payload) =>
+  Api().post(`/GetCreditNoteList.php`, payload);

@@ -30,6 +30,7 @@ exports.up = async function (knex) {
         table.integer("agent_id");
         table.integer("pm_id");
         table.decimal("amount",11,4);
+        table.text("description");
         table.datetime("payment_date").defaultTo();
         table.integer("created_by").defaultTo();
         table.datetime("created_at").defaultTo();
@@ -44,6 +45,7 @@ exports.up = async function (knex) {
         table.integer("pm_id");
         table.integer("company_id");
         table.decimal("amount",11,4);
+        table.text("description");
         table.datetime("payment_date").defaultTo();
         table.integer("created_by").defaultTo();
         table.datetime("created_at").defaultTo();

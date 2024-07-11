@@ -82,12 +82,14 @@ import {
   GetAllAgent,
   GetAllPayment,
   addEditCreditNote,
+  GetCreditNoteList,
  
 } from "@/apiServices/DashboardServices";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
 import ToastificationContent from "@core/components/toastification/ToastificationContent.vue";
 import Multiselect from "vue-multiselect";
+import moment from "moment";
 export default {
   components: {
     BNav,
@@ -110,13 +112,15 @@ export default {
   data() {
     return {
       type_id: "",
+      type: "",
       form: {
         type: "",
         amount: "",
         payment_date: "",
         pm_id:"",
         agent_id:"",
-        company_id:""
+        company_id:"",
+        description:""
       },
       required,
       layoutArray: [
@@ -207,7 +211,16 @@ export default {
           ],
           show:false
         },
-        
+        {
+          col: 6,
+          label: "Remarks",
+          rules: {
+          },
+          key: "description",
+          placeholder: "Enter Remarks",
+          type: "text",
+          show:true
+        },
       ],
 
     };
@@ -218,8 +231,9 @@ export default {
   },
 
   beforeMount() {
-    const { type_id } = this.$route.params;
+    const { type_id,type } = this.$route.params;
     this.type_id = type_id || null;
+    this.type = type || null;
     this.getCompanyList();
     this.getAgentList();
     this.getPaymentMode()
@@ -304,15 +318,39 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
-        const response = await GetAllCompanyType({
+        const response = await GetCreditNoteList({
           type_id: this.type_id,
-          type:""
+          type:this.type
         });
+        
         const { data } = response;
         if (data.status) {
           Object.keys(this.form).map((z) => {
             this.form[z] = data.Records[0][z] || null;
           });
+        this.form.amount=Number(data.Records[0]["amount"])
+        this.form.payment_date=moment(data.Records[0]["payment_date"]).format("YYYY-MM-DD")
+        let findType=this.layoutArray.findIndex((_la)=>{
+            return _la.key==="type"
+        });
+        this.form.type =this.layoutArray[findType]["option"].find(z=>z.value==this.form.type)
+        this.selectChange(this.form.type,this.layoutArray[findType])
+        this.form.pm_id={
+          pm_id:data.Records[0]["pm_id"],
+          pm_name:data.Records[0]["pm_name"],
+        }
+
+        if(this.type === "add_credit_note_agent"){
+          this.form.agent_id={
+            agent_id:data.Records[0]["id"],
+            agent_name:data.Records[0]["name"],
+          }
+        }else{
+          this.form.company_id={
+            ct_id:data.Records[0]["id"],
+            company_type_name:data.Records[0]["name"],
+          }
+        }
         }
         this.isBusy = false;
       } catch (err) {}
