@@ -1,6 +1,29 @@
 <?php
 
 include("connection.php");
+function addEditCreditNote($data,$conn,$created_user_id,$current_date){
+    $table_name="add_credit_note_company";
+    $column_name="c_ref_id";
+    $whereCheck= " insurance_id=".$data["insurance_id"];
+    if(@$data["agent_id"] && @$data["agent_id"]>0){
+        $whereCheck=$whereCheck." and agent_id=".$data["agent_id"];
+       $table_name="add_credit_note_agent";
+       $column_name= "a_ref_id";
+    }
+  
+    $checkExist=getQuery($conn,$table_name,["insurance_id"],$whereCheck);
+   
+   if(count($checkExist)>0){
+       $updateQuery=updateQuery($table_name, $data, $whereCheck, $conn);
+   }else{
+      if($data["amount"]){
+        $data["created_at"] = $current_date;
+        $data["created_by"] = $created_user_id;
+        $insert_id = insertQuery($table_name, $data, $conn);
+      }
+   }
+ }
+
 
 $data = json_decode(file_get_contents("php://input"));
 
@@ -12,6 +35,7 @@ if(count($resultError)>0){
     echo json_encode($resultError);
     exit;
 }
+
 
 $current_date=date('Y-m-d H:i:s');
 $rid=$data->rid;
@@ -89,8 +113,9 @@ $dataArray = [
 ];
 
 $msg="Record Inserted Successfully";
-
+$insurance_id="";
 if (isset($data->insurance_id) && $data->insurance_id) {
+    $insurance_id=$data->insurance_id;
     $where = "insurance_id='" . $data->insurance_id . "'";
     $dataArray["updated_at"] = $current_date;
     $dataArray["updated_by"] = $created_user_id;
@@ -100,7 +125,39 @@ if (isset($data->insurance_id) && $data->insurance_id) {
     $dataArray["created_at"] = $current_date;
     $dataArray["created_by"] = $created_user_id;
     $insert_id = insertQuery($table_name, $dataArray, $conn);
+    $insurance_id=$insert_id;
 }
+
+///agent id
+    $dataNew=[
+        "amount"=> $agent_rate,
+        "insurance_id"=>$insurance_id,
+        "payment_date"=>$current_date,
+        "pm_id"=>$pm_id,
+        "agent_id"=>$agent_id
+    ];
+    addEditCreditNote($dataNew,$conn,$created_user_id,$current_date); 
+
+    ///code id
+    $dataNew=[
+        "amount"=> $code_rate,
+        "insurance_id"=>$insurance_id,
+        "payment_date"=>$current_date,
+        "pm_id"=>$pm_id,
+        "agent_id"=>$code_id
+    ];
+    
+    addEditCreditNote($dataNew,$conn,$created_user_id,$current_date); 
+
+    ///company id
+    $dataNew=[
+            "amount"=> $company_rate,
+            "insurance_id"=>$insurance_id,
+            "payment_date"=>$current_date,
+            "pm_id"=>$pm_id,
+            "company_id"=>$ct_id
+    ];
+    addEditCreditNote($dataNew,$conn,$created_user_id,$current_date);
 
 $data=[
     "status"=>true,
