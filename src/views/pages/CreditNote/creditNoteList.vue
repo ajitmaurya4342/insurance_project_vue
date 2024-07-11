@@ -9,6 +9,39 @@
           Type
         </b-button>
       </b-col>
+      <b-col sm="5"></b-col>
+      <b-col sm="3" class="text-right mt-2" >
+        <u>
+          <div
+            class="d-flex align-items-center cursor-pointer"
+            @click="excelDownload"
+          >
+            <b-icon
+              icon="file-earmark-excel-fill"
+              aria-hidden="true"
+              font-scale="1.5"
+              style="color: green"
+            ></b-icon>
+            <div style="margin-left: 2px; color: green">Download Agent Credit</div>
+          </div>
+        </u>
+      </b-col>
+       <b-col sm="4" class="text-right mt-2" >
+        <u>
+          <div
+            class="d-flex align-items-center cursor-pointer"
+            @click="excelDownloadCompany"
+          >
+            <b-icon
+              icon="file-earmark-excel-fill"
+              aria-hidden="true"
+              font-scale="1.5"
+              style="color: green"
+            ></b-icon>
+            <div style="margin-left: 2px; color: green">Download Company Credit</div>
+          </div>
+        </u>
+      </b-col>
     </b-row>
 
     <b-table
@@ -152,6 +185,14 @@ export default {
   },
 
   methods: {
+    excelDownload() {
+      let url = process.env.VUE_APP_BASEURL + "/createAgentCreditExcel.php";
+      window.open(url , "_blank");
+    },
+    excelDownloadCompany(){
+      let url = process.env.VUE_APP_BASEURL + "/createCompanyCreditExcel.php";
+      window.open(url , "_blank");
+    },
     rowClass(item, type) {
       if (!item || type !== "row") return;
       if (item.type === "add_credit_note_company") return "table-success";
