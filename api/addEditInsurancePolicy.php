@@ -136,6 +136,13 @@ if (isset($data->insurance_id) && $data->insurance_id) {
         "pm_id"=>$pm_id,
         "agent_id"=>$agent_id
     ];
+
+    $deleteInsurance= "Delete  From add_credit_note_company where insurance_id = '".$insurance_id."'";
+    $query_run=mysqli_query($conn, $deleteInsurance);
+
+    $deleteInsurance2= "Delete From add_credit_note_agent where insurance_id = '".$insurance_id."'";
+    $query_run=mysqli_query($conn, $deleteInsurance2);
+
     addEditCreditNote($dataNew,$conn,$created_user_id,$current_date); 
 
     ///code id

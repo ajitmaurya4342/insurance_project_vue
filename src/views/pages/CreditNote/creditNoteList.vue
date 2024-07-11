@@ -129,6 +129,13 @@ export default {
           label: "Payment To",
         },
         {
+          key: "description",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+          label: "Remarks",
+        },
+        {
           key: "edit",
         },
       ],
