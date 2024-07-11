@@ -2,7 +2,7 @@
   <div>
     <hr />
     <b-row class="mt-1">
-    
+
       <b-col sm="12" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Credit/Debit
@@ -11,51 +11,27 @@
       </b-col>
       <b-col sm="12" class="text-right pr-4 mt-1">
         <u>
-          <div
-            class="d-flex align-items-center cursor-pointer " 
-            style="justify-content:flex-end"
-            @click="excelDownload"
-          >
-            <b-icon
-              icon="file-earmark-excel-fill"
-              aria-hidden="true"
-              font-scale="1.5"
-              style="color: green"
-            ></b-icon>
+          <div class="d-flex align-items-center cursor-pointer " style="justify-content:flex-end"
+            @click="excelDownload">
+            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
             <div style="margin-left: 2px; color: green">Download Agent Credit</div>
           </div>
         </u>
       </b-col>
-    
-       <b-col sm="12" class="text-right mt-1 pr-4" >
+
+      <b-col sm="12" class="text-right mt-1 pr-4">
         <u>
-          <div
-            class="d-flex align-items-center cursor-pointer"
-              style="justify-content:flex-end"
-            @click="excelDownloadCompany"
-          >
-            <b-icon
-              icon="file-earmark-excel-fill"
-              aria-hidden="true"
-              font-scale="1.5"
-              style="color: green"
-            ></b-icon>
+          <div class="d-flex align-items-center cursor-pointer" style="justify-content:flex-end"
+            @click="excelDownloadCompany">
+            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
             <div style="margin-left: 2px; color: green">Download Company Credit</div>
           </div>
         </u>
       </b-col>
     </b-row>
 
-    <b-table
-      responsive
-      :items="allUserList"
-      :busy="isBusy"
-      :fields="fields"
-      class="mt-1"
-      outlined
-      show-empty
-      :tbody-tr-class="rowClass"
-    >
+    <b-table responsive :items="allUserList" :busy="isBusy" :fields="fields" class="mt-1" outlined show-empty
+      :tbody-tr-class="rowClass">
       <template #empty="scope">
         <h4 class="text-center">No Records Found</h4>
       </template>
@@ -67,19 +43,10 @@
       </template>
       <template #cell(edit)="data">
         <b-row>
-          <b-icon
-            icon="pencil-square"
-            aria-hidden="true"
-            font-scale="1.2"
-            class="cursor-pointer"
-            @click="onEdit(data.item)"
-          ></b-icon>
-          <DeleteComponent
-            :type="data.item.type"
-            :id="data.item.type_id"
-            class="ml-1"
-            :getData="onGetAllUsers"
-          ></DeleteComponent>
+          <b-icon icon="pencil-square" aria-hidden="true" font-scale="1.2" class="cursor-pointer"
+            @click="onEdit(data.item)"></b-icon>
+          <DeleteComponent :type="data.item.type" :id="data.item.type_id" class="ml-1" :getData="onGetAllUsers">
+          </DeleteComponent>
         </b-row>
       </template>
     </b-table>
@@ -87,13 +54,8 @@
     <b-row class="mt-2">
       <b-col sm="4"> </b-col>
       <b-col sm="6" class="text-center">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          @change="onChangePagination($event)"
-          size="lg"
-        ></b-pagination>
+        <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage"
+          @change="onChangePagination($event)" size="lg"></b-pagination>
       </b-col>
     </b-row>
   </div>
@@ -140,7 +102,7 @@ export default {
         {
           key: "name",
           formatter: (value, key, item) => {
-            return value ?`${value} (${item.type_name})` : "-";
+            return value ? `${value} (${item.type_name})` : "-";
           },
           label: "Payment By",
         },
@@ -188,12 +150,45 @@ export default {
 
   methods: {
     excelDownload() {
-      let url = process.env.VUE_APP_BASEURL + "/createAgentCreditExcel.php";
-      window.open(url , "_blank");
+      this.$bvModal
+        .msgBoxConfirm(`Are you sure you want to download agent excel?`, {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(async (value) => {
+          if (value) {
+            let url = process.env.VUE_APP_BASEURL + "/createAgentCreditExcel.php";
+            window.open(url, "_blank");
+          }
+        });
     },
-    excelDownloadCompany(){
-      let url = process.env.VUE_APP_BASEURL + "/createCompanyCreditExcel.php";
-      window.open(url , "_blank");
+    excelDownloadCompany() {
+      this.$bvModal
+        .msgBoxConfirm(`Are you sure you want to download agent excel?`, {
+          title: "Please Confirm",
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then(async (value) => {
+          if (value) {
+            let url = process.env.VUE_APP_BASEURL + "/createCompanyCreditExcel.php";
+            window.open(url, "_blank");
+          }
+        });
+
     },
     rowClass(item, type) {
       if (!item || type !== "row") return;
@@ -204,9 +199,9 @@ export default {
       this.onGetAllUsers();
     },
 
-    async onEdit({ type,type_id }) {
+    async onEdit({ type, type_id }) {
       this.$router.push({
-        path: `/update-credit-note/${type}/${type_id}` ,
+        path: `/update-credit-note/${type}/${type_id}`,
       });
     },
     addUser() {
@@ -235,7 +230,7 @@ export default {
           }
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
   },
 };
