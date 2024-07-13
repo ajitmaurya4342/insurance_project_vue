@@ -3,7 +3,35 @@ include("SimpleXLSXGen.php");
 include("connection.php");
 
 $books = [
-    ['<center><b><style bgcolor="#6fa8dc" color="#000000">SR. No</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Company Name</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">RID</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">REGISTRATION NO.</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">NAME</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">POLICY NO</style></b></center>', '<center><b><style bgcolor="#6fa8dc" color="#000000">HP</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">AGENT</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">SELF CONTACT</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">DATE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PREMIUM</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">GST</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">NET PREMIUM</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">IDV</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">FUEL TYPE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">CODE ID</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PAYMENT MODE</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">GVW</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">TYPES OF VEHICLS</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">FP/TP</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">PRIVATE/COMMERCIAL</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Created By</style></b></center>','<center><b><style bgcolor="#6fa8dc" color="#000000">Created Time</style></b></center>'],
+    [
+      '<center><b><style bgcolor="#6fa8dc" color="#000000">SR. No</style></b></center>',
+      '<center><b><style bgcolor="#6fa8dc" color="#000000">Company Name</style></b></center>',
+      '<center><b><style bgcolor="#6fa8dc" color="#000000">RID</style></b></center>', 
+      '<center><b><style bgcolor="#6fa8dc" color="#000000">REGISTRATION NO.</style></b></center>', 
+      '<center><b><style bgcolor="#6fa8dc" color="#000000">NAME</style></b></center>', 
+      '<center><b><style bgcolor="#6fa8dc" color="#000000">POLICY NO</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">HP</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">AGENT</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">SELF CONTACT</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">DATE</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">PREMIUM</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">GST</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">NET PREMIUM</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">IDV</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">FUEL TYPE</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">CODE ID</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">PAYMENT MODE</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">GVW</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">TYPES OF VEHICLS</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">FP/TP</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">PRIVATE/COMMERCIAL</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">P Points</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Company Points</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Third Party Company Points</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Agent Points</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Pr Points</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Created By</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Created Time</style></b></center>'],
 ];
 
 $data = (object) ($_REQUEST);
@@ -30,11 +58,21 @@ $key_name_array=[
     "vehicle_type",
     "fp_type",
     "insurance_type_name",
+    "purchase_rate",
+    "company_rate",
+    "code_rate",
+    "agent_rate",
+    "profit_rate",
     "created_user",
     "created_at",
 ];
 
-$number_array=["premium","gst","net_premium","idv","gvw"];
+// purchase_rate: "P Points",
+// company_rate: "Company Points",
+// agent_rate: "Agent Points",
+// code_rate: "Third Party Company Points",
+// profit_rate: "Pr Points",
+$number_array=["premium","gst","net_premium","idv","gvw","purchase_rate","company_rate","agent_rate","code_rate","profit_rate"];
 $date_array=["policy_date","rid"];
 
 include("GetInsurancePolicyDataAll.php");
@@ -45,7 +83,7 @@ foreach($getQueryData as $idx=>$value){
     if($index2==0){
         $finalValue=$idx+1;
     }else if(in_array($keyName,$number_array)){
-        $finalValue=$value[$keyName]? (float) number_format((float) $value[$keyName],2, '.', ''):"-";
+        $finalValue=$value[$keyName]? (float) number_format((float) $value[$keyName],2, '.', ''):0;
     }else if(in_array($keyName,$date_array)){
       echo $keyName;
       $finalValue=$value[$keyName]? date("Y-m-d",strtotime($value[$keyName])):"-";

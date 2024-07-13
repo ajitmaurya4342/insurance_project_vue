@@ -251,6 +251,13 @@ export default {
         vehicle_type: "Vehicle Type",
         fp_type: "Product Type",
         insurance_type_name: "Insurance Type",
+
+        purchase_rate: "P Points",
+        company_rate: "Company Points",
+        agent_rate: "Agent Points",
+        code_rate: "Third Party Company Points",
+        profit_rate: "Pr Points",
+        
         created_user: "Created User",
         created_date_time: "Created Time",
       },

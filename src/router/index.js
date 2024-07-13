@@ -195,7 +195,7 @@ const router = new VueRouter({
       component: () =>
         import("@/views/pages/InsuranceType/insuranceTypeList.vue"),
       meta: {
-        pageTitle: "Insurance List",
+        pageTitle: "Insurance Type List",
       },
     },
     {
