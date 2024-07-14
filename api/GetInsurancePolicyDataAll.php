@@ -40,7 +40,7 @@ if(isset($data->ct_id) && $data->ct_id){
 
 if(isset($data->agent_id) && $data->agent_id){
     $agent_id=$data->agent_id;
-    $where=$where." and  ms_insurance_policy.agent_id='".$agent_id."'";
+    $where=$where." and  (ms_insurance_policy.agent_id='".$agent_id."' or ms_insurance_policy.code_id='".$agent_id."')";
 }
 
 

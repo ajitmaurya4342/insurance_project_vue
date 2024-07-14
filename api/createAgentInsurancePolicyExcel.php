@@ -93,7 +93,7 @@ $books[] = [
   null,
   null,
   null,
-  '<right><style color="#6fa8dc">'. $opening_balance . '</style></right>',
+  '<right><style color="#6fa8dc"><b>'. $opening_balance . '</b></style></right>',
   null,
   null,
   null,
@@ -125,7 +125,7 @@ while($rowdetail=mysqli_fetch_assoc($resultCredit)) {
     null,
     null,
     null,
-    '<right><style color="'.$color.'">'. $totalA . '</style></right>',
+    '<right><style color="'.$color.'"><b>'. $totalA . '</b></style></right>',
     $rowdetail["pm_name"],
     null,
     null,
@@ -169,7 +169,7 @@ foreach ($getQueryData as $idx => $value) {
 $count=$count+1;
 
 $books[] = [
-  '<right><style color="#6fa8dc" font-size="12"><b>TOTAL</b></style></right>',
+  '<right><style color="#000000" font-size="12"><b>TOTAL</b></style></right>',
   null,
   null,
   null,
@@ -180,7 +180,7 @@ $books[] = [
   null,
   null,
   null,
-  '<right><style color="#6fa8dc">'. $total . '</style></right>',
+  '<right><style color="#000000"><b>'. $total . '</b></style></right>',
   null,
   null,
   null,
@@ -189,10 +189,10 @@ $books[] = [
 ];
 
 
-$current_date_time = "_" . $from_date . "_to_" . $to_date . "_" . date("Y-m-d_H:m:s",time());
+$current_date_time = "_" . $from_date . "_to_" . $to_date . "_" . strtotime("now");
 $extra_file_name = "";
 if ($agent_id) {
-  $extra_file_name = str_replace(".", "_", ($getQueryData[0]["agent_name"] || $getQueryData[0]["code_agent"]));
+ $extra_file_name = str_replace(".", "_", $getQueryData[0]["agent_name"]?$getQueryData[0]["agent_name"]:$getQueryData[0]["code_agent"]);
   $extra_file_name = str_replace(" ", "_", $extra_file_name);
 }
 $file_name = $extra_file_name . $current_date_time . ".xlsx";

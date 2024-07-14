@@ -27,13 +27,14 @@
       </b-col>
       <b-col sm="3" class="mt-1">
         <b-form-group label="From Date">
-          <b-form-input v-model="from_date" type="date" placeholder="Select RID" @input="changeToDate"></b-form-input>
+          <b-form-input v-model="from_date" type="date" placeholder="Select RID" @input="changeToDate"
+          :max="maxDate"></b-form-input>
         </b-form-group>
       </b-col>
       <b-col sm="3" class="mt-1">
         <b-form-group label="To Date">
           <b-form-input v-model="to_date" type="date" placeholder="Select RID" :disabled="!from_date" :min="from_date"
-            @input="onGetAllUsers"></b-form-input>
+            @input="onGetAllUsers" :max="maxDate" ></b-form-input>
         </b-form-group>
       </b-col>
 
@@ -200,6 +201,7 @@ export default {
   },
   data() {
     return {
+      maxDate:"",
       allUserList: [],
       company_array: [],
       agent_array: [],
@@ -320,7 +322,7 @@ export default {
   },
 
   beforeMount() {
-    // this.from_date=moment().format("YYYY-MM-DD")
+    this.maxDate=moment().format("YYYY-MM-DD")
     // this.to_date=moment().format("YYYY-MM-DD")
     this.onGetAllUsers();
     this.getCompanyList();
@@ -331,6 +333,8 @@ export default {
     tabChange(){
       if(this.tabIndex>0){
         this.allUserList=[];
+      }else{
+        this.onGetAllUsers()
       }
       this.company=""
       this.agent=""
@@ -366,7 +370,7 @@ export default {
     },
     changeToDate() {
       if (!this.to_date || moment(this.from_date).isAfter(this.to_date)) {
-        this.to_date = this.from_date;
+        this.to_date = moment().format("YYYY-MM-DD");
       }
       this.onGetAllUsers();
     },
