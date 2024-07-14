@@ -155,7 +155,7 @@
 
           <b-col sm="3" class="mt-1">
             <b-form-group label="Policy Date" :label-for="keyname.policy_date" class="m-0">
-              <validation-provider #default="{ errors }" name=" Policy Date">
+              <validation-provider #default="{ errors }" name=" Policy Date" :rules="{ required: true }" >
                 <b-form-input :id="keyname.policy_date" :name="keyname.policy_date"
                   :state="errors.length > 0 ? false : null" v-model="form.policy_date" type="date"
                   placeholder="Select Policy Date"></b-form-input>

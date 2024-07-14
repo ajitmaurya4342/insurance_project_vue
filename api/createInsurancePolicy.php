@@ -67,11 +67,6 @@ $key_name_array=[
     "created_at",
 ];
 
-// purchase_rate: "P Points",
-// company_rate: "Company Points",
-// agent_rate: "Agent Points",
-// code_rate: "Third Party Company Points",
-// profit_rate: "Pr Points",
 $number_array=["premium","gst","net_premium","idv","gvw","purchase_rate","company_rate","agent_rate","code_rate","profit_rate"];
 $date_array=["policy_date","rid"];
 
@@ -98,13 +93,10 @@ foreach($getQueryData as $idx=>$value){
 
 $current_date_time=date("Y-m-d_H:m:s");
 $extra_file_name="";
-if($ct_id){
-  $extra_file_name=str_replace(".","_",$simple_array[1]);
-  $extra_file_name=str_replace(" ","_",$extra_file_name);
-}
+
 $file_name = "Insurance_".$extra_file_name.$current_date_time.".xlsx";
 
 $xlsx = Shuchkin\SimpleXLSXGen::fromArray( $books ,$name="MySheet")->setDefaultFontSize(12);
-$xlsx->autoFilter('A1:W1');
+$xlsx->autoFilter('A1:AB1');
 $xlsx->downloadAs($file_name);
 

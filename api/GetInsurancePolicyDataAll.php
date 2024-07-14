@@ -1,7 +1,7 @@
 <?php
 
 $table_name="ms_insurance_policy";
-$search_column=["reg_name","policy_no","vehicle_no"];
+$search_column=["reg_name","policy_no","vehicle_no","ms_agent.agent_name","company_type_name"];
 $where = "";
 $limit=0;
 $current_page=0;
@@ -10,10 +10,9 @@ $order_column="insurance_id";
 $order_by="DESC";
 
 $ct_id="";
+$agent_id="";
 $from_date="";
 $to_date="";
-
-
 
 
 if(isset($data->search) && $data->search){
@@ -39,6 +38,11 @@ if(isset($data->ct_id) && $data->ct_id){
     $where=$where." and  ms_insurance_policy.ct_id='".$ct_id."'";
 }
 
+if(isset($data->agent_id) && $data->agent_id){
+    $agent_id=$data->agent_id;
+    $where=$where." and  ms_insurance_policy.agent_id='".$agent_id."'";
+}
+
 
 if(isset($data->from_date) && $data->from_date){
     $from_date=$data->from_date;
@@ -47,11 +51,8 @@ if(isset($data->from_date) && $data->from_date){
     }else{
         $to_date=$from_date;
     }
-
-    $where=$where." and (Date(ms_insurance_policy.created_at) between '".$from_date."' and '".$to_date."')";
+    $where=$where." and (Date(ms_insurance_policy.policy_date) between '".$from_date."' and '".$to_date."')";
 }
-
-
 
 $finalColumn = "*";
 

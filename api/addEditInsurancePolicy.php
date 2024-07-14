@@ -132,7 +132,7 @@ if (isset($data->insurance_id) && $data->insurance_id) {
     $dataNew=[
         "amount"=> $agent_rate,
         "insurance_id"=>$insurance_id,
-        "payment_date"=>$current_date,
+        "payment_date"=>$policy_date,
         "pm_id"=>$pm_id,
         "agent_id"=>$agent_id
     ];
@@ -149,7 +149,7 @@ if (isset($data->insurance_id) && $data->insurance_id) {
     $dataNew=[
         "amount"=> $code_rate,
         "insurance_id"=>$insurance_id,
-        "payment_date"=>$current_date,
+        "payment_date"=>$policy_date,
         "pm_id"=>$pm_id,
         "agent_id"=>$code_id
     ];
@@ -160,7 +160,7 @@ if (isset($data->insurance_id) && $data->insurance_id) {
     $dataNew=[
             "amount"=> $company_rate,
             "insurance_id"=>$insurance_id,
-            "payment_date"=>$current_date,
+            "payment_date"=>$policy_date,
             "pm_id"=>$pm_id,
             "company_id"=>$ct_id
     ];
