@@ -757,9 +757,13 @@ export default {
       } catch (err) { }
     },
     calculateGST() {
-      let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
+     if(this.form.is_gst==="GST"){
+       let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
       this.form.net_premium = net_premium;
       this.form.gst = +parseFloat(this.form.premium - net_premium).toFixed(2);
+      }
+      this.calculateProfit()
+      
     },
 
     showModal(type) {
