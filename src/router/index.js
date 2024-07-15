@@ -401,7 +401,6 @@ const router = new VueRouter({
 // ? For splash screen
 // Remove afterEach hook if you are not using splash screen
 router.afterEach((item) => {
-
   let auth=item.fullPath=="/"?false:true
   if(auth){
     let checkAccessToken=TokenService.getToken();
