@@ -44,7 +44,6 @@ if($row_count_check>0){
 
 }
 
-
 $sql_count="Delete From ".$table_name." where ".$key."='".$id."'";
 $result_count = mysqli_query($conn, $sql_count);
 

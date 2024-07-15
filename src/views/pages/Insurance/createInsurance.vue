@@ -100,11 +100,14 @@
           </b-col>
 
           <b-col sm="6" class="mt-1">
-            <b-form-group label="Bank Name (HP)" :label-for="keyname.bank_name">
+            <b-form-group label="Bank Name (HP)" :label-for="keyname.hp_name">
               <validation-provider #default="{ errors }" name="Bank Name" :rules="{}">
-                <multiselect :id="keyname.bank_name" :name="keyname.bank_name" :state="errors.length > 0 ? false : null"
+                <b-form-input :id="keyname.hp_name" :name="keyname.hp_name"
+                  :state="errors.length > 0 ? false : null" v-model="form.hp_name"
+                  placeholder="Enter Bank Name (HP)"></b-form-input>
+                <!-- <multiselect :id="keyname.bank_name" :name="keyname.bank_name" :state="errors.length > 0 ? false : null"
                   v-model="form.bank_name" track-by="bd_id" label="bank_dept_name" placeholder="Select Bank"
-                  :options="bank_array" :searchable="false" :allow-empty="true" />
+                  :options="bank_array" :searchable="false" :allow-empty="true" /> -->
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
@@ -192,7 +195,24 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-          <b-col sm="6" class="">
+
+          <b-col sm="6"  v-if="form.company && form.company.seller_type == 'Self'">
+            <b-form-group label="COMPANY ID" :label-for="keyname.bank_name">
+              <validation-provider #default="{ errors }" name="Bank Name" :rules="{}">
+                <multiselect :id="keyname.bank_name" :name="keyname.bank_name" :state="errors.length > 0 ? false : null"
+                  v-model="form.bank_name" track-by="bd_id" label="bank_dept_name" placeholder="Select Company ID"
+                  :options="bank_array" :searchable="false" :allow-empty="true" />
+
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+          <b-col sm="6"  v-else>
             <b-form-group label="Code Id" :label-for="keyname.code_id">
               <validation-provider #default="{ errors }" name="Code ID">
                 <multiselect :id="keyname.code_id" :name="keyname.code_id" :state="errors.length > 0 ? false : null"
@@ -386,6 +406,8 @@
         </b-row>
       </b-form>
 
+      
+
       <div class="row">
         <h4>Extra Detail :</h4>
       </div>
@@ -436,6 +458,25 @@
           </b-form-group>
         </b-col>
       </b-row>
+
+      <div>
+        <b-col sm="12" class="mt-1">
+            <b-form-group label="Remarks" :label-for="keyname.remarks">
+              <validation-provider #default="{ errors }" name="Remarks" :rules="{}">
+                <b-form-input :id="keyname.remarks" :name="keyname.remarks"
+                  :state="errors.length > 0 ? false : null" v-model="form.remarks"
+                  placeholder="Enter Remarks"></b-form-input>
+
+                <small class="text-danger">{{
+                  errors[0] && errors[0].includes("too short")
+                    ? `${item.label} must be more than ${item.rules.min - 1
+                    } character`
+                    : errors[0]
+                }}</small>
+              </validation-provider>
+            </b-form-group>
+          </b-col>
+      </div>
 
       <b-row class="mt-1 pb-4">
         <b-col class="text-center">
@@ -532,6 +573,8 @@ export default {
         vehicle_type: "vehicle_type",
         product_type: "product_type",
         insurance_type: "insurance_type",
+        hp_name:"hp_name",
+        remarks:"remarks",
 
         purchase_rate: "purchase_rate",
         company_rate: "company_rate",
@@ -569,7 +612,9 @@ export default {
         agent_rate: 0,
         code_rate: 0,
         profit_rate: 0,
-        is_gst:"GST"
+        is_gst:"GST",
+        hp_name:"",
+        remarks:"",
       },
       registration_array: [],
       bank_array: [],
@@ -756,7 +801,7 @@ export default {
           }
         }
       } catch (err) { 
-        
+
       }
     },
     calculateGST() {
@@ -834,6 +879,7 @@ export default {
       this.form.code_id = "";
       this.form.company_rate=0;
       this.form.code_rate=0;
+      this.form.bank_name=null
     },
     async getAllCustomer() {
       try {

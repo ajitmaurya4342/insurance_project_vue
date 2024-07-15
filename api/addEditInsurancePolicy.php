@@ -36,7 +36,6 @@ if(count($resultError)>0){
     exit;
 }
 
-
 $current_date=date('Y-m-d H:i:s');
 $rid=$data->rid;
 $ct_id=$data->ct_id;
@@ -64,6 +63,8 @@ $agent_rate=$data->agent_rate;
 $code_rate=$data->code_rate;
 $profit_rate=$data->profit_rate;
 $is_gst=$data->is_gst;
+$hp_name=$data->hp_name;
+$remarks=$data->remarks;
 
 $table_name="ms_insurance_policy";
 $whereCheck="";
@@ -110,6 +111,8 @@ $dataArray = [
     "agent_rate" => mysqli_real_escape_string($conn,$agent_rate),
     "code_rate" => mysqli_real_escape_string($conn,$code_rate),
     "profit_rate" => mysqli_real_escape_string($conn,$profit_rate),
+    "hp_name" => mysqli_real_escape_string($conn,$hp_name),
+    "remarks" => mysqli_real_escape_string($conn,$remarks),
 ];
 
 $msg="Record Inserted Successfully";

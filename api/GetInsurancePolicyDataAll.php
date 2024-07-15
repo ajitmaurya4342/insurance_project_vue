@@ -129,6 +129,9 @@ $number_array=["premium","gst","net_premium","idv","purchase_rate","company_rate
 
 if($row>0){
     while($row_detail=mysqli_fetch_assoc($result)){
+        if($row_detail["seller_type"]==="Self"){
+          $row_detail["code_agent"]= $row_detail["bank_dept_name"];
+        }
         if(!isset($data->insurance_id) && !@$data->insurance_id){
         $row_detail["created_date_time"]= date("d M,Y h:ia", strtotime($row_detail["created_at"]));
         $row_detail["rid"]= date("d M,Y", strtotime($row_detail["rid"]));

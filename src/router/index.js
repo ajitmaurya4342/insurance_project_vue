@@ -276,7 +276,7 @@ const router = new VueRouter({
       name: "bankList",
       component: () => import("@/views/pages/Bank/bankList.vue"),
       meta: {
-        pageTitle: "Bank List",
+        pageTitle: "Company Id List",
       },
       auth:true
     },

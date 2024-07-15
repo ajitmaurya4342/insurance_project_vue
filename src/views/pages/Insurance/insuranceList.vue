@@ -221,7 +221,7 @@ export default {
         vehicle_no: "Registration No",
         reg_name: "Customer Name",
         // policy_no: "Policy No",
-        bank_dept_name: "Bank Name",
+        bank_dept_name: "Company ID",
         agent_name: "Agent Name",
         agent_no: "Agent Number",
         policy_date: "Policy Date",

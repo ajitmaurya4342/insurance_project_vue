@@ -93,7 +93,7 @@ export default {
     icon: "LayoutIcon",
   },
   {
-    title: "Bank",
+    title: "Company Id",
     route: "bankList",
     icon: "DollarSignIcon",
   },

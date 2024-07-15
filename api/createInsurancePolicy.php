@@ -30,6 +30,7 @@ $books = [
        '<center><b><style bgcolor="#6fa8dc" color="#000000">Third Party Company Points</style></b></center>',
        '<center><b><style bgcolor="#6fa8dc" color="#000000">Agent Points</style></b></center>',
        '<center><b><style bgcolor="#6fa8dc" color="#000000">Pr Points</style></b></center>',
+       '<center><b><style bgcolor="#6fa8dc" color="#000000">Remarks</style></b></center>',
        '<center><b><style bgcolor="#6fa8dc" color="#000000">Created By</style></b></center>',
        '<center><b><style bgcolor="#6fa8dc" color="#000000">Created Time</style></b></center>'],
 ];
@@ -43,7 +44,7 @@ $key_name_array=[
     "vehicle_no",
     "reg_name",
     "policy_no",
-    "bank_dept_name",
+    "hp_name",
     "agent_name",
     "agent_no",
     "policy_date",
@@ -63,8 +64,10 @@ $key_name_array=[
     "code_rate",
     "agent_rate",
     "profit_rate",
+    "remarks",
     "created_user",
     "created_at",
+    
 ];
 
 $number_array=["premium","gst","net_premium","idv","gvw","purchase_rate","company_rate","agent_rate","code_rate","profit_rate"];
@@ -97,6 +100,6 @@ $extra_file_name="";
 $file_name = "Insurance_".$extra_file_name.$current_date_time.".xlsx";
 
 $xlsx = Shuchkin\SimpleXLSXGen::fromArray( $books ,$name="MySheet")->setDefaultFontSize(12);
-$xlsx->autoFilter('A1:AB1');
+$xlsx->autoFilter('A1:AC1');
 $xlsx->downloadAs($file_name);
 
