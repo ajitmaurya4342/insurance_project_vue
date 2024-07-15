@@ -251,6 +251,7 @@
               <validation-provider #default="{ errors }" name="Net Premium">
                 <b-form-input :id="keyname.net_premium" :name="keyname.net_premium"
                   :state="errors.length > 0 ? false : null" v-model="form.net_premium" type="number" :disabled="form.is_gst==='GST'"
+                  @input="calculateGST"
                   placeholder="Enter Net Premium"></b-form-input>
 
                 <small class="text-danger">{{
@@ -754,13 +755,19 @@ export default {
             this.form.insurance_type;
           }
         }
-      } catch (err) { }
+      } catch (err) { 
+        
+      }
     },
     calculateGST() {
      if(this.form.is_gst==="GST"){
        let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
       this.form.net_premium = net_premium;
       this.form.gst = +parseFloat(this.form.premium - net_premium).toFixed(2);
+      }else if(this.form.premium && this.form.net_premium){
+      this.form.gst = +parseFloat(this.form.premium - this.form.net_premium).toFixed(2);
+      }else if(!(this.form.is_gst==="GST")){
+        this.form.gst=0
       }
       this.calculateProfit()
       
