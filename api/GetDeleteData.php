@@ -21,15 +21,10 @@ if($check_key=="user_id"){
 }
 
 
-$chek_more="";
-if($check_key=="agent_id"){
-    $chek_more = " or code_id='".$id."'"; 
-}
-
 $checkTable_name=["ms_insurance_policy","add_credit_note_company","add_credit_note_agent"];
 
 if(!in_array($table_name, $checkTable_name)){
-$sql_check="Select ".$check_key." From ".$checkTable_name." where ".$check_key."='".$id."'" . $chek_more;
+$sql_check="Select ".$check_key." From ".$table_name." where ".$check_key."='".$id."'";
 
 $result_check = mysqli_query($conn, $sql_check);
 $row_count_check = mysqli_num_rows($result_check);
@@ -44,7 +39,9 @@ if($row_count_check>0){
 
 }
 
+
 $sql_count="Delete From ".$table_name." where ".$key."='".$id."'";
+
 $result_count = mysqli_query($conn, $sql_count);
 
 if($table_name =="ms_insurance_policy"){
