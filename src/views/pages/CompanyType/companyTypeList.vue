@@ -59,12 +59,12 @@
             class="cursor-pointer"
             @click="onEdit(data.item)"
           ></b-icon>
-          <DeleteComponent
+          <!-- <DeleteComponent
             type="company"
             :id="data.item.ct_id"
             class="ml-1"
             :getData="onGetAllUsers"
-          ></DeleteComponent>
+          ></DeleteComponent> -->
         </b-row>
       </template>
     </b-table>

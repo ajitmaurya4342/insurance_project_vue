@@ -59,13 +59,13 @@
             class="cursor-pointer"
             @click="onEdit(data.item)"
           ></b-icon>
-          <DeleteComponent
+          <!-- <DeleteComponent
             v-if="data.item.agent_id > 1"
             type="agent"
             :id="data.item.agent_id"
             class="ml-1"
             :getData="onGetAllUsers"
-          ></DeleteComponent>
+          ></DeleteComponent> -->
         </b-row>
       </template>
     </b-table>
