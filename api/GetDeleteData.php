@@ -21,10 +21,15 @@ if($check_key=="user_id"){
 }
 
 
-$checkTable_name=["ms_insurance_policy","add_credit_note_company","add_credit_note_agent"];
+$chek_more="";
+if($check_key=="agent_id"){
+    $chek_more = " or code_id='".$id."'"; 
+}
 
+$checkTable_name=["ms_insurance_policy","add_credit_note_company","add_credit_note_agent"];
+$checkMainTable="ms_insurance_policy";
 if(!in_array($table_name, $checkTable_name)){
-$sql_check="Select ".$check_key." From ".$table_name." where ".$check_key."='".$id."'";
+$sql_check="Select ".$check_key." From ".$checkMainTable." where ".$check_key."='".$id."'" . $chek_more;
 
 $result_check = mysqli_query($conn, $sql_check);
 $row_count_check = mysqli_num_rows($result_check);
