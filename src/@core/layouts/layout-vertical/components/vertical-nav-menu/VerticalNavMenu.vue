@@ -25,7 +25,7 @@
           <li class="nav-item mr-auto">
             <b-link class="navbar-brand" to="/home">
               <span class="brand-logo">
-                <b-img style="width: 20px" :src="appLogoImage" alt="logo" />
+                <b-img style="width: 40px" :src="appLogoImage" alt="logo" />
               </span>
               <h2 class="brand-text">
                 {{ appName }}

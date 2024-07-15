@@ -8,7 +8,7 @@
         <div
           class="w-100 d-lg-flex align-items-center justify-content-center px-5"
         >
-          <b-img width="150" fluid :src="imgUrl" alt="Login V2" />
+          <b-img width="200" fluid :src="imgUrl" alt="Login V2" />
         </div>
       </b-col>
 
@@ -162,7 +162,7 @@ export default {
         password: "",
         user_name: "",
       },
-      sideImg: require("@/assets/images/pages/qr-code.png"),
+      sideImg: require("@/assets/images/pages/insurance.png"),
       required,
       email,
     };
@@ -173,7 +173,7 @@ export default {
     },
     imgUrl() {
       if (store.state.appConfig.layout.skin === "dark") {
-        this.sideImg = require("@/assets/images/pages/qr-code.png");
+        this.sideImg = require("@/assets/images/pages/insurance.png");
 
         return this.sideImg;
       }
