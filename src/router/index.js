@@ -405,18 +405,18 @@ router.afterEach((item) => {
   let auth=item.fullPath=="/"?false:true
   if(auth){
     let checkAccessToken=TokenService.getToken();
-    if(checkAccessToken){
-      const appLoading = document.getElementById("loading-bg");
-      if (appLoading) {
-        appLoading.style.display = "none";
-      }
-    }else{
-     return router.replace({
-       path:"/"
-     })
-    }
+    if(!checkAccessToken){
+      return router.replace({
+        path:"/"
+      })
+  
    }
+  }
   // Remove initial loading
+  const appLoading = document.getElementById("loading-bg");
+  if (appLoading) {
+    appLoading.style.display = "none";
+  }
 
 });
 
