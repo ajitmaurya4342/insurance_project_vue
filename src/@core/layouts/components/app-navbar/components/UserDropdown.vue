@@ -88,9 +88,7 @@ export default {
   methods: {
     logout() {
       TokenService.removeToken();
-      this.$store.commit("user/SET_USER_DETAILS", {});
-      this.$store.commit("user/SET_USER_AUTHENTICATED", false);
-
+      UserService.removeUserProfile();
       this.$router.replace({ name: "login" });
     },
   },

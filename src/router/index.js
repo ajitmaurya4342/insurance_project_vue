@@ -1,3 +1,4 @@
+import { TokenService } from "@/apiServices/storageService";
 import Vue from "vue";
 import VueRouter from "vue-router";
 
@@ -17,6 +18,7 @@ const router = new VueRouter({
       meta: {
         layout: "full",
       },
+      auth:false
     },
 
     {
@@ -26,6 +28,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Dashboard",
       },
+      auth:true
     },
 
     /// Userr Route
@@ -36,6 +39,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "User List",
       },
+      auth:true
     },
     {
       path: "/add-users",
@@ -44,6 +48,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add User",
       },
+      auth:true
     },
     {
       path: "/update-users/:user_id",
@@ -52,6 +57,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update User",
       },
+      auth:true
     },
 
     /// Agent Route
@@ -62,6 +68,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Agent List",
       },
+      auth:true
     },
     {
       path: "/add-agent-users",
@@ -70,6 +77,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Agent",
       },
+      auth:true
     },
     {
       path: "/update-agent-users/:agent_id",
@@ -78,6 +86,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Agent",
       },
+      auth:true
     },
 
     /// Payment Route
@@ -88,6 +97,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Payment List",
       },
+      auth:true
     },
     {
       path: "/add-payment",
@@ -96,6 +106,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Payment",
       },
+      auth:true
     },
     {
       path: "/update-payment/:pm_id",
@@ -104,6 +115,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Payment",
       },
+      auth:true
     },
 
     /// Vehicle Type Route
@@ -114,6 +126,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Vehicle Type List",
       },
+      auth:true
     },
     {
       path: "/add-vehicle-type",
@@ -123,6 +136,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Vehicle Type",
       },
+      auth:true
     },
     {
       path: "/update-vehicle-type/:vehicle_id",
@@ -132,6 +146,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Vehicle Type",
       },
+      auth:true
     },
 
     /// Company Type Route
@@ -142,6 +157,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Company  List",
       },
+      auth:true
     },
     {
       path: "/add-company-type",
@@ -151,6 +167,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Company Type",
       },
+      auth:true
     },
     {
       path: "/update-company-type/:ct_id",
@@ -160,6 +177,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Company Type",
       },
+      auth:true
     },
 
     /// FP Type Route
@@ -170,6 +188,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Product List",
       },
+      auth:true
     },
     {
       path: "/add-fp-type",
@@ -178,6 +197,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Product Type",
       },
+      auth:true
     },
     {
       path: "/update-fp-type/:fp_id",
@@ -186,6 +206,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Product Type",
       },
+      auth:true
     },
 
     /// Insurance Type Route
@@ -197,6 +218,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Insurance Type List",
       },
+      auth:true
     },
     {
       path: "/add-insurance-type",
@@ -206,6 +228,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Insurance Type",
       },
+      auth:true
     },
     {
       path: "/update-insurance-type/:it_id",
@@ -215,6 +238,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Insurance Type",
       },
+      auth:true
     },
 
     /// Fuel Type Route
@@ -225,6 +249,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Fuel Type List",
       },
+      auth:true
     },
     {
       path: "/add-fuel-type",
@@ -233,6 +258,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Fuel Type",
       },
+      auth:true
     },
     {
       path: "/update-fuel-type/:fuel_id",
@@ -241,6 +267,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Fuel Type",
       },
+      auth:true
     },
 
     /// Bank Dept
@@ -251,6 +278,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Bank List",
       },
+      auth:true
     },
     {
       path: "/add-bank",
@@ -259,6 +287,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Bank ",
       },
+      auth:true
     },
     {
       path: "/update-bank/:bd_id",
@@ -267,6 +296,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Bank ",
       },
+      auth:true
     },
 
     /// Customer Route
@@ -277,6 +307,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Customer List",
       },
+      auth:true
     },
     {
       path: "/add-customer",
@@ -285,6 +316,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Customer",
       },
+      auth:true
     },
     {
       path: "/update-customer/:cust_id",
@@ -293,6 +325,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Customer ",
       },
+      auth:true
     },
 
      /// Credit Note Route
@@ -303,6 +336,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Credit Note List",
       },
+      auth:true
     },
     {
       path: "/add-credit-note",
@@ -311,6 +345,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Credit Note",
       },
+      auth:true
     },
     {
       path: "/update-credit-note/:type/:type_id",
@@ -319,6 +354,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Credit Note ",
       },
+      auth:true
     },
 
 
@@ -330,6 +366,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Insurance List",
       },
+      auth:true
     },
     {
       path: "/add-insurance",
@@ -338,6 +375,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Add Insurance",
       },
+      auth:true
     },
     {
       path: "/update-insurance/:insurance_id",
@@ -346,6 +384,7 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Update Bank ",
       },
+      auth:true
     },
     {
       path: "/add-setting",
@@ -354,18 +393,31 @@ const router = new VueRouter({
       meta: {
         pageTitle: "Setting",
       },
+      auth:true
     },
   ],
 });
 
 // ? For splash screen
 // Remove afterEach hook if you are not using splash screen
-router.afterEach(() => {
+router.afterEach((item) => {
+
+  let auth=item.fullPath=="/"?false:true
+  if(auth){
+    let checkAccessToken=TokenService.getToken();
+    if(checkAccessToken){
+      const appLoading = document.getElementById("loading-bg");
+      if (appLoading) {
+        appLoading.style.display = "none";
+      }
+    }else{
+     return router.replace({
+       path:"/"
+     })
+    }
+   }
   // Remove initial loading
-  const appLoading = document.getElementById("loading-bg");
-  if (appLoading) {
-    appLoading.style.display = "none";
-  }
+
 });
 
 export default router;
