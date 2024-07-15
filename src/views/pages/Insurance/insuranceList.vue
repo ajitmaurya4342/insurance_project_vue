@@ -344,6 +344,8 @@ export default {
       let urlPage="/createInsurancePolicy.php?"
       if(this.tabIndex==1){
         urlPage="/createAgentInsurancePolicyExcel.php?"
+      }else   if(this.tabIndex==2) {
+        urlPage="/createCompanyInsurancePolicyExcel.php?"
       }
       let url = process.env.VUE_APP_BASEURL + urlPage;
       let obj = {
