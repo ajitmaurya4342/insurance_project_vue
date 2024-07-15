@@ -120,18 +120,17 @@ while($rowdetail=mysqli_fetch_assoc($resultCredit)) {
     null,
     null,
     null,
-    date("Y-m-d",strtotime($rowdetail["payment_date"])),
+   '<style color="'. $color.'"><b>'. date("Y-m-d",strtotime($rowdetail["payment_date"])).'</b></style>',
     null,
     null,
     null,
-    null,
+    '<style color="'. $color.'"><b>'. $rowdetail["description"] .'</b></style>',
     '<right><style color="'.$color.'"><b>'. $totalA . '</b></style></right>',
     $rowdetail["pm_name"],
     null,
     null,
     null,
     null,
-    $rowdetail["description"]
   ];
 
   $count=$count+1;
@@ -153,7 +152,7 @@ foreach ($getQueryData as $idx => $value) {
     } else if (in_array($keyName, $date_array)) {
       $finalValue = $value[$keyName] ? date("Y-m-d", strtotime($value[$keyName])) : "-";
     } else if ($keyName == "total") {
-     $color= $value[$keyName]>0?"#006400":"#FF0000";
+     $color= $value[$keyName]>0?"#000000":"#FF0000";
      $finalValue = '<right><style color="'.$color.'">' . $value[$keyName] . '</style></right>';
     } else {
       $finalValue = $value[$keyName] ? $value[$keyName] : "-";
