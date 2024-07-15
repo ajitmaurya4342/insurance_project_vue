@@ -395,6 +395,16 @@ const router = new VueRouter({
       },
       auth:true
     },
+
+    {
+      path: "/master-list",
+      name: "master",
+      component: () => import("@/views/pages/Setting/masterList.vue"),
+      meta: {
+        pageTitle: "Setting",
+      },
+      auth:true
+    },
   ],
 });
 
