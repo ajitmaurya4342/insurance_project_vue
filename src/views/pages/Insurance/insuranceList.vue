@@ -480,9 +480,6 @@ export default {
         this.allUserList = [];
         this.isBusy = true;
         const response = await GetAllCompanyType({
-          search: this.search,
-          limit: this.perPage,
-          currentPage: this.currentPage,
         });
         const { data } = response;
         if (data.status) {
@@ -496,9 +493,6 @@ export default {
         this.allUserList = [];
         this.isBusy = true;
         const response = await GetAllAgent({
-          search: this.search,
-          limit: this.perPage,
-          currentPage: this.currentPage,
         });
         const { data } = response;
         if (data.status) {
