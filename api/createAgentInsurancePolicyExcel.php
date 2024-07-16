@@ -6,7 +6,6 @@ $books = [
   [
     '<center><b><style bgcolor="#6fa8dc" color="#000000">RID</style></b></center>',
     '<center><b><style bgcolor="#6fa8dc" color="#000000">Agent Name</style></b></center>',
-    '<center><b><style bgcolor="#6fa8dc" color="#000000">Code Agent</style></b></center>',
     '<center><b><style bgcolor="#6fa8dc" color="#000000">REGISTRATION NO.</style></b></center>',
     '<center><b><style bgcolor="#6fa8dc" color="#000000">NAME</style></b></center>',
     '<center><b><style bgcolor="#6fa8dc" color="#000000">POLICY NO</style></b></center>',
@@ -26,26 +25,6 @@ $books = [
 
 $data = (object) ($_REQUEST);
 
-$key_name_array = [
-  "sr_no",
-  "rid",
-  "agent_name",
-  "code_agent",
-  "vehicle_no",
-  "reg_name",
-  "policy_no",
-  "policy_date",
-  "premium",
-  "gst",
-  "net_premium",
-  "idv",
-  "total",
-  "pm_name",
-  "vehicle_type",
-  "fp_type",
-  "insurance_type_name",
-  "fuel_type_name",
-];
 
 $number_array = ["premium", "gst", "net_premium", "idv", "total"];
 $date_array = ["policy_date", "rid"];
@@ -61,10 +40,13 @@ if ($balanceResult && $balanceResult["opening_balance"]) {
   $opening_balance = (float) number_format((float) $balanceResult["opening_balance"], 2, '.', '');
 }
 
+$sql_agent_detail="select * from ms_agent where agent_id='".$agent_id."'";
+$result_agent=mysqli_query($conn, $sql_agent_detail);
+$row_agent=mysqli_fetch_assoc($result_agent);
+
 $key_name_array = [
   "rid",
   "agent_name",
-  "code_agent",
   "vehicle_no",
   "reg_name",
   "policy_no",
@@ -83,7 +65,6 @@ $key_name_array = [
 
 $books[] = [
   '<right><style color="#6fa8dc" font-size="12"><b>OLD BALANCE</b></style></right>',
-  null,
   null,
   null,
   null,
@@ -119,7 +100,6 @@ while($rowdetail=mysqli_fetch_assoc($resultCredit)) {
     null,
     null,
     null,
-    null,
    '<style color="'. $color.'"><b>'. date("Y-m-d",strtotime($rowdetail["payment_date"])).'</b></style>',
     null,
     null,
@@ -140,7 +120,8 @@ while($rowdetail=mysqli_fetch_assoc($resultCredit)) {
 
 foreach ($getQueryData as $idx => $value) {
   $value["total"] = $value["agent_rate"];
-  if ($value["code_id"]) {
+  if ($value["code_id"]==$agent_id) {
+    $value["agent_name"]=$row_agent["agent_name"];
     $value["total"] = $value["code_rate"];
   }
 
@@ -178,7 +159,6 @@ $books[] = [
   null,
   null,
   null,
-  null,
   '<right><style color="#000000"><b>'. $total . '</b></style></right>',
   null,
   null,
@@ -188,10 +168,11 @@ $books[] = [
 ];
 
 
+
 $current_date_time = "_" . $from_date . "_to_" . $to_date . "_" . strtotime("now");
 $extra_file_name = "";
 if ($agent_id) {
- $extra_file_name = str_replace(".", "_", $getQueryData[0]["agent_name"]?$getQueryData[0]["agent_name"]:$getQueryData[0]["code_agent"]);
+ $extra_file_name = str_replace(".", "_", $row_agent["agent_name"]);
   $extra_file_name = str_replace(" ", "_", $extra_file_name);
 }
 $file_name = $extra_file_name . $current_date_time . ".xlsx";
