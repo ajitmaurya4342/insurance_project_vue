@@ -118,10 +118,17 @@ export default {
     route: "insuranceTypeList",
     icon: "CreditCardIcon",
   },
+
   {
     title: "Fuel Type",
     route: "fuelTypeList",
     icon: "FilterIcon",
+  },
+    {
+    title: "Entry Insurance List",
+    icon: "CreditCardIcon",
+    route: "insuranceZeroList",
+
   },
   {
     title: "User",

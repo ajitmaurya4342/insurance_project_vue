@@ -369,6 +369,15 @@ const router = new VueRouter({
       auth:true
     },
     {
+      path: "/insurance-zero-list",
+      name: "insuranceZeroList",
+      component: () => import("@/views/pages/Insurance/insuranceZeroList.vue"),
+      meta: {
+        pageTitle: "Entry Sales Insurance List",
+      },
+      auth:true
+    },
+    {
       path: "/add-insurance",
       name: "addInsurance",
       component: () => import("@/views/pages/Insurance/createInsurance.vue"),

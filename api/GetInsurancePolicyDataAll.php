@@ -44,6 +44,7 @@ if(isset($data->agent_id) && $data->agent_id){
 }
 
 
+
 if(isset($data->from_date) && $data->from_date){
     $from_date=$data->from_date;
     if(isset($data->to_date) && $data->to_date){
@@ -52,6 +53,10 @@ if(isset($data->from_date) && $data->from_date){
         $to_date=$from_date;
     }
     $where=$where." and (Date(ms_insurance_policy.policy_date) between '".$from_date."' and '".$to_date."')";
+}
+
+if(isset($data->onlyZeroValue) && @$data->onlyZeroValue){
+    $where=$where."  and (purchase_rate=0 or agent_rate=0)";
 }
 
 $finalColumn = "*";
