@@ -178,8 +178,8 @@ if ($agent_id) {
 $file_name = $extra_file_name . $current_date_time . ".xlsx";
 
 $xlsx = Shuchkin\SimpleXLSXGen::fromArray($books, $name = "MySheet")->setDefaultFontSize(11);
-$xlsx->mergeCells('A2:K2');
-$xlsx->mergeCells('A'.$count.':K'.$count);
+$xlsx->mergeCells('A2:J2');
+$xlsx->mergeCells('A'.$count.':J'.$count);
 $xlsx->autoFilter('A1:W1');
 $xlsx->downloadAs($file_name);
 
