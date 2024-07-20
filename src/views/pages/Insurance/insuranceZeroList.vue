@@ -16,7 +16,7 @@
       <b-col sm="4" class="mt-1" v-if="tabIndex==2">
         <b-form-group label="Company">
           <multiselect v-model="company" track-by="ct_id" label="company_type_name" placeholder="Select Company"
-            :options="company_array" @input="onGetAllUsers" />
+            :options="company_array" @input="onGetAllUsers"  />
         </b-form-group>
       </b-col>
       <b-col sm="4" class="mt-1" v-if="tabIndex==1">
@@ -114,10 +114,12 @@
         </b-row>
       </template>
       <template #cell(salesAmount2)="data">
-        <b-row v-for="(item2, index) in Object.keys(salesAmount)" :key="index">
+        <b-row v-for="(item2, index) in Object.keys(salesAmount)" :key="index"  v-if="(item2=='code_rate' && data.item.seller_type!='Self') || (item2=='company_rate' && data.item.seller_type=='Self') || !['code_rate','company_rate'].includes(item2)" >
           <b-form-group :label="salesAmount[item2]" :label-for="item2">
                <b-form-input :id="item2" :name="item2" 
                  style="width:50%"
+                 :disabled="item2=='profit_rate'"
+                 @input="calculateProfit(data.item)"
                   v-model="data.item[item2]" type="text" :placeholder="'Enter' +salesAmount[item2] "></b-form-input>
             </b-form-group>
 
@@ -197,6 +199,7 @@ import {
 import moment from "moment";
 import DeleteComponent from "../DeleteComponent.vue";
 import ToastificationContent from "@/@core/components/toastification/ToastificationContent.vue";
+import { data } from "jquery";
 
 export default {
   components: {
@@ -232,8 +235,8 @@ export default {
       salesAmount:{
         purchase_rate: "P Points",
         company_rate: "Company Points",
-        agent_rate: "Agent Points",
         code_rate: "Third Party Company Points",
+        agent_rate: "Agent Points",
         profit_rate: "Pr Points",
       },
       inputTypeArray:["purchase_rate","company_rate","agent_rate","code_rate","profit_rate"],
@@ -360,6 +363,17 @@ export default {
   },
 
   methods: {
+    calculateProfit(data) {
+      let profit=0;
+      if(data.premium && data.purchase_rate && data.agent_rate){
+        if(data.agent_rate>0){
+          profit=+parseFloat(data.agent_rate-data.purchase_rate).toFixed(2);
+        }else{
+          profit=+parseFloat(data.premium -data.purchase_rate -  Math.abs(data.agent_rate)  ).toFixed(2)
+        }
+      }
+      data.profit_rate=profit;
+    },
     onSaveData(data){
       console.log(data)
     
@@ -493,6 +507,7 @@ export default {
         const response = await GetInsurancePolicyList({
           search: this.search,
           limit: this.perPage,
+          onlyZeroValue:true,
           currentPage: this.currentPage,
           ct_id: this.company && this.company.ct_id ? this.company.ct_id : "",
           agent_id: this.agent && this.agent.agent_id ? this.agent.agent_id : "",

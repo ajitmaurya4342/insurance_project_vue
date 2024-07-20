@@ -424,7 +424,7 @@
         </b-col>
 
         <b-col sm="3" class="">
-          <b-form-group label="Company Points" :label-for="keyname.company_rate">
+          <b-form-group :label="form.company.seller_type === 'Self'?'Company Points':'Third party Company Points'" :label-for="keyname.company_rate">
             <b-form-input :id="keyname.company_rate" :name="keyname.company_rate" v-model="form.company_rate"
               type="number" placeholder="Enter Company Points"
               v-if="form.company && form.company.seller_type === 'Self'" />
