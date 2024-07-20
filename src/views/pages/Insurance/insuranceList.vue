@@ -10,6 +10,8 @@
           </b-tab>
           <b-tab title="Company Insurance" >
           </b-tab>
+          <b-tab title="Entry Insurance List" >
+          </b-tab>
         </b-tabs>
       </div>
     <b-row class="mt-1">
@@ -331,10 +333,14 @@ export default {
 
   methods: {
     tabChange(){
-      if(this.tabIndex>0){
+      if(this.tabIndex==3){
+        this.$router.push({
+          path:"/insurance-zero-list"
+        })
+      }else if(this.tabIndex==1 || this.tabIndex==2){
         this.allUserList=[];
       }else{
-        this.onGetAllUsers()
+        this.onGetAllUsers();
       }
       this.company=""
       this.agent=""

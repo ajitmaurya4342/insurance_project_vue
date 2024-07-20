@@ -192,6 +192,7 @@ import {
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
 import {
+  addEditInsurancePolicy,
   GetAllAgent,
   GetAllCompanyType,
   GetInsurancePolicyList,
@@ -374,8 +375,35 @@ export default {
       }
       data.profit_rate=profit;
     },
-    onSaveData(data){
-      console.log(data)
+    async onSaveData(data2){
+         const response = await addEditInsurancePolicy({
+              ...data2,
+                purchase_rate: data2.purchase_rate || 0,
+                company_rate: data2.company_rate || 0,
+                agent_rate: data2.agent_rate || 0,
+                profit_rate: data2.profit_rate || 0,
+                code_rate: data2.code_rate || 0,
+            });
+            const { data } = response;
+            if (data.status) {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: data.message || "Record Saved Successfully",
+                  icon: "EditIcon",
+                  variant: "success",
+                },
+              });
+            } else {
+              this.$toast({
+                component: ToastificationContent,
+                props: {
+                  title: data.message || "Something Went Wrong",
+                  icon: "EditIcon",
+                  variant: "failure",
+                },
+              });
+            }
     
     },
     tabChange(){
