@@ -118,9 +118,9 @@
       <template #cell(salesAmount2)="data">
         <b-row v-for="(item2, index) in Object.keys(salesAmount)" :key="index"
           v-if="(item2 == 'code_rate' && data.item.seller_type != 'Self') || (item2 == 'company_rate' && data.item.seller_type == 'Self') || !['code_rate', 'company_rate'].includes(item2)">
-          <b-form-group :label="salesAmount[item2]" :label-for="item2">
+          <b-form-group :label="salesAmount[item2] + showpercentage(data.item,item2)" :label-for="item2">
             <b-form-input :id="item2" :name="item2" style="width:50%" :disabled="item2 == 'profit_rate'"
-              @input="calculateProfit(data.item)" v-model="data.item[item2]" type="text"
+              @input="callRate(data.item,item2)" v-model="data.item[item2]" type="text"
               :placeholder="'Enter' + salesAmount[item2]"></b-form-input>
           </b-form-group>
 
@@ -236,6 +236,7 @@ export default {
         net_premium: "Net:",
       },
       salesAmount: {
+        purchase_rate_percent: "P %",
         purchase_rate: "P Points",
         company_rate: "Company Points",
         code_rate: "Third Party Company Points",
@@ -352,16 +353,70 @@ export default {
   },
 
   methods: {
+   callRate(data,item){
+    this.calculateProfit(data)
+    if(item=='purchase_rate'){
+    this.calculateRatePurchase(data,'N')
+    }else if(item=='purchase_rate_percent'){
+      this.calculateRatePurchase(data,'Y')
+    } else {
+      let checkPercentage=item.purchase_rate_percent && item.purchase_rate_percent>0?'Y':'N';
+      this.calculateRatePurchase(data,checkPercentage)
+    }
+   },
+   calculateRatePurchase(data,type = 'N') {
+      let checkIsPercent = (type == 'Y');
+      if (checkIsPercent) {
+        data.purchase_rate = +parseFloat(((data.net_premium || 0) * (data.purchase_rate_percent || 0)) / 100).toFixed(2);
+      } else {
+        data.purchase_rate_percent = +parseFloat((
+          (data.purchase_rate || 0) / (data.net_premium || 0))
+        *100).toFixed(2);
+      }
+    },
+    showpercentage(data,item){
+      let showPercentage="(";
+      if(item=='code_rate'){
+        showPercentage +=this.calculateThirdPartyPercent(data)
+      }else if(item=='agent_rate'){
+        showPercentage +=this.calculateAgentPercent(data)
+      }else{
+        showPercentage=""
+      }
+      if(showPercentage){
+        showPercentage+=")"
+      }
+      return showPercentage
+    },
+    calculateThirdPartyPercent(data){
+     let code_percent=0;
+     if(data.code_rate<0){
+      code_percent = +parseFloat(( Math.abs(data.code_rate)/data.net_premium)*100).toFixed(2)
+     }else if(data.code_rate && data.code_rate>0){
+      code_percent = +parseFloat(((data.premium  - Math.abs(data.code_rate))/data.net_premium)*100).toFixed(2)
+     }
+     return code_percent
+    },
+    calculateAgentPercent(data){
+     let agent_percent=0;
+     if(data.agent_rate>0 && data.agent_rate>0){
+      agent_percent = +parseFloat((data.agent_rate/data.net_premium)*100).toFixed(2)
+     }else if(data.agent_rate ){
+      agent_percent = +parseFloat(((data.premium  - Math.abs(data.agent_rate))/data.net_premium)*100).toFixed(2)
+     }
+     return agent_percent
+    },
     calculateProfit(data) {
       let profit = 0;
-      if (data.premium && data.purchase_rate && data.agent_rate && data.premium > 0 && data.purchase_rate > 0 && data.agent_rate > 0) {
+      if (data.premium && data.purchase_rate && data.agent_rate ) {
         if (data.agent_rate > 0) {
           profit = +parseFloat(data.agent_rate - data.purchase_rate).toFixed(2);
-        } else {
+        } else if((data.agent_rate < 0)) {
           profit = +parseFloat(data.premium - data.purchase_rate - Math.abs(data.agent_rate)).toFixed(2)
         }
       }
       data.profit_rate = profit;
+
     },
     async onSaveData(data2) {
    
@@ -536,6 +591,10 @@ export default {
         const { data } = response;
         if (data.status) {
           this.allUserList = data.Records;
+          this.allUserList.map((z)=>{
+            z["purchase_rate_percent"]=0;
+            this.calculateRatePurchase(z,"N")
+          })
           if (this.currentPage == 1) {
             this.totalRows = data.total_rows;
           }
