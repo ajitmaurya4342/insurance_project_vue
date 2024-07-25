@@ -102,9 +102,8 @@
           <b-col sm="6" class="mt-1">
             <b-form-group label="Bank Name (HP)" :label-for="keyname.hp_name">
               <validation-provider #default="{ errors }" name="Bank Name" :rules="{}">
-                <b-form-input :id="keyname.hp_name" :name="keyname.hp_name"
-                  :state="errors.length > 0 ? false : null" v-model="form.hp_name"
-                  placeholder="Enter Bank Name (HP)"></b-form-input>
+                <b-form-input :id="keyname.hp_name" :name="keyname.hp_name" :state="errors.length > 0 ? false : null"
+                  v-model="form.hp_name" placeholder="Enter Bank Name (HP)"></b-form-input>
                 <!-- <multiselect :id="keyname.bank_name" :name="keyname.bank_name" :state="errors.length > 0 ? false : null"
                   v-model="form.bank_name" track-by="bd_id" label="bank_dept_name" placeholder="Select Bank"
                   :options="bank_array" :searchable="false" :allow-empty="true" /> -->
@@ -158,7 +157,7 @@
 
           <b-col sm="3" class="mt-1">
             <b-form-group label="Policy Date" :label-for="keyname.policy_date" class="m-0">
-              <validation-provider #default="{ errors }" name=" Policy Date" :rules="{ required: true }" >
+              <validation-provider #default="{ errors }" name=" Policy Date" :rules="{ required: true }">
                 <b-form-input :id="keyname.policy_date" :name="keyname.policy_date"
                   :state="errors.length > 0 ? false : null" v-model="form.policy_date" type="date"
                   placeholder="Select Policy Date"></b-form-input>
@@ -196,7 +195,7 @@
             </b-form-group>
           </b-col>
 
-          <b-col sm="6"  v-if="form.company && form.company.seller_type == 'Self'">
+          <b-col sm="6" v-if="form.company && form.company.seller_type == 'Self'">
             <b-form-group label="COMPANY ID" :label-for="keyname.bank_name">
               <validation-provider #default="{ errors }" name="Bank Name" :rules="{}">
                 <multiselect :id="keyname.bank_name" :name="keyname.bank_name" :state="errors.length > 0 ? false : null"
@@ -212,7 +211,7 @@
               </validation-provider>
             </b-form-group>
           </b-col>
-          <b-col sm="6"  v-else>
+          <b-col sm="6" v-else>
             <b-form-group label="Code Id" :label-for="keyname.code_id">
               <validation-provider #default="{ errors }" name="Code ID">
                 <multiselect :id="keyname.code_id" :name="keyname.code_id" :state="errors.length > 0 ? false : null"
@@ -251,10 +250,8 @@
           <b-col sm="2" class="mt-1">
             <b-form-group label="GST Type" :label-for="keyname.net_premium">
               <validation-provider #default="{ errors }" name="Select GST">
-                <multiselect :id="keyname.is_gst" :name="keyname.is_gst"
-                  :state="errors.length > 0 ? false : null" v-model="form.is_gst" 
-                  placeholder="Select GST" :options="['GST','NO GST']" 
-                  :allow-empty="false" />
+                <multiselect :id="keyname.is_gst" :name="keyname.is_gst" :state="errors.length > 0 ? false : null"
+                  v-model="form.is_gst" placeholder="Select GST" :options="['GST', 'NO GST']" :allow-empty="false" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
@@ -270,8 +267,8 @@
             <b-form-group label="Net Premium" :label-for="keyname.net_premium">
               <validation-provider #default="{ errors }" name="Net Premium">
                 <b-form-input :id="keyname.net_premium" :name="keyname.net_premium"
-                  :state="errors.length > 0 ? false : null" v-model="form.net_premium" type="number" :disabled="form.is_gst==='GST'"
-                  @input="calculateGST"
+                  :state="errors.length > 0 ? false : null" v-model="form.net_premium" type="number"
+                  :disabled="form.is_gst === 'GST'" @input="calculateGST"
                   placeholder="Enter Net Premium"></b-form-input>
 
                 <small class="text-danger">{{
@@ -286,9 +283,10 @@
 
           <b-col sm="2" class="mt-1">
             <b-form-group :label="'GST (' + (gst * 100 - 100) + '%)'" :label-for="keyname.gst">
-              <validation-provider #default="{ errors }" name="GST">
+              <validation-provider #default="{ errors }" name="GST" >
                 <b-form-input :id="keyname.gst" :name="keyname.gst" :state="errors.length > 0 ? false : null"
-                  v-model="form.gst" :disabled="form.is_gst==='GST'" type="number" placeholder="Enter GST"></b-form-input>
+                  v-model="form.gst" :disabled="form.is_gst === 'GST'" type="number"
+                  placeholder="Enter GST"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
@@ -406,25 +404,34 @@
         </b-row>
       </b-form>
 
-      
+
 
       <div class="row">
         <h4>Extra Detail :</h4>
       </div>
 
       <b-row class="mt-2">
-        <b-col sm="3" class="">
+        <b-col sm="1" class="">
+          <b-form-group label="P %" :label-for="keyname.purchase_rate_percent">
+
+            <b-form-input :id="keyname.purchase_rate" :name="keyname.purchase_rate_percent"
+              v-model="form.purchase_rate_percent" type="number" placeholder="P %"
+              @input="calculatePurchaseOrder('Y')"></b-form-input>
+
+          </b-form-group>
+        </b-col>
+        <b-col sm="2" class="">
           <b-form-group label="P Points" :label-for="keyname.purchase_rate">
 
             <b-form-input :id="keyname.purchase_rate" :name="keyname.purchase_rate" v-model="form.purchase_rate"
-              type="number" placeholder="Enter P Points"
-              @input="calculateProfit"></b-form-input>
+              type="number" placeholder="Enter P Points" @input="calculatePurchaseOrder('N')"></b-form-input>
 
           </b-form-group>
         </b-col>
 
         <b-col sm="3" class="">
-          <b-form-group :label="form.company.seller_type === 'Self'?'Company Points':'Third party Company Points'" :label-for="keyname.company_rate">
+          <b-form-group :label="form.company.seller_type === 'Self' ? 'Company Points' : 'Third party Company Points'"
+            :label-for="keyname.company_rate">
             <b-form-input :id="keyname.company_rate" :name="keyname.company_rate" v-model="form.company_rate"
               type="number" placeholder="Enter Company Points"
               v-if="form.company && form.company.seller_type === 'Self'" />
@@ -442,10 +449,9 @@
           <b-form-group label="Agent Points" :label-for="keyname.agent_rate">
 
             <b-form-input :id="keyname.agent_rate" :name="keyname.agent_rate" v-model="form.agent_rate" type="number"
-            @input="calculateProfit"
-              placeholder="Enter Agent Points"></b-form-input>
-              <div v-if="form.agent_name">({{ this.form.agent_name.agent_name }})
-              </div>
+              @input="calculateProfit" placeholder="Enter Agent Points"></b-form-input>
+            <div v-if="form.agent_name">({{ this.form.agent_name.agent_name }})
+            </div>
 
           </b-form-group>
         </b-col>
@@ -461,21 +467,20 @@
 
       <div>
         <b-col sm="12" class="mt-1">
-            <b-form-group label="Remarks" :label-for="keyname.remarks">
-              <validation-provider #default="{ errors }" name="Remarks" :rules="{}">
-                <b-form-input :id="keyname.remarks" :name="keyname.remarks"
-                  :state="errors.length > 0 ? false : null" v-model="form.remarks"
-                  placeholder="Enter Remarks"></b-form-input>
+          <b-form-group label="Remarks" :label-for="keyname.remarks">
+            <validation-provider #default="{ errors }" name="Remarks" :rules="{}">
+              <b-form-input :id="keyname.remarks" :name="keyname.remarks" :state="errors.length > 0 ? false : null"
+                v-model="form.remarks" placeholder="Enter Remarks"></b-form-input>
 
-                <small class="text-danger">{{
-                  errors[0] && errors[0].includes("too short")
-                    ? `${item.label} must be more than ${item.rules.min - 1
-                    } character`
-                    : errors[0]
-                }}</small>
-              </validation-provider>
-            </b-form-group>
-          </b-col>
+              <small class="text-danger">{{
+                errors[0] && errors[0].includes("too short")
+                  ? `${item.label} must be more than ${item.rules.min - 1
+                  } character`
+                  : errors[0]
+              }}</small>
+            </validation-provider>
+          </b-form-group>
+        </b-col>
       </div>
 
       <b-row class="mt-1 pb-4">
@@ -573,15 +578,17 @@ export default {
         vehicle_type: "vehicle_type",
         product_type: "product_type",
         insurance_type: "insurance_type",
-        hp_name:"hp_name",
-        remarks:"remarks",
+        hp_name: "hp_name",
+        remarks: "remarks",
 
         purchase_rate: "purchase_rate",
         company_rate: "company_rate",
         agent_rate: "agent_rate",
         code_rate: "code_rate",
         profit_rate: "profit_rate",
-          is_gst:"is_gst"
+        is_gst: "is_gst",
+
+        purchase_rate_percent: "purchase_rate_percent"
       },
       form: {
         rid: "",
@@ -612,9 +619,10 @@ export default {
         agent_rate: 0,
         code_rate: 0,
         profit_rate: 0,
-        is_gst:"GST",
-        hp_name:"",
-        remarks:"",
+        is_gst: "GST",
+        hp_name: "",
+        remarks: "",
+        purchase_rate_percent:""
       },
       registration_array: [],
       bank_array: [],
@@ -640,6 +648,7 @@ export default {
       })
       return array;
     },
+
   },
 
   directives: {
@@ -668,17 +677,34 @@ export default {
   },
 
   methods: {
-    calculateProfit() {
-      let profit=0;
-      console.log(this.form.agent_rate)
-      if(this.form.premium && this.form.purchase_rate && this.form.agent_rate && this.form.agent_rate>0 && this.form.premium>0 && this.form.purchase_rate>0){
-        if(this.form.agent_rate>0){
-          profit=+parseFloat(this.form.agent_rate-this.form.purchase_rate).toFixed(2);
-        }else{
-          profit=+parseFloat(this.form.premium -this.form.purchase_rate -  Math.abs(this.form.agent_rate)  ).toFixed(2)
+  
+    calculatePurchaseOrder(type) {
+      this.calculateProfit(type);
+    },
+
+    calculateRatePurchase(type = 'N') {
+      let checkIsPercent = (type == 'Y');
+      if (checkIsPercent) {
+        this.form.purchase_rate = +parseFloat(((this.form.net_premium || 0) * (this.form.purchase_rate_percent || 0)) / 100).toFixed(2);
+      } else {
+        this.form.purchase_rate_percent = +parseFloat((
+          (this.form.purchase_rate || 0) / (this.form.net_premium || 0))
+        *100).toFixed(2);
+      }
+
+    },
+    calculateProfit(type) {
+      let profit = 0;
+      if (this.form.premium && this.form.purchase_rate && this.form.agent_rate && this.form.agent_rate > 0 && this.form.premium > 0 && this.form.purchase_rate > 0) {
+        if (this.form.agent_rate > 0) {
+          profit = +parseFloat(this.form.agent_rate - this.form.purchase_rate).toFixed(2);
+        } else {
+          profit = +parseFloat(this.form.premium - this.form.purchase_rate - Math.abs(this.form.agent_rate)).toFixed(2)
         }
       }
-     this.form.profit_rate=profit;
+      this.form.profit_rate = profit;
+      let checkType2= type?type:this.form.purchase_rate_percent && this.form.purchase_rate_percent>0?"Y":"N";
+      this.calculateRatePurchase(checkType2)
     },
     async getSetting() {
       try {
@@ -698,21 +724,21 @@ export default {
         });
         const { data } = response;
         if (data.status && data.Records[0]) {
-          let number_array=["purchase_rate","agent_rate","code_rate","profit_rate","purchase_rate"]
+          let number_array = ["purchase_rate", "agent_rate", "code_rate", "profit_rate", "purchase_rate"]
           Object.keys(data.Records[0]).map((z) => {
-            if(number_array.indexOf(z)>=0){
+            if (number_array.indexOf(z) >= 0) {
               this.form[z] = data.Records[0][z] || 0;
-              }else{
-                this.form[z] = data.Records[0][z] || "";
-              }
+            } else {
+              this.form[z] = data.Records[0][z] || "";
+            }
           });
 
-          this.form.is_gst=this.form.is_gst=="Y"?"GST":"NO GST"
+          this.form.is_gst = this.form.is_gst == "Y" ? "GST" : "NO GST"
           if (this.form.ct_id && this.form.company_type_name) {
             this.form.company = {
               ct_id: this.form.ct_id,
               company_type_name: this.form.company_type_name,
-              seller_type:this.form.seller_type
+              seller_type: this.form.seller_type
             };
           } else {
             this.form.company = null;
@@ -801,22 +827,22 @@ export default {
             this.form.insurance_type;
           }
         }
-      } catch (err) { 
+      } catch (err) {
 
       }
     },
     calculateGST() {
-     if(this.form.is_gst==="GST"){
-       let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
-      this.form.net_premium = net_premium;
-      this.form.gst = +parseFloat(this.form.premium - net_premium).toFixed(2);
-      }else if(this.form.premium && this.form.net_premium){
-      this.form.gst = +parseFloat(this.form.premium - this.form.net_premium).toFixed(2);
-      }else if(!(this.form.is_gst==="GST")){
-        this.form.gst=0
+      if (this.form.is_gst === "GST") {
+        let net_premium = +parseFloat(this.form.premium / this.gst).toFixed(2);
+        this.form.net_premium = net_premium;
+        this.form.gst = +parseFloat(this.form.premium - net_premium).toFixed(2);
+      } else if (this.form.premium && this.form.net_premium) {
+        this.form.gst = +parseFloat(this.form.premium - this.form.net_premium).toFixed(2);
+      } else if (!(this.form.is_gst === "GST")) {
+        this.form.gst = 0
       }
       this.calculateProfit()
-      
+
     },
 
     showModal(type) {
@@ -878,9 +904,9 @@ export default {
     },
     changeCompany(item) {
       this.form.code_id = "";
-      this.form.company_rate=0;
-      this.form.code_rate=0;
-      this.form.bank_name=null
+      this.form.company_rate = 0;
+      this.form.code_rate = 0;
+      this.form.bank_name = null
     },
     async getAllCustomer() {
       try {
@@ -1054,12 +1080,12 @@ export default {
               this.form.insurance_type && this.form.insurance_type.it_id
                 ? this.form.insurance_type.it_id
                 : 0,
-                purchase_rate: this.form.purchase_rate || 0,
-                company_rate: this.form.company_rate || 0,
-                agent_rate: this.form.agent_rate || 0,
-                profit_rate: this.form.profit_rate || 0,
-                code_rate: this.form.code_rate || 0,
-                is_gst: this.form.is_gst==="GST"?"Y":"N",
+            purchase_rate: this.form.purchase_rate || 0,
+            company_rate: this.form.company_rate || 0,
+            agent_rate: this.form.agent_rate || 0,
+            profit_rate: this.form.profit_rate || 0,
+            code_rate: this.form.code_rate || 0,
+            is_gst: this.form.is_gst === "GST" ? "Y" : "N",
           };
           try {
             const response = await addEditInsurancePolicy({
