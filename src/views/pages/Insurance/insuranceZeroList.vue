@@ -2,43 +2,43 @@
   <div>
     <hr />
     <div v-if="hideData">
-        <b-tabs  v-model="tabIndex"  @input="tabChange" >
-          <b-tab title="Insurance List" >
-          </b-tab>
-          <b-tab title="Agent Insurance">
-          
-          </b-tab>
-          <b-tab title="Company Insurance" >
-          </b-tab>
-        </b-tabs>
-      </div>
+      <b-tabs v-model="tabIndex" @input="tabChange">
+        <b-tab title="Insurance List">
+        </b-tab>
+        <b-tab title="Agent Insurance">
+
+        </b-tab>
+        <b-tab title="Company Insurance">
+        </b-tab>
+      </b-tabs>
+    </div>
     <b-row class="mt-1" v-if="hideData">
-      <b-col sm="4" class="mt-1" v-if="tabIndex==2">
+      <b-col sm="4" class="mt-1" v-if="tabIndex == 2">
         <b-form-group label="Company">
           <multiselect v-model="company" track-by="ct_id" label="company_type_name" placeholder="Select Company"
-            :options="company_array" @input="onGetAllUsers"  />
+            :options="company_array" @input="onGetAllUsers" />
         </b-form-group>
       </b-col>
-      <b-col sm="4" class="mt-1" v-if="tabIndex==1">
+      <b-col sm="4" class="mt-1" v-if="tabIndex == 1">
         <b-form-group label="Agent">
           <multiselect v-model="agent" track-by="agent_id" label="agent_name" placeholder="Select Agent"
-            :options="agent_array.filter((z)=>z.agent_id>1)" @input="onGetAllUsers" />
+            :options="agent_array.filter((z) => z.agent_id > 1)" @input="onGetAllUsers" />
         </b-form-group>
       </b-col>
       <b-col sm="3" class="mt-1">
         <b-form-group label="From Date">
           <b-form-input v-model="from_date" type="date" placeholder="Select RID" @input="changeToDate"
-          :max="maxDate"></b-form-input>
+            :max="maxDate"></b-form-input>
         </b-form-group>
       </b-col>
       <b-col sm="3" class="mt-1">
         <b-form-group label="To Date">
           <b-form-input v-model="to_date" type="date" placeholder="Select RID" :disabled="!from_date" :min="from_date"
-            @input="onGetAllUsers" :max="maxDate" ></b-form-input>
+            @input="onGetAllUsers" :max="maxDate"></b-form-input>
         </b-form-group>
       </b-col>
 
-    
+
       <b-col sm="2" class="mt-1 pt-3 cursor-pointer" @click="reset">
         <u>
           <h5>Reset All Option</h5>
@@ -47,7 +47,7 @@
 
     </b-row>
     <b-row>
-      
+
       <b-col sm="4">
         <b-input-group>
           <b-form-input placeholder="Search Insurance" v-model="search"></b-form-input>
@@ -62,7 +62,7 @@
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon>
           Add Insurance</b-button>
       </b-col>
-      <b-col sm="2" class="text-right mt-2" v-if="allUserList.length && tabIndex==0">
+      <b-col sm="2" class="text-right mt-2" v-if="allUserList.length && tabIndex == 0">
         <u v-if="hideData">
           <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
@@ -70,7 +70,8 @@
           </div>
         </u>
       </b-col>
-      <b-col sm="2" class="text-right mt-2" v-else-if="tabIndex===1 && this.agent && this.agent.agent_id && this.from_date && allUserList.length">
+      <b-col sm="2" class="text-right mt-2"
+        v-else-if="tabIndex === 1 && this.agent && this.agent.agent_id && this.from_date && allUserList.length">
         <u>
           <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
@@ -78,7 +79,8 @@
           </div>
         </u>
       </b-col>
-      <b-col sm="2" class="text-right mt-2" v-else-if="tabIndex===2 && this.company && this.company.ct_id && this.from_date  && allUserList.length">
+      <b-col sm="2" class="text-right mt-2"
+        v-else-if="tabIndex === 2 && this.company && this.company.ct_id && this.from_date && allUserList.length">
         <u>
           <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
@@ -86,7 +88,7 @@
           </div>
         </u>
       </b-col>
-      
+
     </b-row>
 
     <b-table responsive :items="allUserList" :busy="isBusy" :fields="fields" class="mt-1" outlined show-empty
@@ -114,14 +116,13 @@
         </b-row>
       </template>
       <template #cell(salesAmount2)="data">
-        <b-row v-for="(item2, index) in Object.keys(salesAmount)" :key="index"  v-if="(item2=='code_rate' && data.item.seller_type!='Self') || (item2=='company_rate' && data.item.seller_type=='Self') || !['code_rate','company_rate'].includes(item2)" >
+        <b-row v-for="(item2, index) in Object.keys(salesAmount)" :key="index"
+          v-if="(item2 == 'code_rate' && data.item.seller_type != 'Self') || (item2 == 'company_rate' && data.item.seller_type == 'Self') || !['code_rate', 'company_rate'].includes(item2)">
           <b-form-group :label="salesAmount[item2]" :label-for="item2">
-               <b-form-input :id="item2" :name="item2" 
-                 style="width:50%"
-                 :disabled="item2=='profit_rate'"
-                 @input="calculateProfit(data.item)"
-                  v-model="data.item[item2]" type="text" :placeholder="'Enter' +salesAmount[item2] "></b-form-input>
-            </b-form-group>
+            <b-form-input :id="item2" :name="item2" style="width:50%" :disabled="item2 == 'profit_rate'"
+              @input="calculateProfit(data.item)" v-model="data.item[item2]" type="text"
+              :placeholder="'Enter' + salesAmount[item2]"></b-form-input>
+          </b-form-group>
 
           <!-- <b-col sm="1">
             <h5>:</h5>
@@ -135,8 +136,9 @@
 
         <b-icon icon="info-square" aria-hidden="true" class="ml-1 cursor-pointer" @click="onView(data.item)"
           font-scale="1.5"></b-icon>
-          <b-button @click="onSaveData(data.item)" class="ml-2">Save Data</b-button>
-        <DeleteComponent type="insurance_policy" :id="data.item.insurance_id" class="ml-1" :getData="onGetAllUsers" v-if="hideData">
+        <b-button @click="onSaveData(data.item)" class="ml-2">Save Data</b-button>
+        <DeleteComponent type="insurance_policy" :id="data.item.insurance_id" class="ml-1" :getData="onGetAllUsers"
+          v-if="hideData">
         </DeleteComponent>
       </template>
     </b-table>
@@ -219,28 +221,28 @@ export default {
   },
   data() {
     return {
-      maxDate:"",
+      maxDate: "",
       allUserList: [],
       company_array: [],
       agent_array: [],
       from_date: "",
       to_date: "",
       company: "",
-      agent:"",
-      tabIndex:0,
+      agent: "",
+      tabIndex: 0,
       keyNameAmount: {
         premium: "Premium:",
         gst: "GST:",
         net_premium: "Net:",
       },
-      salesAmount:{
+      salesAmount: {
         purchase_rate: "P Points",
         company_rate: "Company Points",
         code_rate: "Third Party Company Points",
         agent_rate: "Agent Points",
         profit_rate: "Pr Points",
       },
-      inputTypeArray:["purchase_rate","company_rate","agent_rate","code_rate","profit_rate"],
+      inputTypeArray: ["purchase_rate", "company_rate", "agent_rate", "code_rate", "profit_rate"],
       keyName: {
         rid: "RID",
         company_type_name: "Company Name",
@@ -268,22 +270,15 @@ export default {
         agent_rate: "Agent Points",
         code_rate: "Third Party Company Points",
         profit_rate: "Pr Points",
-
         created_user: "Created User",
         created_date_time: "Created Time",
       },
       fields: [
-        // {
-        //   key: "rid",
-        //   formatter: (value, key, item) => {
-        //     return value ? moment(value).format("DD MMM, YYYY") : "-";
-        //   },
-        //   label: "RID",
-        // },
         {
           key: "company_type_name",
           formatter: (value, key, item) => {
-            return value ? value : "-";
+            let finalValue = item.seller_type == 'Self' ? value : `${value} (${item.code_agent})`
+            return finalValue ? finalValue : "-";
           },
           label: "Company Name",
         },
@@ -295,13 +290,6 @@ export default {
           },
           label: "Reg. No",
         },
-        // {
-        //   key: "reg_name",
-        //   formatter: (value, key, item) => {
-        //     return value ? value : "-";
-        //   },
-        //   label: "Customer Name",
-        // },
         {
           key: "policy_no",
           formatter: (value, key, item) => {
@@ -346,7 +334,7 @@ export default {
       totalRows: 0,
       search: "",
       selectedRow: null,
-      hideData:false
+      hideData: false
 
     };
   },
@@ -356,7 +344,7 @@ export default {
   },
 
   beforeMount() {
-    this.maxDate=moment().format("YYYY-MM-DD")
+    this.maxDate = moment().format("YYYY-MM-DD")
     // this.to_date=moment().format("YYYY-MM-DD")
     this.onGetAllUsers();
     this.getCompanyList();
@@ -365,63 +353,66 @@ export default {
 
   methods: {
     calculateProfit(data) {
-      let profit=0;
-      if(data.premium && data.purchase_rate && data.agent_rate){
-        if(data.agent_rate>0){
-          profit=+parseFloat(data.agent_rate-data.purchase_rate).toFixed(2);
-        }else{
-          profit=+parseFloat(data.premium -data.purchase_rate -  Math.abs(data.agent_rate)  ).toFixed(2)
+      let profit = 0;
+      if (data.premium && data.purchase_rate && data.agent_rate && data.premium > 0 && data.purchase_rate > 0 && data.agent_rate > 0) {
+        if (data.agent_rate > 0) {
+          profit = +parseFloat(data.agent_rate - data.purchase_rate).toFixed(2);
+        } else {
+          profit = +parseFloat(data.premium - data.purchase_rate - Math.abs(data.agent_rate)).toFixed(2)
         }
       }
-      data.profit_rate=profit;
+      data.profit_rate = profit;
     },
-    async onSaveData(data2){
-         const response = await addEditInsurancePolicy({
-              ...data2,
-                purchase_rate: data2.purchase_rate || 0,
-                company_rate: data2.company_rate || 0,
-                agent_rate: data2.agent_rate || 0,
-                profit_rate: data2.profit_rate || 0,
-                code_rate: data2.code_rate || 0,
-            });
-            const { data } = response;
-            if (data.status) {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: data.message || "Record Saved Successfully",
-                  icon: "EditIcon",
-                  variant: "success",
-                },
-              });
-            } else {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: data.message || "Something Went Wrong",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-            }
-    
+    async onSaveData(data2) {
+   
+      const response = await addEditInsurancePolicy({
+        ...data2,
+        purchase_rate: data2.purchase_rate || 0,
+        company_rate: data2.company_rate || 0,
+        agent_rate: data2.agent_rate || 0,
+        profit_rate: data2.profit_rate || 0,
+        code_rate: data2.code_rate || 0,
+        policy_date: moment(data2.policy_date,"DD MMM,YYYY").format("YYYY-MM-DD"),
+        rid: moment(data2.rid,"DD MMM,YYYY").format("YYYY-MM-DD"),
+      });
+      const { data } = response;
+      if (data.status) {
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: data.message || "Record Saved Successfully",
+            icon: "EditIcon",
+            variant: "success",
+          },
+        });
+      } else {
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: data.message || "Something Went Wrong",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+      }
+
     },
-    tabChange(){
-      if(this.tabIndex>0){
-        this.allUserList=[];
-      }else{
+    tabChange() {
+      if (this.tabIndex > 0) {
+        this.allUserList = [];
+      } else {
         this.onGetAllUsers()
       }
-      this.company=""
-      this.agent=""
+      this.company = ""
+      this.agent = ""
 
     },
     excelDownload() {
-      let urlPage="/createInsurancePolicy.php?"
-      if(this.tabIndex==1){
-        urlPage="/createAgentInsurancePolicyExcel.php?"
-      }else   if(this.tabIndex==2) {
-        urlPage="/createCompanyInsurancePolicyExcel.php?"
+      let urlPage = "/createInsurancePolicy.php?"
+      if (this.tabIndex == 1) {
+        urlPage = "/createAgentInsurancePolicyExcel.php?"
+      } else if (this.tabIndex == 2) {
+        urlPage = "/createCompanyInsurancePolicyExcel.php?"
       }
       let url = process.env.VUE_APP_BASEURL + urlPage;
       let obj = {
@@ -482,52 +473,52 @@ export default {
     },
     async onGetAllUsers() {
 
-      if((this.tabIndex==1 || this.tabIndex==2) && !this.from_date){
+      if ((this.tabIndex == 1 || this.tabIndex == 2) && !this.from_date) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select from date",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select from date",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
 
-      if((this.tabIndex==1 || this.tabIndex==2) && !this.to_date){
+      if ((this.tabIndex == 1 || this.tabIndex == 2) && !this.to_date) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select from date",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select from date",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
 
-      if(this.tabIndex==1 && !this.agent){
+      if (this.tabIndex == 1 && !this.agent) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select agent",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select agent",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
 
-      if(this.tabIndex==2 && !this.company){
+      if (this.tabIndex == 2 && !this.company) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select company",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select company",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
       try {
         this.allUserList = [];
@@ -535,7 +526,7 @@ export default {
         const response = await GetInsurancePolicyList({
           search: this.search,
           limit: this.perPage,
-          onlyZeroValue:true,
+          onlyZeroValue: true,
           currentPage: this.currentPage,
           ct_id: this.company && this.company.ct_id ? this.company.ct_id : "",
           agent_id: this.agent && this.agent.agent_id ? this.agent.agent_id : "",

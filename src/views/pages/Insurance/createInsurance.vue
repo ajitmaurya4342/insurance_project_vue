@@ -670,7 +670,8 @@ export default {
   methods: {
     calculateProfit() {
       let profit=0;
-      if(this.form.premium && this.form.purchase_rate && this.form.agent_rate){
+      console.log(this.form.agent_rate)
+      if(this.form.premium && this.form.purchase_rate && this.form.agent_rate && this.form.agent_rate>0 && this.form.premium>0 && this.form.purchase_rate>0){
         if(this.form.agent_rate>0){
           profit=+parseFloat(this.form.agent_rate-this.form.purchase_rate).toFixed(2);
         }else{
