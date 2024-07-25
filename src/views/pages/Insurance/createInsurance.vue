@@ -430,7 +430,7 @@
         </b-col>
 
         <b-col sm="3" class="">
-          <b-form-group :label="form.company.seller_type === 'Self' ? 'Company Points' : 'Third party Company Points'"
+          <b-form-group :label="form.company.seller_type === 'Self' ? 'Company Points' : 'Third party Company Points (' + calculateThirdPartyPercent + '%) '"
             :label-for="keyname.company_rate">
             <b-form-input :id="keyname.company_rate" :name="keyname.company_rate" v-model="form.company_rate"
               type="number" placeholder="Enter Company Points"
@@ -446,7 +446,7 @@
         </b-col>
 
         <b-col sm="3" class="">
-          <b-form-group label="Agent Points" :label-for="keyname.agent_rate">
+          <b-form-group :label="'Agent Points ( ' + (calculateAgentPercent)+'%)'" :label-for="keyname.agent_rate">
 
             <b-form-input :id="keyname.agent_rate" :name="keyname.agent_rate" v-model="form.agent_rate" type="number"
               @input="calculateProfit" placeholder="Enter Agent Points"></b-form-input>
@@ -649,6 +649,26 @@ export default {
       return array;
     },
 
+    calculateAgentPercent(){
+     let agent_percent=0;
+     if(this.form.agent_rate>0 && this.form.agent_rate>0){
+      agent_percent = +parseFloat((this.form.agent_rate/this.form.net_premium)*100).toFixed(2)
+     }else if(this.form.agent_rate ){
+      agent_percent = +parseFloat(((this.form.premium  - Math.abs(this.form.agent_rate))/this.form.net_premium)*100).toFixed(2)
+     }
+     return agent_percent
+    },
+
+    calculateThirdPartyPercent(){
+     let code_percent=0;
+     if(this.form.code_rate<0){
+      code_percent = +parseFloat(( Math.abs(this.form.code_rate)/this.form.net_premium)*100).toFixed(2)
+     }else if(this.form.code_rate && this.form.code_rate>0){
+      code_percent = +parseFloat(((this.form.premium  - Math.abs(this.form.code_rate))/this.form.net_premium)*100).toFixed(2)
+     }
+     return code_percent
+    },
+
   },
 
   directives: {
@@ -695,10 +715,10 @@ export default {
     },
     calculateProfit(type) {
       let profit = 0;
-      if (this.form.premium && this.form.purchase_rate && this.form.agent_rate && this.form.agent_rate > 0 && this.form.premium > 0 && this.form.purchase_rate > 0) {
+      if (this.form.premium && this.form.purchase_rate && this.form.agent_rate ) {
         if (this.form.agent_rate > 0) {
           profit = +parseFloat(this.form.agent_rate - this.form.purchase_rate).toFixed(2);
-        } else {
+        } else if(this.form.agent_rate  < 0){
           profit = +parseFloat(this.form.premium - this.form.purchase_rate - Math.abs(this.form.agent_rate)).toFixed(2)
         }
       }
