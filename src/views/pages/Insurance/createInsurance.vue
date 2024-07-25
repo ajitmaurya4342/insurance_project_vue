@@ -826,6 +826,8 @@ export default {
           } else {
             this.form.insurance_type;
           }
+
+          this.calculateProfit('N')
         }
       } catch (err) {
 
