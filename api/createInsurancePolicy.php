@@ -83,7 +83,6 @@ foreach($getQueryData as $idx=>$value){
     }else if(in_array($keyName,$number_array)){
         $finalValue=$value[$keyName]? (float) number_format((float) $value[$keyName],2, '.', ''):0;
     }else if(in_array($keyName,$date_array)){
-      echo $keyName;
       $finalValue=$value[$keyName]? date("Y-m-d",strtotime($value[$keyName])):"-";
     }else{
         $finalValue=$value[$keyName]?$value[$keyName]:"-";
