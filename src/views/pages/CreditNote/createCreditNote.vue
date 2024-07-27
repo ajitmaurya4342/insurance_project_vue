@@ -32,7 +32,7 @@
               <multiselect :id="item.key" :name="item.key" 
                v-else
                   v-model="form[item.key]" :track-by="item.trackBy" :label="item.labelSelect" :placeholder="item.placeholder"
-                  :options="item.option" :searchable="false" @input="selectChange($event,item)" :disabled="item.disabled" />
+                  :options="item.option" :searchable="true" @input="selectChange($event,item)" :disabled="item.disabled" />
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
