@@ -59,16 +59,16 @@ $key_name_array = [
 ];
 
 $books[] = [
+  null,
+  null,
+  null,
+  null,
+  null,
+  '<style color="'. $color.'"><b>'. date("Y-m-d",strtotime($from_date . " -1 day")).'</b></style>',
+  null,
+  null,
+  null,
   '<right><style color="#6fa8dc" font-size="12"><b>OLD BALANCE</b></style></right>',
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
   '<right><style color="#6fa8dc"><b>'. $opening_balance . '</b></style></right>',
   null,
   null,
@@ -140,16 +140,16 @@ foreach ($getQueryData as $idx => $value) {
 $count=$count+1;
 
 $books[] = [
+ null,
+  null,
+  null,
+  null,
+  null,
+  '<style color="'. $color.'"><b>'. date("Y-m-d",strtotime($to_date . " +1 day")).'</b></style>',
+  null,
+  null,
   '<right><style color="#000000" font-size="12"><b>TOTAL</b></style></right>',
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null,
+  '<right><style color="#000000" font-size="12"><b>TOTAL</b></style></right>',
   '<right><style color="#000000"><b>'. $total . '</b></style></right>',
   null,
   null,
@@ -168,8 +168,8 @@ if ($ct_id) {
 $file_name = $extra_file_name . $current_date_time . ".xlsx";
 
 $xlsx = Shuchkin\SimpleXLSXGen::fromArray($books, $name = "MySheet")->setDefaultFontSize(11);
-$xlsx->mergeCells('A2:J2');
-$xlsx->mergeCells('A'.$count.':J'.$count);
+// $xlsx->mergeCells('A2:J2');
+// $xlsx->mergeCells('A'.$count.':J'.$count);
 $xlsx->autoFilter('A1:P1');
 $xlsx->downloadAs($file_name);
 
