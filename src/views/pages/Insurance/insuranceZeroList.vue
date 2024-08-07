@@ -360,19 +360,25 @@ export default {
     }else if(item=='purchase_rate_percent'){
       this.calculateRatePurchase(data,'Y')
     } else {
-      let checkPercentage=item.purchase_rate_percent && item.purchase_rate_percent>0?'Y':'N';
+      let checkPercentage= 'N';
       this.calculateRatePurchase(data,checkPercentage)
     }
    },
    calculateRatePurchase(data,type = 'N') {
-      let checkIsPercent = (type == 'Y');
+    let checkIsPercent = (type == 'Y');
+      if(data.purchase_rate || data.purchase_rate_percent){
       if (checkIsPercent) {
-        data.purchase_rate = +parseFloat(((data.net_premium || 0) * (data.purchase_rate_percent || 0)) / 100).toFixed(2);
+        data.purchase_rate = +parseFloat(data.premium - (((data.net_premium || 0) * (data.purchase_rate_percent || 0)) / 100)).toFixed(2);
       } else {
         data.purchase_rate_percent = +parseFloat((
-          (data.purchase_rate || 0) / (data.net_premium || 0))
+          (data.premium - data.purchase_rate || 0) / (data.net_premium || 0))
         *100).toFixed(2);
       }
+      pr = premium -  (percent * data.net_premium) 
+    }else{
+      data.purchase_rate =0;
+      data.purchase_rate_percent =0;
+     }
     },
     showpercentage(data,item){
       let showPercentage="(";
@@ -389,7 +395,7 @@ export default {
       return showPercentage
     },
     calculateThirdPartyPercent(data){
-     let code_percent=0;
+      let code_percent=0;
      if(data.code_rate<0){
       code_percent = +parseFloat(( Math.abs(data.code_rate)/data.net_premium)*100).toFixed(2)
      }else if(data.code_rate && data.code_rate>0){
@@ -398,11 +404,11 @@ export default {
      return code_percent
     },
     calculateAgentPercent(data){
-     let agent_percent=0;
+      let agent_percent=0;
      if(data.agent_rate>0 && data.agent_rate>0){
-      agent_percent = +parseFloat((data.agent_rate/data.net_premium)*100).toFixed(2)
+      agent_percent = +parseFloat(((data.premium-data.agent_rate)/data.net_premium)*100).toFixed(2)
      }else if(data.agent_rate ){
-      agent_percent = +parseFloat(((data.premium  - Math.abs(data.agent_rate))/data.net_premium)*100).toFixed(2)
+      agent_percent = +parseFloat((( Math.abs(data.agent_rate))/data.net_premium)*100).toFixed(2)
      }
      return agent_percent
     },
