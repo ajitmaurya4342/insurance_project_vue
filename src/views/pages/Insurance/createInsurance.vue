@@ -662,9 +662,11 @@ export default {
     calculateThirdPartyPercent(){
      let code_percent=0;
      if(this.form.code_rate<0){
-      code_percent = +parseFloat(( Math.abs(this.form.code_rate)/this.form.net_premium)*100).toFixed(2)
+      code_percent = +parseFloat((
+          (this.form.premium - Math.abs(this.form.code_rate) || 0) / (this.form.net_premium || 0))
+        *100).toFixed(2);
      }else if(this.form.code_rate && this.form.code_rate>0){
-      code_percent = +parseFloat(((this.form.premium  - Math.abs(this.form.code_rate))/this.form.net_premium)*100).toFixed(2)
+      code_percent = +parseFloat((( Math.abs(this.form.code_rate))/this.form.net_premium)*100).toFixed(2)
      }
      return code_percent
     },
