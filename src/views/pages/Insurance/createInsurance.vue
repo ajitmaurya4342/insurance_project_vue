@@ -652,9 +652,9 @@ export default {
     calculateAgentPercent(){
      let agent_percent=0;
      if(this.form.agent_rate>0 && this.form.agent_rate>0){
-      agent_percent = +parseFloat((this.form.agent_rate/this.form.net_premium)*100).toFixed(2)
+      agent_percent = +parseFloat(((this.form.premium-this.form.agent_rate)/this.form.net_premium)*100).toFixed(2)
      }else if(this.form.agent_rate ){
-      agent_percent = +parseFloat(((this.form.premium  - Math.abs(this.form.agent_rate))/this.form.net_premium)*100).toFixed(2)
+      agent_percent = +parseFloat((( Math.abs(this.form.agent_rate))/this.form.net_premium)*100).toFixed(2)
      }
      return agent_percent
     },
@@ -704,13 +704,19 @@ export default {
 
     calculateRatePurchase(type = 'N') {
       let checkIsPercent = (type == 'Y');
+      if(this.form.purchase_rate || this.form.purchase_rate_percent){
       if (checkIsPercent) {
-        this.form.purchase_rate = +parseFloat(((this.form.net_premium || 0) * (this.form.purchase_rate_percent || 0)) / 100).toFixed(2);
+        this.form.purchase_rate = +parseFloat(this.form.premium - (((this.form.net_premium || 0) * (this.form.purchase_rate_percent || 0)) / 100)).toFixed(2);
       } else {
         this.form.purchase_rate_percent = +parseFloat((
-          (this.form.purchase_rate || 0) / (this.form.net_premium || 0))
+          (this.form.premium - this.form.purchase_rate || 0) / (this.form.net_premium || 0))
         *100).toFixed(2);
       }
+      pr = premium -  (percent * this.form.net_premium) 
+    }else{
+      this.form.purchase_rate =0;
+      this.form.purchase_rate_percent =0;
+    }
 
     },
     calculateProfit(type) {
@@ -723,8 +729,7 @@ export default {
         }
       }
       this.form.profit_rate = profit;
-      let checkType2= type?type:this.form.purchase_rate_percent && this.form.purchase_rate_percent>0?"Y":"N";
-      this.calculateRatePurchase(checkType2)
+      this.calculateRatePurchase(type)
     },
     async getSetting() {
       try {
