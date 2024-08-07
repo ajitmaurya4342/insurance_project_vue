@@ -119,7 +119,7 @@
         <b-row v-for="(item2, index) in Object.keys(salesAmount)" :key="index"
           v-if="(item2 == 'code_rate' && data.item.seller_type != 'Self') || (item2 == 'company_rate' && data.item.seller_type == 'Self') || !['code_rate', 'company_rate'].includes(item2)">
           <b-form-group :label="salesAmount[item2] + showpercentage(data.item,item2)" :label-for="item2">
-            <b-form-input :id="item2" :name="item2" style="width:50%" :disabled="item2 == 'profit_rate'"
+            <b-form-input :id="item2" :name="item2" style="width:65%" :disabled="item2 == 'profit_rate'"
               @input="callRate(data.item,item2)" v-model="data.item[item2]" type="text"
               :placeholder="'Enter' + salesAmount[item2]"></b-form-input>
           </b-form-group>
