@@ -15,11 +15,11 @@ $books = [
 ];
 
 
-$sqlCompany="SELECT  ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_company.created_at,ms_company_type.company_type_name,users.name as created_user  from add_credit_note_company
+$sqlCompany="SELECT  ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_company.created_at,ms_company_type.company_type_name,users.name as created_user,ms_insurance_policy.policy_no  from add_credit_note_company
 left join ms_company_type on ms_company_type.ct_id = add_credit_note_company.company_id
 left join ms_payment_mode on ms_payment_mode.pm_id = add_credit_note_company.pm_id
 left join users on users.user_id = add_credit_note_company.created_by
-where insurance_id is null ";
+left join ms_insurance_policy on ms_insurance_policy.insurance_id = add_credit_note_company.insurance_id  order by add_credit_note_company.c_ref_id DESC";
 
 $result = mysqli_query($conn, $sqlCompany);
 $row = mysqli_num_rows($result);
@@ -28,6 +28,9 @@ $row = mysqli_num_rows($result);
 $getQueryData=[];
 if($row>0){
     while($row_detail=mysqli_fetch_assoc($result)){
+      if($row_detail["policy_no"]){
+        $row_detail["description"] = "Created By Insurance (Policy No: ".$row_detail["policy_no"].")";
+        }
         $getQueryData[] = $row_detail;
       
     }
@@ -53,7 +56,6 @@ foreach($getQueryData as $idx=>$value){
     if(in_array($keyName,$number_array)){
         $finalValue=$value[$keyName]? (float) number_format((float) $value[$keyName],2, '.', ''):"-";
     }else if(in_array($keyName,$date_array)){
-      echo $keyName;
       $finalValue=$value[$keyName]? date("Y-m-d",strtotime($value[$keyName])):"-";
     }else{
         $finalValue=$value[$keyName]?$value[$keyName]:"-";
@@ -65,7 +67,7 @@ foreach($getQueryData as $idx=>$value){
 }
 
 
-$current_date_time=date("Y-m-d_H:m:s");
+$current_date_time=date(format: "Y-m-d_H:m:s");
 $extra_file_name="Company_";
 $file_name = "Credit_Note_".$extra_file_name.$current_date_time.".xlsx";
 

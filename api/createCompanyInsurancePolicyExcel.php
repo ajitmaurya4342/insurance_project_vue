@@ -26,7 +26,7 @@ $books = [
 $data = (object) ($_REQUEST);
 
 $number_array = ["premium", "gst", "net_premium", "idv", "total"];
-$date_array = ["policy_date", "rid"];
+$date_array = ["policy_date_new", "rid_new"];
 
 include ("GetInsurancePolicyDataAll.php");
 
@@ -40,12 +40,12 @@ if ($balanceResult && $balanceResult["opening_balance"]) {
 }
 
 $key_name_array = [
-  "rid",
+  "rid_new",
   "company_type_name",
   "vehicle_no",
   "reg_name",
   "policy_no",
-  "policy_date",
+  "policy_date_new",
   "premium",
   "gst",
   "net_premium",

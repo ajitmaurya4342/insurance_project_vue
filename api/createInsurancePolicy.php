@@ -40,14 +40,14 @@ $data = (object) ($_REQUEST);
 $key_name_array=[
     "sr_no",
     "company_type_name",
-    "rid",
+    "rid_new",
     "vehicle_no",
     "reg_name",
     "policy_no",
     "hp_name",
     "agent_name",
     "agent_no",
-    "policy_date",
+    "policy_date_new",
     "premium",
     "gst",
     "net_premium",
@@ -71,7 +71,7 @@ $key_name_array=[
 ];
 
 $number_array=["premium","gst","net_premium","idv","gvw","purchase_rate","company_rate","agent_rate","code_rate","profit_rate"];
-$date_array=["policy_date","rid"];
+$date_array=["policy_date_new","rid_new"];
 
 include("GetInsurancePolicyDataAll.php");
 

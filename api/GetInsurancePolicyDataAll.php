@@ -138,7 +138,9 @@ if($row>0){
         }
         if(!isset($data->insurance_id) && !@$data->insurance_id){
         $row_detail["created_date_time"]= date("d M,Y h:ia", strtotime($row_detail["created_at"]));
+        $row_detail["rid_new"]= $row_detail["rid"];
         $row_detail["rid"]= date("d M,Y", strtotime($row_detail["rid"]));
+        $row_detail["policy_date_new"]= $row_detail["policy_date"];
         $row_detail["policy_date"]= date("d M,Y", strtotime($row_detail["policy_date"]));
         }
 

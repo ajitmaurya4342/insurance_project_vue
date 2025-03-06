@@ -27,7 +27,7 @@ $data = (object) ($_REQUEST);
 
 
 $number_array = ["premium", "gst", "net_premium", "idv", "total"];
-$date_array = ["policy_date", "rid"];
+$date_array = ["policy_date_new", "rid_new"];
 
 include ("GetInsurancePolicyDataAll.php");
 
@@ -45,12 +45,12 @@ $result_agent=mysqli_query($conn, $sql_agent_detail);
 $row_agent=mysqli_fetch_assoc($result_agent);
 
 $key_name_array = [
-  "rid",
+  "rid_new",
   "agent_name",
   "vehicle_no",
   "reg_name",
   "policy_no",
-  "policy_date",
+  "policy_date_new",
   "premium",
   "gst",
   "net_premium",
@@ -131,7 +131,7 @@ foreach ($getQueryData as $idx => $value) {
     if (in_array($keyName, $number_array)) {
       $finalValue = $value[$keyName] ? (float) number_format((float) $value[$keyName], 2, '.', '') : 0;
     } else if (in_array($keyName, $date_array)) {
-      $finalValue = $value[$keyName] ? date("Y-m-d", strtotime($value[$keyName])) : "-";
+      $finalValue = $value[$keyName] ? date("Y-m-d", strtotime(datetime: $value[$keyName])) : "-";
     } else if ($keyName == "total") {
      $color= $value[$keyName]>0?"#000000":"#FF0000";
      $finalValue = '<right><style color="'.$color.'">' . $value[$keyName] . '</style></right>';
@@ -145,6 +145,9 @@ foreach ($getQueryData as $idx => $value) {
   $total=$value["total"] + $total;
   $count=$count+1;
 }
+
+
+
 
 $count=$count+1;
 

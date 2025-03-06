@@ -2,7 +2,7 @@
   <div>
     <hr />
     <b-row class="mt-1">
-
+     
       <b-col sm="12" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Credit/Debit
@@ -17,6 +17,14 @@
             <div style="margin-left: 2px; color: green">Download Agent Credit</div>
           </div>
         </u>
+      </b-col>
+      <b-col sm="4">
+        <b-input-group>
+          <b-form-input placeholder="Search Credit Note" v-model="search"></b-form-input>
+          <b-input-group-append>
+            <b-button @click="onSearchCredit">Search</b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-col>
 
       <b-col sm="12" class="text-right mt-1 pr-4">
@@ -45,7 +53,7 @@
         <b-row>
           <b-icon icon="pencil-square" aria-hidden="true" font-scale="1.2" class="cursor-pointer"
             @click="onEdit(data.item)"></b-icon>
-          <DeleteComponent :type="data.item.type" :id="data.item.type_id" class="ml-1" :getData="onGetAllUsers">
+          <DeleteComponent :type="data.item.type" :id="data.item.type_id" class="ml-1" :getData="onGetCreditNote">
           </DeleteComponent>
         </b-row>
       </template>
@@ -152,10 +160,14 @@ export default {
   },
 
   beforeMount() {
-    this.onGetAllUsers();
+    this.onGetCreditNote();
   },
 
   methods: {
+    onSearchCredit(){
+     this.currentPage=1;
+     this.onGetCreditNote()
+    },
     excelDownload() {
       this.$bvModal
         .msgBoxConfirm(`Are you sure you want to download agent credit note excel?`, {
@@ -199,11 +211,13 @@ export default {
     },
     rowClass(item, type) {
       if (!item || type !== "row") return;
+      if (item.policy_no ) return "table-danger";
       if (item.type === "add_credit_note_company") return "table-success";
+
     },
     onChangePagination($event) {
       this.currentPage = $event;
-      this.onGetAllUsers();
+      this.onGetCreditNote();
     },
 
     async onEdit({ type, type_id }) {
@@ -218,9 +232,9 @@ export default {
     },
     onSearchUser() {
       this.currentPage = 1;
-      this.onGetAllUsers();
+      this.onGetCreditNote();
     },
-    async onGetAllUsers() {
+    async onGetCreditNote() {
       try {
         this.allUserList = [];
         this.isBusy = true;

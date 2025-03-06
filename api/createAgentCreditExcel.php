@@ -15,11 +15,11 @@ $books = [
 ];
 
 
-$sqlCompany="SELECT  ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_agent.created_at,ms_agent.agent_name,users.name as created_user  from add_credit_note_agent
+$sqlCompany="SELECT  ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_agent.created_at,ms_agent.agent_name,users.name as created_user,ms_insurance_policy.policy_no  from add_credit_note_agent
 left join ms_agent on ms_agent.agent_id = add_credit_note_agent.agent_id
 left join ms_payment_mode on ms_payment_mode.pm_id = add_credit_note_agent.pm_id
 left join users on users.user_id = add_credit_note_agent.created_by
-where insurance_id is null ";
+left join ms_insurance_policy on ms_insurance_policy.insurance_id = add_credit_note_agent.insurance_id  order by add_credit_note_agent.a_ref_id DESC ";
 
 $result = mysqli_query($conn, $sqlCompany);
 $row = mysqli_num_rows($result);
@@ -28,6 +28,9 @@ $row = mysqli_num_rows($result);
 $getQueryData=[];
 if($row>0){
     while($row_detail=mysqli_fetch_assoc($result)){
+      if($row_detail["policy_no"]){
+        $row_detail["description"] = "Created By Insurance (Policy No: ".$row_detail["policy_no"].")";
+    }
         $getQueryData[] = $row_detail;
       
     }
