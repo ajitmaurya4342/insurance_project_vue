@@ -1,7 +1,7 @@
 <?php
 
 $table_name="ms_insurance_policy";
-$search_column=["reg_name","policy_no","vehicle_no","ms_agent.agent_name","company_type_name"];
+$search_column=["reg_name","policy_no","vehicle_no","ms_agent.agent_name","company_type_name","code_agent.agent_name"];
 $where = "";
 $limit=0;
 $current_page=0;
@@ -111,7 +111,6 @@ if(isset($limit) && isset($current_page) && $limit && $current_page){
  $sql = $sql ." limit ".$start.",".$limit;
 
 }
-
 
 $result = mysqli_query($conn, $sql);
 $row = mysqli_num_rows($result);

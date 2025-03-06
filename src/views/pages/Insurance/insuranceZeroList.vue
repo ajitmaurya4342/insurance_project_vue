@@ -374,7 +374,7 @@ export default {
           (data.premium - data.purchase_rate || 0) / (data.net_premium || 0))
         *100).toFixed(2);
       }
-      pr = premium -  (percent * data.net_premium) 
+      // pr =premium -  (percent * data.net_premium) 
     }else{
       data.purchase_rate =0;
       data.purchase_rate_percent =0;
