@@ -1080,9 +1080,9 @@ export default {
           this.errorMessage = "Company  Amount Cannot be less than zero due to agent paid"
         }
 
-        if (String(paymentModeId) == "2" && this.form.company_rate > 0) {
-          this.errorMessage = "Company Amount Cannot be greater than zero due to company paid"
-        }
+        // if (String(paymentModeId) == "2" && this.form.company_rate > 0) {
+        //   this.errorMessage = "Company Amount Cannot be greater than zero due to company paid"
+        // }
 
         if (String(paymentModeId) == "2" && this.form.agent_rate < 0) {
           this.errorMessage = "Agent Amount Cannot be less than zero due to company paid"
@@ -1099,7 +1099,7 @@ export default {
       }
       return this.errorMessage ? false : true
     },
-    
+
     saveForm() {
       this.$refs.loginValidation.validate().then(async (success) => {
         if (success && this.validationNew()) {
