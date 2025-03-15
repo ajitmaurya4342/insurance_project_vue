@@ -283,7 +283,7 @@
 
           <b-col sm="2" class="mt-1">
             <b-form-group :label="'GST (' + (gst * 100 - 100) + '%)'" :label-for="keyname.gst">
-              <validation-provider #default="{ errors }" name="GST" >
+              <validation-provider #default="{ errors }" name="GST">
                 <b-form-input :id="keyname.gst" :name="keyname.gst" :state="errors.length > 0 ? false : null"
                   v-model="form.gst" :disabled="form.is_gst === 'GST'" type="number"
                   placeholder="Enter GST"></b-form-input>
@@ -430,7 +430,8 @@
         </b-col>
 
         <b-col sm="3" class="">
-          <b-form-group :label="form.company.seller_type === 'Self' ? 'Company Points' : 'Third party Company Points (' + calculateThirdPartyPercent + '%) '"
+          <b-form-group
+            :label="form.company.seller_type === 'Self' ? 'Company Points' : 'Third party Company Points (' + calculateThirdPartyPercent + '%) '"
             :label-for="keyname.company_rate">
             <b-form-input :id="keyname.company_rate" :name="keyname.company_rate" v-model="form.company_rate"
               type="number" placeholder="Enter Company Points"
@@ -446,7 +447,7 @@
         </b-col>
 
         <b-col sm="3" class="">
-          <b-form-group :label="'Agent Points ( ' + (calculateAgentPercent)+'%)'" :label-for="keyname.agent_rate">
+          <b-form-group :label="'Agent Points ( ' + (calculateAgentPercent) + '%)'" :label-for="keyname.agent_rate">
 
             <b-form-input :id="keyname.agent_rate" :name="keyname.agent_rate" v-model="form.agent_rate" type="number"
               @input="calculateProfit" placeholder="Enter Agent Points"></b-form-input>
@@ -482,6 +483,13 @@
           </b-form-group>
         </b-col>
       </div>
+
+      <b-row class="mt-1 pb-2" v-if="errorMessage">
+        <b-col>
+          <h5 style="color:red"> <u>Note</u> : {{ errorMessage }}</h5>
+
+        </b-col>
+      </b-row>
 
       <b-row class="mt-1 pb-4">
         <b-col class="text-center">
@@ -622,7 +630,7 @@ export default {
         is_gst: "GST",
         hp_name: "",
         remarks: "",
-        purchase_rate_percent:""
+        purchase_rate_percent: ""
       },
       registration_array: [],
       bank_array: [],
@@ -634,6 +642,7 @@ export default {
       fuel_type_array: [],
       company_array: [],
       gst: 1.18,
+      errorMessage: ""
     };
   },
 
@@ -649,26 +658,26 @@ export default {
       return array;
     },
 
-    calculateAgentPercent(){
-     let agent_percent=0;
-     if(this.form.agent_rate>0 && this.form.agent_rate>0){
-      agent_percent = +parseFloat(((this.form.premium-this.form.agent_rate)/this.form.net_premium)*100).toFixed(2)
-     }else if(this.form.agent_rate ){
-      agent_percent = +parseFloat((( Math.abs(this.form.agent_rate))/this.form.net_premium)*100).toFixed(2)
-     }
-     return agent_percent
+    calculateAgentPercent() {
+      let agent_percent = 0;
+      if (this.form.agent_rate > 0 && this.form.agent_rate > 0) {
+        agent_percent = +parseFloat(((this.form.premium - this.form.agent_rate) / this.form.net_premium) * 100).toFixed(2)
+      } else if (this.form.agent_rate) {
+        agent_percent = +parseFloat(((Math.abs(this.form.agent_rate)) / this.form.net_premium) * 100).toFixed(2)
+      }
+      return agent_percent
     },
 
-    calculateThirdPartyPercent(){
-     let code_percent=0;
-     if(this.form.code_rate<0){
-      code_percent = +parseFloat((
+    calculateThirdPartyPercent() {
+      let code_percent = 0;
+      if (this.form.code_rate < 0) {
+        code_percent = +parseFloat((
           (this.form.premium - Math.abs(this.form.code_rate) || 0) / (this.form.net_premium || 0))
-        *100).toFixed(2);
-     }else if(this.form.code_rate && this.form.code_rate>0){
-      code_percent = +parseFloat((( Math.abs(this.form.code_rate))/this.form.net_premium)*100).toFixed(2)
-     }
-     return code_percent
+          * 100).toFixed(2);
+      } else if (this.form.code_rate && this.form.code_rate > 0) {
+        code_percent = +parseFloat(((Math.abs(this.form.code_rate)) / this.form.net_premium) * 100).toFixed(2)
+      }
+      return code_percent
     },
 
   },
@@ -699,34 +708,33 @@ export default {
   },
 
   methods: {
-  
+
     calculatePurchaseOrder(type) {
       this.calculateProfit(type);
     },
 
     calculateRatePurchase(type = 'N') {
       let checkIsPercent = (type == 'Y');
-      if(this.form.purchase_rate || this.form.purchase_rate_percent){
-      if (checkIsPercent) {
-        this.form.purchase_rate = +parseFloat(this.form.premium - (((this.form.net_premium || 0) * (this.form.purchase_rate_percent || 0)) / 100)).toFixed(2);
+      if (this.form.purchase_rate || this.form.purchase_rate_percent) {
+        if (checkIsPercent) {
+          this.form.purchase_rate = +parseFloat(this.form.premium - (((this.form.net_premium || 0) * (this.form.purchase_rate_percent || 0)) / 100)).toFixed(2);
+        } else {
+          this.form.purchase_rate_percent = +parseFloat((
+            (this.form.premium - this.form.purchase_rate || 0) / (this.form.net_premium || 0))
+            * 100).toFixed(2);
+        }
       } else {
-        this.form.purchase_rate_percent = +parseFloat((
-          (this.form.premium - this.form.purchase_rate || 0) / (this.form.net_premium || 0))
-        *100).toFixed(2);
+        this.form.purchase_rate = 0;
+        this.form.purchase_rate_percent = 0;
       }
-      pr = premium -  (percent * this.form.net_premium) 
-    }else{
-      this.form.purchase_rate =0;
-      this.form.purchase_rate_percent =0;
-    }
 
     },
     calculateProfit(type) {
       let profit = 0;
-      if (this.form.premium && this.form.purchase_rate && this.form.agent_rate ) {
+      if (this.form.premium && this.form.purchase_rate && this.form.agent_rate) {
         if (this.form.agent_rate > 0) {
           profit = +parseFloat(this.form.agent_rate - this.form.purchase_rate).toFixed(2);
-        } else if(this.form.agent_rate  < 0){
+        } else if (this.form.agent_rate < 0) {
           profit = +parseFloat(this.form.premium - this.form.purchase_rate - Math.abs(this.form.agent_rate)).toFixed(2)
         }
       }
@@ -1059,9 +1067,42 @@ export default {
         this.form[z] = "";
       });
     },
+
+    validationNew() {
+      this.errorMessage = ""
+      let paymentModeId = this.form.payment_mode && this.form.payment_mode.pm_id ? this.form.payment_mode.pm_id : ""
+      if (paymentModeId) {
+        if (String(paymentModeId) == "1" && this.form.agent_rate > 0) {
+          this.errorMessage = "Agent Amount Cannot be greater than zero due to agent paid"
+        }
+
+        if (String(paymentModeId) == "1" && this.form.company_rate < 0) {
+          this.errorMessage = "Company  Amount Cannot be less than zero due to agent paid"
+        }
+
+        if (String(paymentModeId) == "2" && this.form.company_rate > 0) {
+          this.errorMessage = "Company Amount Cannot be greater than zero due to company paid"
+        }
+
+        if (String(paymentModeId) == "2" && this.form.agent_rate < 0) {
+          this.errorMessage = "Agent Amount Cannot be less than zero due to company paid"
+        }
+
+        if (String(paymentModeId) == "3" && this.form.code_rate > 0) {
+          this.errorMessage = "Third Party Company Amount Cannot be greater than zero due to third party company paid"
+        }
+
+        if (String(paymentModeId) == "3" && this.form.agent_rate < 0) {
+          this.errorMessage = "Agent Amount Cannot be less than zero due to third party company paid"
+        }
+
+      }
+      return this.errorMessage ? false : true
+    },
+    
     saveForm() {
       this.$refs.loginValidation.validate().then(async (success) => {
-        if (success) {
+        if (success && this.validationNew()) {
           let payload = {
             ...this.form,
             premium: this.form.premium || 0,

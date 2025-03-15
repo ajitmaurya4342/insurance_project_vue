@@ -234,6 +234,7 @@ export default {
         premium: "Premium:",
         gst: "GST:",
         net_premium: "Net:",
+        pm_name: "Payment Mode:"
       },
       salesAmount: {
         purchase_rate_percent: "P %",
@@ -335,7 +336,8 @@ export default {
       totalRows: 0,
       search: "",
       selectedRow: null,
-      hideData: false
+      hideData: false,
+      errorMessage:''
 
     };
   },
@@ -426,7 +428,45 @@ export default {
       data.profit_rate = profit;
 
     },
+
+    validationNew(data2) {   
+      this.errorMessage=""   
+      let paymentModeId = data2.pm_id ? data2.pm_id : ""
+      if (paymentModeId) {
+        if (String(paymentModeId) == "1" && +parseFloat(data2.agent_rate) > 0) {
+          this.errorMessage = "Agent Amount Cannot be greater than zero due to agent paid"
+        }
+
+        if (String(paymentModeId) == "1" && +parseFloat(data2.company_rate) < 0) {
+          this.errorMessage = "Company  Amount Cannot be less than zero due to agent paid"
+        }
+
+        if (String(paymentModeId) == "2" && data2.company_rate > 0) {
+          this.errorMessage = "Company Amount Cannot be greater than zero due to company paid"
+        }
+
+        if (String(paymentModeId) == "2" && data2.agent_rate < 0) {
+          this.errorMessage = "Agent Amount Cannot be less than zero due to company paid"
+        }
+
+        if (String(paymentModeId) == "3" && data2.code_rate > 0) {
+          this.errorMessage = "Third Party Company Amount Cannot be greater than zero due to third party company paid"
+        }
+
+        if (String(paymentModeId) == "3" && data2.agent_rate < 0) {
+          this.errorMessage = "Agent Amount Cannot be less than zero due to third party company paid"
+        }
+
+      }
+      return this.errorMessage ? false : true
+    },
+
     async onSaveData(data2) {
+
+      if(!this.validationNew(data2)){
+        alert(this.errorMessage)
+        return false
+      }
    
       const response = await addEditInsurancePolicy({
         ...data2,
