@@ -2,7 +2,7 @@
   <div>
     <hr />
     <b-row class="mt-1">
-     
+
       <b-col sm="12" class="text-right pr-4">
         <b-button variant="outline-primary" @click="addUser">
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Credit/Debit
@@ -18,14 +18,7 @@
           </div>
         </u>
       </b-col>
-      <b-col sm="4">
-        <b-input-group>
-          <b-form-input placeholder="Search Credit Note" v-model="search"></b-form-input>
-          <b-input-group-append>
-            <b-button @click="onSearchCredit">Search</b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
+
 
       <b-col sm="12" class="text-right mt-1 pr-4">
         <u>
@@ -35,6 +28,23 @@
             <div style="margin-left: 2px; color: green">Download Company Credit</div>
           </div>
         </u>
+      </b-col>
+      <b-col sm="12" class="text-right mt-1 pr-4">
+        <u>
+          <div class="d-flex align-items-center cursor-pointer" style="justify-content:flex-end"
+            @click="excelDownloadCompany('other')">
+            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
+            <div style="margin-left: 2px; color: green">Download Other Credit</div>
+          </div>
+        </u>
+      </b-col>
+      <b-col sm="4">
+        <b-input-group>
+          <b-form-input placeholder="Search Credit Note" v-model="search"></b-form-input>
+          <b-input-group-append>
+            <b-button @click="onSearchCredit">Search</b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-col>
     </b-row>
 
@@ -164,9 +174,9 @@ export default {
   },
 
   methods: {
-    onSearchCredit(){
-     this.currentPage=1;
-     this.onGetCreditNote()
+    onSearchCredit() {
+      this.currentPage = 1;
+      this.onGetCreditNote()
     },
     excelDownload() {
       this.$bvModal
@@ -188,7 +198,7 @@ export default {
           }
         });
     },
-    excelDownloadCompany() {
+    excelDownloadCompany(type) {
       this.$bvModal
         .msgBoxConfirm(`Are you sure you want to download company credit note excel?`, {
           title: "Please Confirm",
@@ -204,6 +214,9 @@ export default {
         .then(async (value) => {
           if (value) {
             let url = process.env.VUE_APP_BASEURL + "/createCompanyCreditExcel.php";
+            if (type) {
+              url += `?type=${type}`
+            }
             window.open(url, "_blank");
           }
         });
@@ -211,7 +224,7 @@ export default {
     },
     rowClass(item, type) {
       if (!item || type !== "row") return;
-      if (item.policy_no ) return "table-danger";
+      if (item.policy_no) return "table-danger";
       if (item.type === "add_credit_note_company") return "table-success";
 
     },
@@ -221,6 +234,7 @@ export default {
     },
 
     async onEdit({ type, type_id }) {
+      console.log(type, type_id)
       this.$router.push({
         path: `/update-credit-note/${type}/${type_id}`,
       });

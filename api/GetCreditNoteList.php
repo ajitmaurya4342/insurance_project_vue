@@ -117,6 +117,11 @@ if($row>0){
         if($row_detail["policy_no"]){
             $row_detail["description"] = "Created By Insurance (Policy No: ".$row_detail["policy_no"].")";
         }
+        if($row_detail["id"]==""){
+            $row_detail["name"]="Miscellaneous";
+            $row_detail["type_name"]="By Other";
+            $row_detail["type"]="add_other";
+        }
         $getQueryData[] = $row_detail;
       
     }
