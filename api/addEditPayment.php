@@ -60,13 +60,3 @@ $data = [
 echo json_encode($data);
 
 ?>
-
-
-<html>
-<div>
-    <h1>
-        <h2>dadas</h2>
-    </h1>
-</div>
-
-</html>

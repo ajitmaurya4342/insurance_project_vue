@@ -83,3 +83,6 @@ export const addEditCreditNote = async (payload) =>
 
 export const GetCreditNoteList = async (payload) =>
   Api().post(`/GetCreditNoteList.php`, payload);
+
+export const GetSyncPayment = async (payload) =>
+  Api().post(`/SyncPaymentBalance.php`, payload);

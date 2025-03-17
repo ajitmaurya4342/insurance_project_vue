@@ -4,7 +4,7 @@ include("connection.php");
 $data = json_decode(file_get_contents("php://input"));
 
 $table_name="ms_payment_mode";
-$column=["pm_name","pm_id"];
+$column=["pm_name","pm_id","balance"];
 $search_column=["pm_name"];
 $where = "";
 $limit=0;

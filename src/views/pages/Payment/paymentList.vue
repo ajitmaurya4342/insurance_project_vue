@@ -4,10 +4,7 @@
     <b-row class="mt-1">
       <b-col sm="5">
         <b-input-group>
-          <b-form-input
-            placeholder="Search Payment"
-            v-model="search"
-          ></b-form-input>
+          <b-form-input placeholder="Search Payment" v-model="search"></b-form-input>
           <b-input-group-append>
             <b-button @click="onSearchUser">Search</b-button>
           </b-input-group-append>
@@ -19,18 +16,15 @@
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon> Add Payment
         </b-button>
       </b-col>
+      <b-col sm="12" class="text-right pr-4 mt-2">
+        <b-button variant="primary" @click="syncBalance">
+          Sync payment
+        </b-button>
+      </b-col>
     </b-row>
 
-    <b-table
-      responsive
-      :items="allUserList"
-      :busy="isBusy"
-      :fields="fields"
-      class="mt-1"
-      outlined
-      show-empty
-      :tbody-tr-class="rowClass"
-    >
+    <b-table responsive :items="allUserList" :busy="isBusy" :fields="fields" class="mt-1" outlined show-empty
+      :tbody-tr-class="rowClass">
       <template #empty="scope">
         <h4 class="text-center">No Records Found</h4>
       </template>
@@ -42,19 +36,9 @@
       </template>
       <template #cell(edit)="data">
         <b-row>
-          <b-icon
-            icon="pencil-square"
-            aria-hidden="true"
-            font-scale="1.2"
-            class="cursor-pointer"
-            @click="onEdit(data.item)"
-          ></b-icon>
-          <DeleteComponent
-            type="payment"
-            :id="data.item.pm_id"
-            class="ml-1"
-            :getData="onGetAllUsers"
-          ></DeleteComponent>
+          <b-icon icon="pencil-square" aria-hidden="true" font-scale="1.2" class="cursor-pointer"
+            @click="onEdit(data.item)"></b-icon>
+          <DeleteComponent type="payment" :id="data.item.pm_id" class="ml-1" :getData="onGetAllUsers"></DeleteComponent>
         </b-row>
       </template>
     </b-table>
@@ -62,13 +46,8 @@
     <b-row class="mt-2">
       <b-col sm="4"> </b-col>
       <b-col sm="6" class="text-center">
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          @change="onChangePagination($event)"
-          size="lg"
-        ></b-pagination>
+        <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage"
+          @change="onChangePagination($event)" size="lg"></b-pagination>
       </b-col>
     </b-row>
   </div>
@@ -89,7 +68,7 @@ import {
   BPagination,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
-import { GetAllPayment } from "@/apiServices/DashboardServices";
+import { GetAllPayment, GetSyncPayment } from "@/apiServices/DashboardServices";
 import DeleteComponent from "../DeleteComponent.vue";
 
 export default {
@@ -117,6 +96,13 @@ export default {
             return value ? value : "-";
           },
           label: "Payment Mode",
+        },
+        {
+          key: "balance",
+          formatter: (value, key, item) => {
+            return value ? value : "-";
+          },
+          label: "Balance",
         },
         {
           key: "edit",
@@ -158,6 +144,12 @@ export default {
         path: "/add-payment",
       });
     },
+    async syncBalance() {
+      this.isBusy = true;
+      const response = await GetSyncPayment();
+      this.isBusy = false;
+      this.onGetAllUsers()
+    },
     onSearchUser() {
       this.currentPage = 1;
       this.onGetAllUsers();
@@ -179,7 +171,7 @@ export default {
           }
         }
         this.isBusy = false;
-      } catch (err) {}
+      } catch (err) { }
     },
   },
 };
