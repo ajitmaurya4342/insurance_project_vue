@@ -19,6 +19,11 @@ let array = [
     route: "creditNoteList",
     icon: "FilterIcon",
   },
+  {
+    title: "Account Statement",
+    route: "accountStatement",
+    icon: "DollarSignIcon",
+  },
   // {
   //   title: "Vehicle/Customer",
   //   route: "customerList",

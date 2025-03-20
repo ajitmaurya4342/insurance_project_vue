@@ -86,3 +86,7 @@ export const GetCreditNoteList = async (payload) =>
 
 export const GetSyncPayment = async (payload) =>
   Api().post(`/SyncPaymentBalance.php`, payload);
+
+
+export const GetAccountHistory = async (payload) =>
+  Api().post(`/GetAccountStatement.php`, payload);

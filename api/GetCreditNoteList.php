@@ -83,7 +83,7 @@ $total_rows=[];
 if($type==="add_credit_note_agent"){
   $where=" and add_credit_note_agent.a_ref_id='".$data->type_id."'";
   $finalSql=$sqlAgent. $where;
-}else if($type==="add_credit_note_company"){
+}else if($type==="add_credit_note_company" || $type==="add_other"){
    $where=" and add_credit_note_company.c_ref_id='".$data->type_id."'";
    $finalSql=$sqlCompany. $where;
 
@@ -106,6 +106,7 @@ if($type==="add_credit_note_agent"){
        }
     }
 };
+
 
 $result = mysqli_query($conn, $finalSql);
 $row = mysqli_num_rows($result);

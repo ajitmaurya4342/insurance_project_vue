@@ -60,7 +60,7 @@
         </div>
       </template>
       <template #cell(edit)="data">
-        <b-row>
+        <b-row v-if="!data.item.policy_no">
           <b-icon icon="pencil-square" aria-hidden="true" font-scale="1.2" class="cursor-pointer"
             @click="onEdit(data.item)"></b-icon>
           <DeleteComponent :type="data.item.type" :id="data.item.type_id" class="ml-1" :getData="onGetCreditNote">

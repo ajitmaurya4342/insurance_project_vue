@@ -10,7 +10,7 @@ if(mysqli_num_rows($result)>0){
         $balance=0;
 
         //Agent
-        $sql_agent = "SELECT sum(amount) as agent_amount FROM add_credit_note_agent where pm_id='".$row_detail['pm_id']."' and insurance_id is null";
+        $sql_agent = "SELECT sum(-1 * amount) as agent_amount FROM add_credit_note_agent where pm_id='".$row_detail['pm_id']."' and insurance_id is null";
 
         $result_agent = mysqli_query($conn, $sql_agent);
         $row_agen=mysqli_fetch_assoc( $result_agent);
@@ -21,7 +21,7 @@ if(mysqli_num_rows($result)>0){
         $row_detail["agent"] = $row_agen["agent_amount"]?$row_agen["agent_amount"]:0;
 
         //Company
-        $sql_company = "SELECT sum(amount) as company_amount FROM add_credit_note_company where pm_id='".$row_detail['pm_id']."' and insurance_id is null";
+        $sql_company = "SELECT sum(IF(company_id>0,-1 * amount,amount)) as company_amount FROM add_credit_note_company where pm_id='".$row_detail['pm_id']."' and insurance_id is null";
         $result_company= mysqli_query($conn, query: $sql_company);
         $row_company=mysqli_fetch_assoc( $result_company);
         
@@ -31,7 +31,7 @@ if(mysqli_num_rows($result)>0){
         $row_detail["company"] = $row_company["company_amount"]?$row_company["company_amount"]:0;
 
         //Insurance
-        $sql_premium = "SELECT sum(premium) as premium_amount FROM ms_insurance_policy where pm_id='".$row_detail['pm_id']."'";
+        $sql_premium = "SELECT sum(-1 * premium) as premium_amount FROM ms_insurance_policy where pm_id='".$row_detail['pm_id']."'";
         $result_premium= mysqli_query($conn, query: $sql_premium);
         $row_premium=mysqli_fetch_assoc( $result_premium);
         

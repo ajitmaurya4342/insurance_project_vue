@@ -44,9 +44,6 @@ if(isset($data->agent_id) && $data->agent_id){
 }
 
 
-
-
-
 if(isset($data->onlyZeroValue) && @$data->onlyZeroValue){
     $where=$where."  and (purchase_rate=0 or agent_rate=0)";
 }else if(isset($data->from_date) && $data->from_date){

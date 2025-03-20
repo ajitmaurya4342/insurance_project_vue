@@ -143,31 +143,7 @@ export default {
           show: true,
           disabled: false
         },
-        {
-          col: 6,
-          label: "Amount",
-          rules: {},
-          key: "amount",
-          placeholder: "Enter Amount",
-          type: "number",
-          show: true,
-          disabled: false
-        },
-        {
-          col: 6,
-          label: "Payment To",
-          rules: {
-          },
-          key: "pm_id",
-          placeholder: "Select Payment Account",
-          type: "select",
-          labelSelect: "pm_name",
-          trackBy: "pm_id",
-          option: [
-          ],
-          show: true,
-          disabled: false
-        },
+        
         {
           col: 6,
           label: "Agent",
@@ -200,6 +176,32 @@ export default {
           show: false,
           disabled: false
         },
+        {
+          col: 6,
+          label: "Payment To",
+          rules: {
+          },
+          key: "pm_id",
+          placeholder: "Select Payment Account",
+          type: "select",
+          labelSelect: "pm_name",
+          trackBy: "pm_id",
+          option: [
+          ],
+          show: true,
+          disabled: false
+        },
+        {
+          col: 6,
+          label: "Amount",
+          rules: {},
+          key: "amount",
+          placeholder: "Enter Amount",
+          type: "number",
+          show: true,
+          disabled: false
+        },
+        
         {
           col: 6,
           label: "Remarks",
@@ -245,19 +247,26 @@ export default {
         let findAgent = this.layoutArray.findIndex((_la) => {
           return _la.key === "agent_id"
         })
+        let findPayment = this.layoutArray.findIndex((_la) => {
+          return _la.key === "pm_id"
+        })
         if (event.value == "add_other") {
           this.layoutArray[findCompany]["show"] = false
           this.layoutArray[findAgent]["show"] = false;
+          this.layoutArray[findPayment]["label"] = "Payment From";
           this.form["agent_id"] = null
           this.form["company_id"] = null
         } else if (event.value == "add_credit_note_company") {
           this.layoutArray[findCompany]["show"] = true
           this.layoutArray[findAgent]["show"] = false;
           this.form["agent_id"] = null
+          this.layoutArray[findPayment]["label"] = "Payment To";
+
         } else {
           this.layoutArray[findCompany]["show"] = false
           this.layoutArray[findAgent]["show"] = true
           this.form["company_id"] = null
+          this.layoutArray[findPayment]["label"] = "Payment To";
         }
       }
 
@@ -328,6 +337,10 @@ export default {
       try {
         this.allUserList = [];
         this.isBusy = true;
+        console.log({
+          type_id: this.type_id,
+          type: this.type
+        })
         const response = await GetCreditNoteList({
           type_id: this.type_id,
           type: this.type

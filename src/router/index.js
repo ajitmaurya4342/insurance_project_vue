@@ -414,6 +414,15 @@ const router = new VueRouter({
       },
       auth:true
     },
+    {
+      path: "/Account-Statement",
+      name: "accountStatement",
+      component: () => import("@/views/pages/AccountHistory/accountHistoryList.vue"),
+      meta: {
+        pageTitle: "Account Statement",
+      },
+      auth:true
+    },
   ],
 });
 
