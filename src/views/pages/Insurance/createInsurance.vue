@@ -8,7 +8,8 @@
             <b-form-group label="RID" :label-for="keyname.rid">
               <validation-provider #default="{ errors }" name=" RID">
                 <b-form-input :id="keyname.rid" :name="keyname.rid" :state="errors.length > 0 ? false : null"
-                  v-model="form.rid" type="date" placeholder="Select RID"></b-form-input>
+                  v-model="form.rid" type="date" placeholder="Select RID" :min="disablePolicyDate"
+                  @input="checkDisableDate($event, 'rid')"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
@@ -160,7 +161,8 @@
               <validation-provider #default="{ errors }" name=" Policy Date" :rules="{ required: true }">
                 <b-form-input :id="keyname.policy_date" :name="keyname.policy_date"
                   :state="errors.length > 0 ? false : null" v-model="form.policy_date" type="date"
-                  placeholder="Select Policy Date"></b-form-input>
+                  placeholder="Select Policy Date" :min="disablePolicyDate"
+                  @input="checkDisableDate($event, 'policy_date')"></b-form-input>
 
                 <small class="text-danger">{{
                   errors[0] && errors[0].includes("too short")
@@ -562,6 +564,7 @@ export default {
   },
   data() {
     return {
+      disablePolicyDate: "2024-07-15",
       insurance_id: "",
       required,
 
@@ -708,7 +711,13 @@ export default {
   },
 
   methods: {
-
+    checkDisableDate(event, key) {
+      if (moment(event).isValid()) {
+        if (moment(event).isBefore(this.disablePolicyDate)) {
+          this.form[key] = moment().format("YYYY-MM-DD")
+        }
+      }
+    },
     calculatePurchaseOrder(type) {
       this.calculateProfit(type);
     },
@@ -1105,7 +1114,23 @@ export default {
     },
 
     saveForm() {
+      console.log(moment(this.form.policy_date).isBefore(this.disablePolicyDate),this.form.policy_date)
+      console.log(moment(this.form.rid).isBefore(this.disablePolicyDate),this.form.rid)
+      return false
       this.$refs.loginValidation.validate().then(async (success) => {
+        if (moment(this.form.rid).isBefore(this.disablePolicyDate)) {
+
+          alert("Please check the RID Date should be greater than " + this.disablePolicyDate)
+          return false
+
+        }
+
+        if (moment(this.form.policy_date).isBefore(this.disablePolicyDate)) {
+
+          alert("Please check the Policy Date should be greater than " + this.disablePolicyDate)
+          return false
+
+        }
         if (success && this.validationNew()) {
           let payload = {
             ...this.form,

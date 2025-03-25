@@ -76,11 +76,11 @@
 
     </b-row>
 
-    <b-row v-if="tabIndex == 1 || tabIndex == 2">
+    <b-row >
       <b-col sm="4">
-        <strong>Opening Balance :</strong> {{ balance.opening_balance_agent || balance.opening_balance_company }}
+        <strong>Opening Balance :</strong> {{ balance.opening_balance_agent || balance.opening_balance_company || balance.opening_balance_payment }}
       </b-col>
-      <b-col sm="4"> <strong>Closing Balance :</strong> {{ balance.final_balance_company || balance.finalBalanceagent
+      <b-col sm="4"> <strong>Closing Balance :</strong> {{ balance.final_balance_company || balance.finalBalanceagent || balance.final_balance_payment
         }}</b-col>
     </b-row>
 
@@ -243,7 +243,7 @@ export default {
           formatter: (value, key, item) => {
             return value ? `${moment(value).format('DD MMM,YYYY')} ` : "-";
           },
-          label: "Payment Mode",
+          label: "Payment Date",
         },
         {
           key: "description",
@@ -288,7 +288,7 @@ export default {
           formatter: (value, key, item) => {
             return value ? `${moment(value).format('DD MMM,YYYY')} ` : "-";
           },
-          label: "Payment Mode",
+          label: "Payment Date",
         },
         {
           key: "description",
@@ -326,7 +326,7 @@ export default {
           formatter: (value, key, item) => {
             return value ? `${moment(value).format('DD MMM,YYYY')} ` : "-";
           },
-          label: "Payment Mode",
+          label: "Payment Date",
         },
         {
           key: "description",
@@ -358,7 +358,11 @@ export default {
         finalBalanceagent: 0,
         opening_balance_company: 0,
         closing_balance_company: 0,
-        final_balance_company: 0
+        final_balance_company: 0,
+        opening_balance_payment: 0,
+        closing_balance_payment: 0,
+        final_balance_payment: 0,
+        
       }
 
     };

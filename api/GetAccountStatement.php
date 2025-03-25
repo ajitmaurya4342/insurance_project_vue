@@ -5,6 +5,7 @@ $data = json_decode(file_get_contents("php://input"));
 include("GetAccountStatementDataAll.php");
 include("checkAgentBalance.php");
 include("checkCompanyBalance.php");
+include("checkPaymentBalance.php");
 
 $data=[
     "status"=>true,
@@ -18,6 +19,9 @@ $data=[
         "opening_balance_company"=>$opening_balance_company,
         "closing_balance_company"=>$closing_balance_company,
         "final_balance_company"=>$final_balance_company,
+        "opening_balance_payment"=>$opening_balance_payment,
+        "closing_balance_payment"=>$closing_balance_payment,
+        "final_balance_payment"=>$final_balance_payment
     )
 ];
 echo json_encode($data);

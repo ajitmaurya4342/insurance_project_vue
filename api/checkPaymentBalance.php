@@ -61,6 +61,7 @@ if ($balanceResultBal && $balanceResultBal["closing_balance"]) {
 
 $final_balance_payment = $opening_balance_payment + $closing_balance_payment;
 
+
 }
 
 
