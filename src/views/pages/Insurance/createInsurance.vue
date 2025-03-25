@@ -1116,7 +1116,6 @@ export default {
     saveForm() {
       console.log(moment(this.form.policy_date).isBefore(this.disablePolicyDate),this.form.policy_date)
       console.log(moment(this.form.rid).isBefore(this.disablePolicyDate),this.form.rid)
-      return false
       this.$refs.loginValidation.validate().then(async (success) => {
         if (moment(this.form.rid).isBefore(this.disablePolicyDate)) {
 
