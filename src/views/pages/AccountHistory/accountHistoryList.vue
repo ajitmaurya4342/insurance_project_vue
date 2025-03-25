@@ -404,6 +404,8 @@ export default {
 
     },
     excelDownload() {
+      alert("work in progress")
+      return false
       let urlPage = "/createInsurancePolicy.php?"
       if (this.tabIndex == 1) {
         urlPage = "/createAgentInsurancePolicyExcel.php?"
