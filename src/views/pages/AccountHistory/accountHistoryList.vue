@@ -64,34 +64,24 @@
         </b-input-group>
       </b-col>
 
-     
-      <b-col sm="2" class="text-right mt-2" v-if="allUserList.length && tabIndex == 0">
+      <b-col sm="8" class="text-right mt-2">
         <u>
-          <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
+          <div class="d-flex align-items-center cursor-pointer justify-content-end" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
-            <div style="margin-left: 2px; color: green">Download Excel</div>
-          </div>
-        </u>
-      </b-col>
-      <b-col sm="2" class="text-right mt-2"
-        v-else-if="tabIndex === 1 && this.agent && this.agent.agent_id && this.from_date && allUserList.length">
-        <u>
-          <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
-            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
-            <div style="margin-left: 2px; color: green">Download Agent Excel</div>
-          </div>
-        </u>
-      </b-col>
-      <b-col sm="2" class="text-right mt-2"
-        v-else-if="tabIndex === 2 && this.company && this.company.ct_id && this.from_date && allUserList.length">
-        <u>
-          <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
-            <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
-            <div style="margin-left: 2px; color: green">Download Company Excel</div>
+            <div style="margin-left: 2px; color: green">Download {{ tabIndex == "2" ? "Company" : tabIndex == "1" ?
+              "Agent" :"Payment"}} Excel</div>
           </div>
         </u>
       </b-col>
 
+    </b-row>
+
+    <b-row v-if="tabIndex == 1 || tabIndex == 2">
+      <b-col sm="4">
+        <strong>Opening Balance :</strong> {{ balance.opening_balance_agent || balance.opening_balance_company }}
+      </b-col>
+      <b-col sm="4"> <strong>Closing Balance :</strong> {{ balance.final_balance_company || balance.finalBalanceagent
+        }}</b-col>
     </b-row>
 
     <b-table responsive :items="allUserList" :busy="isBusy" :fields="fields" class="mt-1" outlined show-empty
@@ -238,9 +228,9 @@ export default {
         created_user: "Created User",
         created_date_time: "Created Time",
       },
-      payment_fields:[
-      
-        
+      payment_fields: [
+
+
         {
           key: "pm_name",
           formatter: (value, key, item) => {
@@ -277,15 +267,15 @@ export default {
           label: "Amount",
         },
       ],
-      company_fields:[
-      {
+      company_fields: [
+        {
           key: "company_type_name",
           formatter: (value, key, item) => {
             return value ? `${value}` : "-";
           },
           label: "Company Name",
         },
-        
+
         {
           key: "pm_name",
           formatter: (value, key, item) => {
@@ -315,15 +305,15 @@ export default {
           label: "Amount",
         },
       ],
-      agent_fields:[
-      {
+      agent_fields: [
+        {
           key: "agent_name",
           formatter: (value, key, item) => {
             return value ? `${value}` : "-";
           },
           label: "Agent Name",
         },
-        
+
         {
           key: "pm_name",
           formatter: (value, key, item) => {
@@ -362,6 +352,14 @@ export default {
       search: "",
       selectedRow: null,
       payment_selected: "",
+      balance: {
+        opening_balance_agent: 0,
+        closing_balance_agent: 0,
+        finalBalanceagent: 0,
+        opening_balance_company: 0,
+        closing_balance_company: 0,
+        final_balance_company: 0
+      }
 
     };
   },
@@ -376,7 +374,7 @@ export default {
     this.getCompanyList();
     this.getAgentList()
     this.getPaymentMode()
-    this.fields=[
+    this.fields = [
       ...this.payment_fields
     ]
   },
@@ -384,23 +382,25 @@ export default {
   methods: {
     tabChange() {
 
-      if(this.tabIndex==0){
-        this.fields=[...this.payment_fields]
-      }
-      
-      if(this.tabIndex==1){
-        this.fields=[...this.agent_fields]
+      if (this.tabIndex == 0) {
+        this.fields = [...this.payment_fields]
       }
 
-      if(this.tabIndex==2){
-        this.fields=[...this.company_fields]
+      if (this.tabIndex == 1) {
+        this.fields = [...this.agent_fields]
+      }
+
+      if (this.tabIndex == 2) {
+        this.fields = [...this.company_fields]
       }
 
       this.allUserList = [];
       this.company = ""
       this.agent = ""
       this.payment_selected = ""
-      this.search=""
+      this.search = ""
+      this.currentPage = 1;
+      this.totalRows = 0
 
     },
     excelDownload() {
@@ -434,6 +434,9 @@ export default {
       this.from_date = "";
       this.to_date = "";
       this.search = "";
+      Object.keys(this.balance).keys(z => {
+        this.balance[z] = 0
+      })
       this.onGetAllUsers();
     },
     changeToDate() {
@@ -471,7 +474,9 @@ export default {
       this.onGetAllUsers();
     },
     async onGetAllUsers() {
-
+      Object.keys(this.balance).map(z => {
+        this.balance[z] = 0
+      })
       if (!this.from_date) {
         this.$toast({
           component: ToastificationContent,
@@ -550,6 +555,9 @@ export default {
           if (this.currentPage == 1) {
             this.totalRows = data.total_rows;
           }
+          Object.keys(this.balance).map(z => {
+            this.balance[z] = data.balance[z] || 0
+          })
         }
         this.isBusy = false;
       } catch (err) { }

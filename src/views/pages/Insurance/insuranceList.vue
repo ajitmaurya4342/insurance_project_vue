@@ -2,45 +2,45 @@
   <div>
     <hr />
     <div>
-        <b-tabs  v-model="tabIndex"  @input="tabChange" >
-          <b-tab title="Insurance List" >
-          </b-tab>
-          <b-tab title="Agent Insurance">
-          
-          </b-tab>
-          <b-tab title="Company Insurance" >
-          </b-tab>
-          <b-tab title="Entry Insurance List" >
-          </b-tab>
-        </b-tabs>
-      </div>
+      <b-tabs v-model="tabIndex" @input="tabChange">
+        <b-tab title="Insurance List">
+        </b-tab>
+        <b-tab title="Agent Insurance">
+
+        </b-tab>
+        <b-tab title="Company Insurance">
+        </b-tab>
+        <b-tab title="Entry Insurance List">
+        </b-tab>
+      </b-tabs>
+    </div>
     <b-row class="mt-1">
-      <b-col sm="4" class="mt-1" v-if="tabIndex==2">
+      <b-col sm="4" class="mt-1" v-if="tabIndex == 2">
         <b-form-group label="Company">
           <multiselect v-model="company" track-by="ct_id" label="company_type_name" placeholder="Select Company"
             :options="company_array" @input="onGetAllUsers" />
         </b-form-group>
       </b-col>
-      <b-col sm="4" class="mt-1" v-if="tabIndex==1">
+      <b-col sm="4" class="mt-1" v-if="tabIndex == 1">
         <b-form-group label="Agent">
           <multiselect v-model="agent" track-by="agent_id" label="agent_name" placeholder="Select Agent"
-            :options="agent_array.filter((z)=>z.agent_id>1)" @input="onGetAllUsers" />
+            :options="agent_array.filter((z) => z.agent_id > 1)" @input="onGetAllUsers" />
         </b-form-group>
       </b-col>
       <b-col sm="3" class="mt-1">
         <b-form-group label="From Date">
           <b-form-input v-model="from_date" type="date" placeholder="Select RID" @input="changeToDate"
-          :max="maxDate"></b-form-input>
+            :max="maxDate"></b-form-input>
         </b-form-group>
       </b-col>
       <b-col sm="3" class="mt-1">
         <b-form-group label="To Date">
           <b-form-input v-model="to_date" type="date" placeholder="Select RID" :disabled="!from_date" :min="from_date"
-            @input="onGetAllUsers" :max="maxDate" ></b-form-input>
+            @input="onGetAllUsers" :max="maxDate"></b-form-input>
         </b-form-group>
       </b-col>
 
-    
+
       <b-col sm="2" class="mt-1 pt-3 cursor-pointer" @click="reset">
         <u>
           <h5>Reset All Option</h5>
@@ -49,7 +49,7 @@
 
     </b-row>
     <b-row>
-      
+
       <b-col sm="4">
         <b-input-group>
           <b-form-input placeholder="Search Insurance" v-model="search"></b-form-input>
@@ -64,7 +64,7 @@
           <b-icon icon="plus-circle" aria-hidden="true"></b-icon>
           Add Insurance</b-button>
       </b-col>
-      <b-col sm="2" class="text-right mt-2" v-if="allUserList.length && tabIndex==0">
+      <b-col sm="2" class="text-right mt-2" v-if="allUserList.length && tabIndex == 0">
         <u>
           <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
@@ -72,7 +72,8 @@
           </div>
         </u>
       </b-col>
-      <b-col sm="2" class="text-right mt-2" v-else-if="tabIndex===1 && this.agent && this.agent.agent_id && this.from_date && allUserList.length">
+      <b-col sm="2" class="text-right mt-2"
+        v-else-if="tabIndex === 1 && this.agent && this.agent.agent_id && this.from_date && allUserList.length">
         <u>
           <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
@@ -80,7 +81,8 @@
           </div>
         </u>
       </b-col>
-      <b-col sm="2" class="text-right mt-2" v-else-if="tabIndex===2 && this.company && this.company.ct_id && this.from_date  && allUserList.length">
+      <b-col sm="2" class="text-right mt-2"
+        v-else-if="tabIndex === 2 && this.company && this.company.ct_id && this.from_date && allUserList.length">
         <u>
           <div class="d-flex align-items-center cursor-pointer" @click="excelDownload">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
@@ -88,7 +90,15 @@
           </div>
         </u>
       </b-col>
-      
+
+    </b-row>
+
+    <b-row v-if="tabIndex == 1 || tabIndex == 2">
+      <b-col sm="4">
+        <strong>Opening Balance :</strong> {{ balance.opening_balance_agent || balance.opening_balance_company }}
+      </b-col>
+      <b-col sm="4"> <strong>Closing Balance :</strong> {{ balance.final_balance_company || balance.finalBalanceagent
+        }}</b-col>
     </b-row>
 
     <b-table responsive :items="allUserList" :busy="isBusy" :fields="fields" class="mt-1" outlined show-empty
@@ -203,15 +213,15 @@ export default {
   },
   data() {
     return {
-      maxDate:"",
+      maxDate: "",
       allUserList: [],
       company_array: [],
       agent_array: [],
       from_date: "",
       to_date: "",
       company: "",
-      agent:"",
-      tabIndex:0,
+      agent: "",
+      tabIndex: 0,
       keyNameAmount: {
         premium: "Premium:",
         gst: "GST:",
@@ -316,6 +326,14 @@ export default {
       totalRows: 0,
       search: "",
       selectedRow: null,
+      balance: {
+        opening_balance_agent: 0,
+        closing_balance_agent: 0,
+        finalBalanceagent: 0,
+        opening_balance_company: 0,
+        closing_balance_company: 0,
+        final_balance_company: 0
+      }
     };
   },
 
@@ -324,7 +342,7 @@ export default {
   },
 
   beforeMount() {
-    this.maxDate=moment().format("YYYY-MM-DD")
+    this.maxDate = moment().format("YYYY-MM-DD")
     // this.to_date=moment().format("YYYY-MM-DD")
     this.onGetAllUsers();
     this.getCompanyList();
@@ -332,26 +350,29 @@ export default {
   },
 
   methods: {
-    tabChange(){
-      if(this.tabIndex==3){
+    tabChange() {
+      if (this.tabIndex == 3) {
         this.$router.push({
-          path:"/insurance-zero-list"
+          path: "/insurance-zero-list"
         })
-      }else if(this.tabIndex==1 || this.tabIndex==2){
-        this.allUserList=[];
-      }else{
+      } else if (this.tabIndex == 1 || this.tabIndex == 2) {
+        this.allUserList = [];
+      } else {
         this.onGetAllUsers();
       }
-      this.company=""
-      this.agent=""
+      this.company = ""
+      this.agent = ""
+      this.search = ""
+      this.currentPage = 1;
+      this.totalRows = 0
 
     },
     excelDownload() {
-      let urlPage="/createInsurancePolicy.php?"
-      if(this.tabIndex==1){
-        urlPage="/createAgentInsurancePolicyExcel.php?"
-      }else   if(this.tabIndex==2) {
-        urlPage="/createCompanyInsurancePolicyExcel.php?"
+      let urlPage = "/createInsurancePolicy.php?"
+      if (this.tabIndex == 1) {
+        urlPage = "/createAgentInsurancePolicyExcel.php?"
+      } else if (this.tabIndex == 2) {
+        urlPage = "/createCompanyInsurancePolicyExcel.php?"
       }
       let url = process.env.VUE_APP_BASEURL + urlPage;
       let obj = {
@@ -374,6 +395,9 @@ export default {
       this.from_date = "";
       this.to_date = "";
       this.search = "";
+      Object.keys(this.balance).keys(z => {
+        this.balance[z] = 0
+      })
       this.onGetAllUsers();
     },
     changeToDate() {
@@ -411,53 +435,55 @@ export default {
       this.onGetAllUsers();
     },
     async onGetAllUsers() {
-
-      if((this.tabIndex==1 || this.tabIndex==2) && !this.from_date){
+      Object.keys(this.balance).map(z => {
+        this.balance[z] = 0
+      })
+      if ((this.tabIndex == 1 || this.tabIndex == 2) && !this.from_date) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select from date",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select from date",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
 
-      if((this.tabIndex==1 || this.tabIndex==2) && !this.to_date){
+      if ((this.tabIndex == 1 || this.tabIndex == 2) && !this.to_date) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select from date",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select from date",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
 
-      if(this.tabIndex==1 && !this.agent){
+      if (this.tabIndex == 1 && !this.agent) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select agent",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select agent",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
 
-      if(this.tabIndex==2 && !this.company){
+      if (this.tabIndex == 2 && !this.company) {
         this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title:  "Please select company",
-                  icon: "EditIcon",
-                  variant: "failure",
-                },
-              });
-        return  false
+          component: ToastificationContent,
+          props: {
+            title: "Please select company",
+            icon: "EditIcon",
+            variant: "failure",
+          },
+        });
+        return false
       }
       try {
         this.allUserList = [];
@@ -477,6 +503,10 @@ export default {
           if (this.currentPage == 1) {
             this.totalRows = data.total_rows;
           }
+
+          Object.keys(this.balance).map(z => {
+            this.balance[z] = data.balance[z] || 0
+          })
         }
         this.isBusy = false;
       } catch (err) { }
