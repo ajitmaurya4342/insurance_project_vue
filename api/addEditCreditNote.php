@@ -22,6 +22,7 @@ $pm_id=$data->pm_id;
 @$agent_id=$data->agent_id;
 @$description=$data->description;
 @$type_id=$data->type_id;
+@$parent_c_ref_id=$data->parent_c_ref_id;
 
 $table_name=$data->type;
 $column_name="c_ref_id";
@@ -32,6 +33,7 @@ $dataArray = [
     "payment_date" => mysqli_real_escape_string($conn,$payment_date),
     "pm_id" => mysqli_real_escape_string($conn,$pm_id),
     "description" => mysqli_real_escape_string($conn,$description),
+    "parent_c_ref_id" => mysqli_real_escape_string($conn,$parent_c_ref_id),
 ];
 
 if($table_name==="add_credit_note_agent"){
@@ -42,7 +44,7 @@ if($table_name==="add_credit_note_agent"){
 }
 
 $msg="Record Inserted Successfully";
-
+$insert_id = 0;
 if (isset($data->type_id) && $data->type_id) {
     $where =" ".$column_name."='" . $data->type_id . "'";
     $updateQuery=updateQuery($table_name, $dataArray, $where, $conn);
@@ -54,9 +56,15 @@ if (isset($data->type_id) && $data->type_id) {
     $insert_id = insertQuery($table_name, $dataArray, $conn);
 }
 
+if(isset($parent_c_ref_id) && $parent_c_ref_id){
+   $sql2="update add_credit_note_company set parent_c_ref_id = '".$parent_c_ref_id."' where c_ref_id = '".$parent_c_ref_id."'";
+   $result2 = mysqli_query($conn, $sql2);
+}
+
 $data=[
     "status"=>true,
     "message"=>$msg,
+    "parent_c_ref_id"=>$insert_id
 ];
 
 echo json_encode($data);

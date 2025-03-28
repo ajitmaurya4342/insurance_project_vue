@@ -44,7 +44,6 @@ if($row_count_check>0){
 
 }
 
-
 $sql_count="Delete From ".$table_name." where ".$key."='".$id."'";
 
 $result_count = mysqli_query($conn, $sql_count);
@@ -55,6 +54,11 @@ $result_count2 = mysqli_query($conn, $sql_count2);
 
 $sql_count3="Delete From add_credit_note_agent where ".$key."='".$id."'";
 $result_count3 = mysqli_query($conn, $sql_count3);
+}
+
+if($table_name =="add_credit_note_company"){
+$sql_count2="Delete From add_credit_note_company  where parent_c_ref_id='".$id."'";
+$result_count2 = mysqli_query($conn, $sql_count2);
 }
 
 $data=[

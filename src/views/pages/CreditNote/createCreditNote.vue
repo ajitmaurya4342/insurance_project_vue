@@ -99,7 +99,8 @@ export default {
         pm_id: "",
         agent_id: "",
         company_id: "",
-        description: ""
+        description: "",
+        pm_id_to: ""
       },
       required,
       layoutArray: [
@@ -143,7 +144,7 @@ export default {
           show: true,
           disabled: false
         },
-        
+
         {
           col: 6,
           label: "Agent",
@@ -193,6 +194,21 @@ export default {
         },
         {
           col: 6,
+          label: "Payment To",
+          rules: {
+          },
+          key: "pm_id_to",
+          placeholder: "Select Payment Account",
+          type: "select",
+          labelSelect: "pm_name",
+          trackBy: "pm_id",
+          option: [
+          ],
+          show: false,
+          disabled: false
+        },
+        {
+          col: 6,
           label: "Amount",
           rules: {},
           key: "amount",
@@ -201,7 +217,6 @@ export default {
           show: true,
           disabled: false
         },
-        
         {
           col: 6,
           label: "Remarks",
@@ -225,9 +240,7 @@ export default {
   beforeMount() {
     const { type_id, type } = this.$route.params;
 
-    if (type_id) {
-      this.layoutArray[0]["disabled"] = true
-    }
+  
     this.type_id = type_id || null;
     this.type = type || null;
     this.getCompanyList();
@@ -235,6 +248,7 @@ export default {
     this.getPaymentMode()
     if (type_id) {
       this.onGetAllUsers();
+      
     }
   },
 
@@ -250,25 +264,43 @@ export default {
         let findPayment = this.layoutArray.findIndex((_la) => {
           return _la.key === "pm_id"
         })
+        let findPayment2 = this.layoutArray.findIndex((_la) => {
+          return _la.key === "pm_id_to"
+        })
         if (event.value == "add_other") {
           this.layoutArray[findCompany]["show"] = false
           this.layoutArray[findAgent]["show"] = false;
+          this.layoutArray[findPayment2]["show"] = this.type_id?false:true;
           this.layoutArray[findPayment]["label"] = "Payment From";
           this.form["agent_id"] = null
           this.form["company_id"] = null
         } else if (event.value == "add_credit_note_company") {
           this.layoutArray[findCompany]["show"] = true
           this.layoutArray[findAgent]["show"] = false;
+          this.layoutArray[findPayment2]["show"] = false;
+
           this.form["agent_id"] = null
           this.layoutArray[findPayment]["label"] = "Payment To";
 
         } else {
           this.layoutArray[findCompany]["show"] = false
           this.layoutArray[findAgent]["show"] = true
+          this.layoutArray[findPayment2]["show"] = false;
+
           this.form["company_id"] = null
           this.layoutArray[findPayment]["label"] = "Payment To";
         }
       }
+
+      if(this.form.pm_id_to){
+        this.form.description=""
+        this.layoutArray[this.layoutArray.length-1]["disabled"] = true;
+      }else{
+        this.layoutArray[this.layoutArray.length-1]["disabled"] = false;
+      }
+     
+
+
 
     },
     onReset() {
@@ -279,17 +311,68 @@ export default {
     saveForm() {
       this.$refs.loginValidation.validate().then(async (success) => {
         if (success) {
-          if(this.form.type && this.form.type.value && this.form.type.value == "add_other"){
+          if (!this.form.pm_id && this.form.type.value == "add_other") {
+            this.$toast({
+              component: ToastificationContent,
+              props: {
+                title: " Please select payment from",
+                icon: "EditIcon",
+                variant: "danger",
+              },
+            });
+            return false
+          }
+
+          //  console.log(this.form.pm_id , this.form.pm_id_to , this.form.pm_id.pm_id == this.form.pm_id_to.pm_id , this.form.type.value == "add_other")
+          if (this.form.pm_id && this.form.pm_id_to && this.form.pm_id.pm_id == this.form.pm_id_to.pm_id && this.form.type.value == "add_other") {
+            this.$toast({
+              component: ToastificationContent,
+              props: {
+                title: "From & To Payment Cannot Be same",
+                icon: "EditIcon",
+                variant: "danger",
+              },
+            });
+            return false
+          }
+
+          if (this.form.type && this.form.type.value && this.form.type.value == "add_other") {
             this.form.type.value = "add_credit_note_company"
           }
-          console.log({
-              ...this.form,
-              agent_id: this.form.agent_id && this.form.agent_id.agent_id ? this.form.agent_id.agent_id : 0,
-              pm_id: this.form.pm_id && this.form.pm_id.pm_id ? this.form.pm_id.pm_id : 0,
-              company_id: this.form.company_id && this.form.company_id.ct_id ? this.form.company_id.ct_id : 0,
-              type: this.form.type && this.form.type.value ? this.form.type.value : "",
-              type_id: this.type_id || "",
-            })
+
+
+
+          let payment_2_obj = {
+            ...this.form,
+            agent_id: 0,
+            pm_id: this.form.pm_id_to && this.form.pm_id_to.pm_id ? this.form.pm_id_to.pm_id : 0,
+            company_id: 0,
+            type: this.form.type && this.form.type.value ? this.form.type.value : "",
+            type_id: this.type_id || "",
+            amount: this.form.amount || 0,
+
+          }
+
+          if (this.form.pm_id_to && this.form.pm_id_to.pm_id && this.form.amount) {
+            let remarks = this.form.pm_id.pm_name + " Credited to " + this.form.pm_id_to.pm_name;
+            payment_2_obj.description = remarks
+            this.form.description = remarks
+            this.form.amount = +parseFloat(-1 * +parseFloat(this.form.amount))
+          }
+
+
+          // console.log({
+          //     ...this.form,
+          //     agent_id: this.form.agent_id && this.form.agent_id.agent_id ? this.form.agent_id.agent_id : 0,
+          //     pm_id: this.form.pm_id && this.form.pm_id.pm_id ? this.form.pm_id.pm_id : 0,
+          //     company_id: this.form.company_id && this.form.company_id.ct_id ? this.form.company_id.ct_id : 0,
+          //     type: this.form.type && this.form.type.value ? this.form.type.value  : "",
+          //     type_id: this.type_id || "",
+          //     amount:this.form.amount || 0
+          //   })
+          // console.log(this.form)
+          // return false
+
           try {
             const response = await addEditCreditNote({
               ...this.form,
@@ -298,18 +381,43 @@ export default {
               company_id: this.form.company_id && this.form.company_id.ct_id ? this.form.company_id.ct_id : 0,
               type: this.form.type && this.form.type.value ? this.form.type.value : "",
               type_id: this.type_id || "",
+              amount: this.form.amount || 0
             });
             const { data } = response;
             if (data.status) {
-              this.$toast({
-                component: ToastificationContent,
-                props: {
-                  title: data.message || "Record Saved Successfully",
-                  icon: "EditIcon",
-                  variant: "success",
-                },
-              });
-              this.$router.go(-1);
+
+              if (this.form.pm_id_to && this.form.pm_id_to.pm_id) {
+                const response2Payment = await addEditCreditNote({
+                  ...payment_2_obj,
+                  parent_c_ref_id: data.parent_c_ref_id,
+                  remarks: ""
+                });
+
+                if (response2Payment.data.status) {
+                  this.$toast({
+                    component: ToastificationContent,
+                    props: {
+                      title: data.message || "Record Saved Successfully",
+                      icon: "EditIcon",
+                      variant: "success",
+                    },
+                  });
+                  this.$router.go(-1);
+                }
+
+              } else {
+                this.$toast({
+                  component: ToastificationContent,
+                  props: {
+                    title: data.message || "Record Saved Successfully",
+                    icon: "EditIcon",
+                    variant: "success",
+                  },
+                });
+                this.$router.go(-1);
+              }
+
+
             } else {
               this.$toast({
                 component: ToastificationContent,
@@ -368,7 +476,7 @@ export default {
               agent_id: data.Records[0]["id"],
               agent_name: data.Records[0]["name"],
             }
-          } else if(data.Records[0]["id"]){
+          } else if (data.Records[0]["id"]) {
             this.form.company_id = {
               ct_id: data.Records[0]["id"],
               company_type_name: data.Records[0]["name"],
@@ -390,7 +498,6 @@ export default {
             return _la.key === "company_id"
           });
           this.layoutArray[findCompany]["option"] = data.Records
-
         }
         this.isBusy = false;
       } catch (err) { }
@@ -421,7 +528,21 @@ export default {
           let findPay = this.layoutArray.findIndex((_la) => {
             return _la.key === "pm_id"
           });
+
+
+
+          
+          let findPay2 = this.layoutArray.findIndex((_la) => {
+            return _la.key === "pm_id_to"
+          });
           this.layoutArray[findPay]["option"] = data.Records
+          if(this.type_id){
+            this.layoutArray[findPay2]["option"] = []
+            this.layoutArray[findPay2]["show"] = false
+          }else{
+          this.layoutArray[findPay2]["option"] = data.Records
+
+          }
 
         }
         this.isBusy = false;

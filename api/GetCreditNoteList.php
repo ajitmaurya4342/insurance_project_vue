@@ -35,7 +35,7 @@ if(isset($data->search) && $data->search){
 }
 
 
-$sqlAgent="SELECT ms_payment_mode.pm_id, ms_agent.agent_id as id,ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_agent.created_at,'add_credit_note_agent' as type,a_ref_id as type_id,'By Agent' as type_name,ms_agent.agent_name as name,ms_insurance_policy.policy_no  FROM add_credit_note_agent 
+$sqlAgent="SELECT ms_payment_mode.pm_id, ms_agent.agent_id as id,ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_agent.created_at,'add_credit_note_agent' as type,a_ref_id as type_id,'By Agent' as type_name,ms_agent.agent_name as name,ms_insurance_policy.policy_no,NULL as parent_c_ref_id  FROM add_credit_note_agent 
 left join ms_agent on ms_agent.agent_id = add_credit_note_agent.agent_id
 left join ms_payment_mode on ms_payment_mode.pm_id = add_credit_note_agent.pm_id
 left join ms_insurance_policy on ms_insurance_policy.insurance_id = add_credit_note_agent.insurance_id where 1=1 ";
@@ -54,10 +54,10 @@ if(count($search_column_agent)>0 && isset($search) && $search){
 
 }
 
-$sqlCompany="SELECT ms_payment_mode.pm_id, ms_company_type.ct_id as id,ms_payment_mode.pm_name,amount,payment_date,description,add_credit_note_company.created_at,'add_credit_note_company' as type,c_ref_id as type_id,'By Company' as type_name,ms_company_type.company_type_name as name,ms_insurance_policy.policy_no  from add_credit_note_company
+$sqlCompany="SELECT ms_payment_mode.pm_id, ms_company_type.ct_id as id,ms_payment_mode.pm_name,add_credit_note_company.amount,add_credit_note_company.payment_date,add_credit_note_company.description,add_credit_note_company.created_at,'add_credit_note_company' as type,add_credit_note_company.c_ref_id as type_id,'By Company' as type_name,ms_company_type.company_type_name as name,ms_insurance_policy.policy_no,add_credit_note_company.parent_c_ref_id  from add_credit_note_company
 left join ms_company_type on ms_company_type.ct_id = add_credit_note_company.company_id
-left join ms_payment_mode on ms_payment_mode.pm_id = add_credit_note_company.pm_id
-left join ms_insurance_policy on ms_insurance_policy.insurance_id = add_credit_note_company.insurance_id  where 1=1 ";
+left join ms_insurance_policy on ms_insurance_policy.insurance_id = add_credit_note_company.insurance_id
+left join ms_payment_mode on ms_payment_mode.pm_id = add_credit_note_company.pm_id  where 1=1 ";
 
 if(count($search_column_company)>0 && isset($search) && $search){
     $searchval=" and (";
@@ -94,6 +94,7 @@ if($type==="add_credit_note_agent"){
     $start=($current_page-1)* $limit;
     $finalSql = $finalSql ." limit ".$start.",".$limit;
    }
+
     if($limit){
       $sqlUnionCount="SELECT  COUNT(*) as total_rows From ( ";
       $countFinal= $sqlUnionCount. $sqlAgent. $sqlUnion.$sqlCompany." ) total_rows";

@@ -90,6 +90,11 @@ export default {
           table_name: "add_credit_note_company",
           key: "c_ref_id",
         },
+        {
+          page: "add_other",
+          table_name: "add_credit_note_company",
+          key: "c_ref_id",
+        },
       ],
     };
   },
@@ -108,7 +113,7 @@ export default {
       let filterData = this.data.filter((z) => {
         return z.page == this.type;
       });
-
+     
       if (filterData.length) {
         this.$bvModal
           .msgBoxConfirm(`Are you sure you want to delete?`, {

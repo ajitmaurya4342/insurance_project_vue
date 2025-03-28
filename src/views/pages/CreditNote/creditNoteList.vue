@@ -62,8 +62,9 @@
       <template #cell(edit)="data">
         <b-row v-if="!data.item.policy_no">
           <b-icon icon="pencil-square" aria-hidden="true" font-scale="1.2" class="cursor-pointer"
-            @click="onEdit(data.item)"></b-icon>
-          <DeleteComponent :type="data.item.type" :id="data.item.type_id" class="ml-1" :getData="onGetCreditNote">
+            v-if="data.item.parent_c_ref_id<=0"
+            @click="onEdit(data.item)"></b-icon> 
+          <DeleteComponent :type="data.item.type" :id="data.item.type_id" class="ml-1" :getData="onGetCreditNote" v-if="data.item.parent_c_ref_id==data.item.type_id || data.item.parent_c_ref_id<=0 ">
           </DeleteComponent>
         </b-row>
       </template>
@@ -259,7 +260,10 @@ export default {
         });
         const { data } = response;
         if (data.status) {
-          this.allUserList = data.Records;
+          this.allUserList = data.Records.map((z) => {
+            z["parent_c_ref_id"] = z["parent_c_ref_id"] && +parseFloat(z["parent_c_ref_id"]) > 0 ? +parseFloat(z.parent_c_ref_id) : 0
+            return z
+          });
           if (this.currentPage == 1) {
             this.totalRows = data.total_rows;
           }
