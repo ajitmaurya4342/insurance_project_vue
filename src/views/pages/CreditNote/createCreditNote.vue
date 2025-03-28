@@ -239,14 +239,14 @@ export default {
 
   beforeMount() {
     const { type_id, type } = this.$route.params;
-
-  
+    
     this.type_id = type_id || null;
     this.type = type || null;
     this.getCompanyList();
     this.getAgentList();
     this.getPaymentMode()
     if (type_id) {
+      this.layoutArray[0].disabled=true
       this.onGetAllUsers();
       
     }
