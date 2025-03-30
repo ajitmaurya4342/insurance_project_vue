@@ -214,10 +214,6 @@ if (isset($limit) && isset($current_page) && $limit && $current_page) {
     $sqlFinal = $sqlFinal . " limit " . $start . "," . $limit;
 }
 
-// echo $sqlFinal;
-// exit;
-
-
 $result = mysqli_query($conn, $sqlFinal);
 $row = mysqli_num_rows($result);
 

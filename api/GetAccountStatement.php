@@ -1,8 +1,10 @@
 <?php
 include("connection.php");
+
 $data = json_decode(file_get_contents("php://input"));
 
 include("GetAccountStatementDataAll.php");
+
 include("checkAgentBalance.php");
 include("checkCompanyBalance.php");
 include("checkPaymentBalance.php");

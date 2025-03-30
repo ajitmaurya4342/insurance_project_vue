@@ -66,7 +66,7 @@
 
       <b-col sm="8" class="text-right mt-2">
         <u>
-          <div class="d-flex align-items-center cursor-pointer justify-content-end" @click="excelDownload">
+          <div class="d-flex align-items-center cursor-pointer justify-content-end" @click="excelDownload" v-if="allUserList.length">
             <b-icon icon="file-earmark-excel-fill" aria-hidden="true" font-scale="1.5" style="color: green"></b-icon>
             <div style="margin-left: 2px; color: green">Download {{ tabIndex == "2" ? "Company" : tabIndex == "1" ?
               "Agent" :"Payment"}} Excel</div>
@@ -408,13 +408,12 @@ export default {
 
     },
     excelDownload() {
-      alert("work in progress")
-      return false
-      let urlPage = "/createInsurancePolicy.php?"
+   
+      let urlPage = "createPaymentAccount.php?"
       if (this.tabIndex == 1) {
-        urlPage = "/createAgentInsurancePolicyExcel.php?"
+        urlPage = "createAgentPaymentAccount.php?"
       } else if (this.tabIndex == 2) {
-        urlPage = "/createCompanyInsurancePolicyExcel.php?"
+        urlPage = "createCompanyPaymentAccount.php?"
       }
       let url = process.env.VUE_APP_BASEURL + urlPage;
       let obj = {
@@ -425,12 +424,16 @@ export default {
         to_date: this.to_date ? this.to_date : moment().format("YYYY-MM-DD"),
         search: this.search,
       };
+
       let appendUrl = "";
       Object.keys(obj).map((z) => {
         if (obj[z]) {
           appendUrl += z + "=" + obj[z] + "&";
         }
       });
+      // console.log(url + appendUrl)
+      // return
+
       window.open(url + appendUrl, "_blank");
     },
     reset() {
