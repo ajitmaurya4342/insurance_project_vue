@@ -33,13 +33,14 @@ $dataArray = [
     "payment_date" => mysqli_real_escape_string($conn,$payment_date),
     "pm_id" => mysqli_real_escape_string($conn,$pm_id),
     "description" => mysqli_real_escape_string($conn,$description),
-    "parent_c_ref_id" => mysqli_real_escape_string($conn,$parent_c_ref_id),
 ];
 
 if($table_name==="add_credit_note_agent"){
     $column_name="a_ref_id";
     $dataArray["agent_id"]=mysqli_real_escape_string($conn,$agent_id);
 }else{
+    
+    $dataArray["parent_c_ref_id"]=mysqli_real_escape_string($conn,$parent_c_ref_id);
     $dataArray["company_id"]=mysqli_real_escape_string($conn,$company_id);
 }
 
